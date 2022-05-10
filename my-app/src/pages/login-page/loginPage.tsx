@@ -1,32 +1,10 @@
 import { ThemeProvider } from '@emotion/react';
 import { Copyright } from '@mui/icons-material';
-import {
-  Container,
-  CssBaseline,
-  Box,
-  Avatar,
-  Typography,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-  Button,
-  Grid,
-} from '@mui/material';
+import { Container, CssBaseline, Box, Typography, TextField, Button, Grid } from '@mui/material';
 import React, { useMemo } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const navigatePathname = useMemo(() => {
-    const state = location.state as { from: string };
-
-    if (state && state.from) {
-      return state.from;
-    }
-
-    return '/';
-  }, [location]);
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

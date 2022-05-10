@@ -17,7 +17,7 @@ const Register = () => {
       <CssBaseline />
       <Box
         sx={{
-          marginTop: 8,
+          marginTop: 6,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -75,10 +75,11 @@ const Register = () => {
             fullWidth={true}
             disableElevation={true}
             sx={{
-              marginTop: 2,
+              marginTop: 1,
+              marginBottom: 1,
             }}
           >
-            Sign In
+            Sign Up
           </Button>
           <Grid container>
             <Grid item xs></Grid>
