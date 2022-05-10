@@ -3,7 +3,7 @@ import React from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 interface IFormRegister {
   name: string;
-  email: string;
+  login: string;
   password: string;
 }
 const Register = () => {
@@ -42,14 +42,14 @@ const Register = () => {
             )}
           />
           <Controller
-            name="email"
+            name="login"
             control={control}
             render={({ field }) => (
               <TextField
                 margin="normal"
                 fullWidth
-                label="Email Address"
-                autoComplete="email"
+                label="Login"
+                autoComplete="login"
                 autoFocus
                 onChange={(e) => field.onChange(e)}
               />

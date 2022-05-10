@@ -24,10 +24,10 @@ const LoginPage = () => {
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="login"
+            label="login"
+            name="login"
+            autoComplete="login"
             autoFocus
           />
           <TextField
