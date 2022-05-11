@@ -9,3 +9,12 @@ a {
 a {
   color: inherit;
 }
+
+body {
+  background-color: #cfe8fc;
+}
+
+.appBar.fixed {
+  background-color: #0087f5;
+  transition: 0.8s ease-in-out;
+}
