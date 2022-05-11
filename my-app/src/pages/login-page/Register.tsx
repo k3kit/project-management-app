@@ -1,16 +1,24 @@
 import { Container, CssBaseline, Box, Typography, TextField, Button, Grid } from '@mui/material';
-import React from 'react';
+import React, { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { register } from '../../store/slices/Auth';
 interface IFormRegister {
   name: string;
   login: string;
   password: string;
 }
-const Register = () => {
+
+interface MyProps {
+  setOpenSignUp: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const Register: FC<MyProps> = ({ setOpenSignUp }) => {
+  const dispatch = useAppDispatch();
+  const { isLoggedIn } = useAppSelector((state) => state.authReducer);
   const { control, handleSubmit } = useForm<IFormRegister>();
 
   const onSubmit: SubmitHandler<IFormRegister> = (data) => {
-    console.log(data);
+    dispatch(register(data));
   };
   return (
     <Container component="main" maxWidth="xs">
@@ -49,7 +57,7 @@ const Register = () => {
                 margin="normal"
                 fullWidth
                 label="Login"
-                autoComplete="login"
+                autoComplete="Login"
                 autoFocus
                 onChange={(e) => field.onChange(e)}
               />
@@ -70,6 +78,7 @@ const Register = () => {
             )}
           />
           <Button
+            onClick={() => setOpenSignUp(false)}
             type="submit"
             variant="contained"
             fullWidth={true}
