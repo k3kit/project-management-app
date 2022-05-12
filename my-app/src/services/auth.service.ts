@@ -23,7 +23,6 @@ const login = (login: string, password: string) => {
       if (response.data) {
         localStorage.setItem('user', JSON.stringify(response.data));
       }
-
       return response.data;
     });
 };

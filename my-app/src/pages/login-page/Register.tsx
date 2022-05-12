@@ -16,7 +16,7 @@ import { register } from '../../store/slices/Auth';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { CharacterSlice } from '../../store/slices/Message';
-const { addMessageError } = CharacterSlice.actions;
+
 interface IFormRegister {
   name: string;
   login: string;
@@ -26,34 +26,25 @@ interface IFormRegister {
 interface MyProps {
   setOpenSignUp: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const Register: FC<MyProps> = ({ setOpenSignUp }) => {
-  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    dispatch(addMessageError(''));
-  };
+const validationShema = yup.object().shape({
+  name: yup
+    .string()
+    .required('Username is required')
+    .min(4, 'Username must be at least 4 characters')
+    .max(20, 'Username must not exceed 20 characters'),
+  login: yup
+    .string()
+    .required('Username is required')
+    .min(4, 'Username must be at least 4 characters')
+    .max(20, 'Username must not exceed 20 characters'),
+  password: yup
+    .string()
+    .required('Password is required')
+    .min(6, 'Password must be at least 6 characters')
+    .max(40, 'Password must not exceed 40 characters'),
+});
 
-  const { error } = useAppSelector((state) => state.messageReducer);
-  const validationShema = yup.object().shape({
-    name: yup
-      .string()
-      .required('Username is required')
-      .min(4, 'Username must be at least 4 characters')
-      .max(20, 'Username must not exceed 20 characters'),
-    login: yup
-      .string()
-      .required('Username is required')
-      .min(4, 'Username must be at least 4 characters')
-      .max(20, 'Username must not exceed 20 characters'),
-    password: yup
-      .string()
-      .required('Password is required')
-      .min(6, 'Password must be at least 6 characters')
-      .max(40, 'Password must not exceed 40 characters'),
-  });
-  const dispatch = useAppDispatch();
-  const { isLoggedIn } = useAppSelector((state) => state.authReducer);
+const Register: FC<MyProps> = ({ setOpenSignUp }) => {
   const {
     control,
     handleSubmit,
@@ -61,6 +52,16 @@ const Register: FC<MyProps> = ({ setOpenSignUp }) => {
   } = useForm<IFormRegister>({
     resolver: yupResolver(validationShema),
   });
+  const dispatch = useAppDispatch();
+  const { addMessageError, addStatusText } = CharacterSlice.actions;
+  const { error, statusText } = useAppSelector((state) => state.messageReducer);
+  const { isLoggedIn } = useAppSelector((state) => state.authReducer);
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    dispatch(addMessageError(''));
+  };
 
   const onSubmit: SubmitHandler<IFormRegister> = (data) => {
     dispatch(register(data));
@@ -145,6 +146,25 @@ const Register: FC<MyProps> = ({ setOpenSignUp }) => {
               severity="warning"
             >
               {error}
+            </Alert>
+          </Snackbar>
+          <Snackbar
+            open={statusText ? true : false}
+            autoHideDuration={3000}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+          >
+            <Alert
+              onClose={() => dispatch(addStatusText(''))}
+              sx={{
+                marginTop: 1,
+                marginBottom: 1,
+              }}
+              severity="success"
+            >
+              {statusText}
             </Alert>
           </Snackbar>
           <Grid container>
