@@ -6,11 +6,16 @@ type registerType = {
   password: string;
 };
 const register = (name: string, login: string, password: string) => {
-  return axios.post(API_URL + 'signup', {
-    name,
-    login,
-    password,
-  });
+  return axios
+    .post(API_URL + 'signup', {
+      name,
+      login,
+      password,
+    })
+    .then((response) => {
+      console.log(response.data);
+      return response.data;
+    });
 };
 
 const login = (login: string, password: string) => {
@@ -23,6 +28,7 @@ const login = (login: string, password: string) => {
       if (response.data) {
         localStorage.setItem('user', JSON.stringify(response.data));
       }
+
       return response.data;
     });
 };

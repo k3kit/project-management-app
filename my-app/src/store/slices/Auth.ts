@@ -1,4 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { useAppDispatch } from '../../hooks/redux';
 import authHeader from '../../services/auth-header';
 import authService from '../../services/auth.service';
@@ -20,10 +21,10 @@ export const register = createAsyncThunk(
   '/signup',
   async ({ name, login, password }: userDataRegister, thunkAPI) => {
     try {
-      const response = await authService.register(name, login, password);
-      console.log(response.statusText);
-      thunkAPI.dispatch(addStatusText(response.statusText));
-      return response.data;
+      const data = await authService.register(name, login, password);
+      thunkAPI.dispatch(addStatusText(data.statusText));
+      console.log({ data });
+      return { data };
     } catch (error) {
       const message =
         (error.response && error.response.data && error.response.data.message) ||
@@ -40,6 +41,8 @@ export const login = createAsyncThunk(
     const { addMessageError } = CharacterSlice.actions;
     try {
       const data = await authService.login(login, password);
+      console.log({ user: data });
+
       return { user: data };
     } catch (error) {
       const message =
@@ -55,15 +58,28 @@ export const logout = createAsyncThunk('auth/logout', async () => {
   await authService.logout();
 });
 
-const initialState = user ? { isLoggedIn: true, user } : { isLoggedIn: false, user: null };
+interface IUser {
+  id: string;
+  login: string;
+  name: string;
+  token: string;
+}
+interface IAuth {
+  isLoggedIn: boolean;
+  user: IUser;
+}
+const initialState: IAuth = user
+  ? { isLoggedIn: true, user: {} as IUser }
+  : { isLoggedIn: false, user: {} as IUser };
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {},
   extraReducers: {
-    [register.fulfilled.type]: (state, action) => {
+    [register.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
       state.isLoggedIn = false;
+      state.user = action.payload;
     },
     [register.rejected.type]: (state, action) => {
       state.isLoggedIn = false;
@@ -74,11 +90,9 @@ export const authSlice = createSlice({
     },
     [login.rejected.type]: (state, action) => {
       state.isLoggedIn = false;
-      state.user = null;
     },
     [logout.fulfilled.type]: (state, action) => {
       state.isLoggedIn = false;
-      state.user = null;
     },
   },
 });
