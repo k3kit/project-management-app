@@ -9,7 +9,7 @@ import {
   Snackbar,
   Alert,
 } from '@mui/material';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { SubmitHandler, useForm, Controller } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import authHeader from '../../services/auth-header';
@@ -17,7 +17,7 @@ import { login } from '../../store/slices/Auth';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { CharacterSlice } from '../../store/slices/Message';
-
+import { useNavigate } from 'react-router-dom';
 interface IFormLogin {
   login: string;
   password: string;
@@ -38,6 +38,7 @@ const validationShema = yup.object().shape({
     .max(40, 'Password must not exceed 40 characters'),
 });
 const LoginPage: FC<MyProps> = ({ setOpenSignIn }) => {
+  const navigate = useNavigate();
   const {
     control,
     handleSubmit,
@@ -48,6 +49,13 @@ const LoginPage: FC<MyProps> = ({ setOpenSignIn }) => {
   const { addMessageError } = CharacterSlice.actions;
   const dispatch = useAppDispatch();
   const { error } = useAppSelector((state) => state.messageReducer);
+  const { isLoggedIn } = useAppSelector((state) => state.authReducer);
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/main');
+    }
+  }, [isLoggedIn, navigate]);
+
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
