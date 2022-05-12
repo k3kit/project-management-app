@@ -1,11 +1,22 @@
-import { Container, CssBaseline, Box, Typography, TextField, Button, Grid } from '@mui/material';
+import {
+  Container,
+  CssBaseline,
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Grid,
+  Alert,
+  Snackbar,
+} from '@mui/material';
 import React, { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { register } from '../../store/slices/Auth';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-
+import { CharacterSlice } from '../../store/slices/Message';
+const { addMessageError } = CharacterSlice.actions;
 interface IFormRegister {
   name: string;
   login: string;
@@ -16,16 +27,24 @@ interface MyProps {
   setOpenSignUp: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const Register: FC<MyProps> = ({ setOpenSignUp }) => {
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    dispatch(addMessageError(''));
+  };
+
+  const { error } = useAppSelector((state) => state.messageReducer);
   const validationShema = yup.object().shape({
     name: yup
       .string()
       .required('Username is required')
-      .min(6, 'Username must be at least 6 characters')
+      .min(4, 'Username must be at least 4 characters')
       .max(20, 'Username must not exceed 20 characters'),
     login: yup
       .string()
       .required('Username is required')
-      .min(6, 'Username must be at least 6 characters')
+      .min(4, 'Username must be at least 4 characters')
       .max(20, 'Username must not exceed 20 characters'),
     password: yup
       .string()
@@ -116,6 +135,18 @@ const Register: FC<MyProps> = ({ setOpenSignUp }) => {
           >
             Sign Up
           </Button>
+          <Snackbar open={error ? true : false} autoHideDuration={3000}>
+            <Alert
+              onClose={handleClose}
+              sx={{
+                marginTop: 1,
+                marginBottom: 1,
+              }}
+              severity="warning"
+            >
+              {error}
+            </Alert>
+          </Snackbar>
           <Grid container>
             <Grid item xs></Grid>
           </Grid>
