@@ -4,7 +4,8 @@ import { SubmitHandler, useForm, Controller } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import authHeader from '../../services/auth-header';
 import { login } from '../../store/slices/Auth';
-
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 interface IFormLogin {
   login: string;
   password: string;
@@ -14,12 +15,29 @@ interface MyProps {
 }
 const LoginPage: FC<MyProps> = ({ setOpenSignIn }) => {
   const dispatch = useAppDispatch();
-  // const { isLoggedIn } = useAppSelector((state) => state.authReducer);
-  const { control, handleSubmit } = useForm<IFormLogin>();
+  const validationShema = yup.object().shape({
+    login: yup
+      .string()
+      .required('Login is required')
+      .min(6, 'Login must be at least 6 characters')
+      .max(20, 'Login must not exceed 20 characters'),
+    password: yup
+      .string()
+      .required('Password is required')
+      .min(6, 'Password must be at least 6 characters')
+      .max(40, 'Password must not exceed 40 characters'),
+  });
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormLogin>({
+    resolver: yupResolver(validationShema),
+  });
+
   const onSubmit: SubmitHandler<IFormLogin> = (data) => {
     dispatch(login(data));
     console.log(data);
-    authHeader();
   };
   return (
     <Container component="main" maxWidth="xs">
@@ -45,7 +63,7 @@ const LoginPage: FC<MyProps> = ({ setOpenSignIn }) => {
                 required
                 fullWidth
                 id="login"
-                label="Login"
+                label={errors.login ? errors.login.message : 'Login'}
                 name="login"
                 autoComplete="login"
                 autoFocus
@@ -60,7 +78,7 @@ const LoginPage: FC<MyProps> = ({ setOpenSignIn }) => {
               <TextField
                 margin="normal"
                 fullWidth
-                label="Password"
+                label={errors.password ? errors.password.message : 'Password'}
                 type="password"
                 autoComplete="current-password"
                 onChange={(e) => field.onChange(e)}
@@ -68,7 +86,7 @@ const LoginPage: FC<MyProps> = ({ setOpenSignIn }) => {
             )}
           />
           <Button
-            onClick={() => setOpenSignIn(false)}
+            // onClick={() => setOpenSignIn(false)}
             type="submit"
             fullWidth
             variant="contained"
@@ -84,5 +102,4 @@ const LoginPage: FC<MyProps> = ({ setOpenSignIn }) => {
     </Container>
   );
 };
-
 export default LoginPage;
