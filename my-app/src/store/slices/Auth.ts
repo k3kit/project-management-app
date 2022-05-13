@@ -15,16 +15,16 @@ interface userDataLogin {
   password: string;
 }
 
-const user = JSON.parse(localStorage.getItem('user') || 'null');
+const token = JSON.parse(localStorage.getItem('token') || 'null');
 const { addMessageError, addStatusText } = CharacterSlice.actions;
 export const register = createAsyncThunk(
   '/signup',
   async ({ name, login, password }: userDataRegister, thunkAPI) => {
     try {
       const data = await authService.register(name, login, password);
-      thunkAPI.dispatch(addStatusText(data.statusText));
+      // thunkAPI.dispatch(addStatusText(data.statusText));
       console.log({ data });
-      return { data };
+      return data;
     } catch (error) {
       const message =
         (error.response && error.response.data && error.response.data.message) ||
@@ -42,7 +42,6 @@ export const login = createAsyncThunk(
     try {
       const data = await authService.login(login, password);
       console.log({ user: data });
-
       return { user: data };
     } catch (error) {
       const message =
@@ -62,15 +61,15 @@ interface IUser {
   id: string;
   login: string;
   name: string;
-  token: string;
 }
 interface IAuth {
   isLoggedIn: boolean;
   user: IUser;
+  token: string;
 }
-const initialState: IAuth = user
-  ? { isLoggedIn: true, user: {} as IUser }
-  : { isLoggedIn: false, user: {} as IUser };
+const initialState: IAuth = token
+  ? { isLoggedIn: true, user: {} as IUser, token: '' }
+  : { isLoggedIn: false, user: {} as IUser, token: 'null' };
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -86,7 +85,7 @@ export const authSlice = createSlice({
     },
     [login.fulfilled.type]: (state, action) => {
       state.isLoggedIn = true;
-      state.user = action.payload.user;
+      state.token = action.payload.token;
     },
     [login.rejected.type]: (state, action) => {
       state.isLoggedIn = false;
