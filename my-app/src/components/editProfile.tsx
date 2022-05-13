@@ -13,6 +13,8 @@ import { error } from 'console';
 import React from 'react';
 import { Controller } from 'react-hook-form';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import DeleteIcon from '@mui/icons-material/Delete';
+import SendIcon from '@mui/icons-material/Send';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
@@ -107,6 +109,19 @@ const EditProfile = () => {
               />
             )}
           />
+          <Button
+            fullWidth={true}
+            disableElevation={true}
+            variant="outlined"
+            color="error"
+            startIcon={<DeleteIcon />}
+            sx={{
+              marginTop: 1,
+              marginBottom: 1,
+            }}
+          >
+            Delete profile
+          </Button>
           <Button
             type="submit"
             variant="contained"
