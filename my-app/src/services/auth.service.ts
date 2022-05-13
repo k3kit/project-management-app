@@ -13,7 +13,9 @@ const register = (name: string, login: string, password: string) => {
       password,
     })
     .then((response) => {
-      console.log(response.data);
+      if (response.data) {
+        localStorage.setItem('user', JSON.stringify(response.data));
+      }
       return response.data;
     });
 };
@@ -26,7 +28,9 @@ const login = (login: string, password: string) => {
     })
     .then((response) => {
       if (response.data) {
-        localStorage.setItem('user', JSON.stringify(response.data));
+        console.log(response.data);
+
+        localStorage.setItem('token', JSON.stringify(response.data));
       }
 
       return response.data;
@@ -34,9 +38,9 @@ const login = (login: string, password: string) => {
 };
 
 const logout = () => {
+  localStorage.removeItem('token');
   localStorage.removeItem('user');
 };
-
 const authService = {
   register,
   login,
