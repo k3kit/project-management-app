@@ -5,7 +5,11 @@ import Slide from '@mui/material/Slide';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { authSlice } from '../store/slices/Auth';
 import { logout } from '../store/slices/Auth';
+import { deleteUsers, getUsers } from '../store/slices/user';
 import { ModalProfileSlice } from '../store/slices/header';
+import authHeader from '../services/auth-header';
+import editProfile from './editProfile';
+import { Link } from 'react-router-dom';
 export const Header = () => {
   const [fix, setFix] = useState(false);
   const dispath = useAppDispatch();
@@ -22,16 +26,23 @@ export const Header = () => {
   const handleLogout = () => {
     dispath(logout());
   };
+  const handeleUSers = () => {
+    dispath(getUsers());
+    dispath(deleteUsers());
+    authHeader();
+  };
   return (
     <AppBar className={fix ? 'appBar fixed' : 'appBar'} position="sticky">
       <Toolbar>
-        <Button color="inherit" onClick={() => dispath(setOpenEditProfile(true))}>
-          Edit profile
+        <Button sx={{ mr: 2 }} color="inherit">
+          <Link to="/edit"> Edit </Link>
         </Button>
         <Button color="inherit" onClick={handleLogout}>
           logout
         </Button>
-        <Button color="inherit">create new board</Button>
+        <Button onClick={handeleUSers} color="inherit">
+          create new board
+        </Button>
         <Stack direction="row" spacing={1} alignItems="center">
           <Typography>EN</Typography>
           <Switch defaultChecked color="secondary" />
@@ -41,3 +52,4 @@ export const Header = () => {
     </AppBar>
   );
 };
+// onClick={() => dispath(setOpenEditProfile(true))}
