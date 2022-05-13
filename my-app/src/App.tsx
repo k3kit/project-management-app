@@ -9,6 +9,8 @@ import BoardPage from './pages/board-page/boardPage';
 import Layout from './components/Layout/Layout';
 import { RequireAuth } from './hoc/RequireAuth';
 import Register from './pages/login-page/Register';
+import EditProfle from './pages/edit-profile/editProfle';
+import EditPage from './pages/edit-profile/editProfle';
 function App() {
   return (
     <div className="App">
@@ -28,6 +30,14 @@ function App() {
             element={
               <RequireAuth>
                 <BoardPage />
+              </RequireAuth>
+            }
+          />{' '}
+          <Route
+            path="edit"
+            element={
+              <RequireAuth>
+                <EditPage />
               </RequireAuth>
             }
           />
