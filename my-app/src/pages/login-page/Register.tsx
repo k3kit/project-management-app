@@ -55,7 +55,7 @@ const Register: FC<MyProps> = ({ setOpenSignUp }) => {
   const dispatch = useAppDispatch();
   const { addMessageError, addStatusText } = CharacterSlice.actions;
   const { error, statusText } = useAppSelector((state) => state.messageReducer);
-  const { isLoggedIn } = useAppSelector((state) => state.authReducer);
+  const { user } = useAppSelector((state) => state.authReducer);
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
@@ -124,7 +124,6 @@ const Register: FC<MyProps> = ({ setOpenSignUp }) => {
             )}
           />
           <Button
-            // onClick={() => setOpenSignUp(false)}
             type="submit"
             variant="contained"
             fullWidth={true}

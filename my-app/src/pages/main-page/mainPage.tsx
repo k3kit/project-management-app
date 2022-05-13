@@ -14,11 +14,7 @@ const MainPage = () => {
     <>
       <Header />{' '}
       <Box sx={{ bgcolor: '#cfe8fc', height: '100vh' }}>
-        <Container id="main">
-          <Dialog open={onedEditProfile} onClose={() => dispath(setOpenEditProfile(false))}>
-            <EditProfile />
-          </Dialog>
-        </Container>
+        <Container id="main">Main Page</Container>
       </Box>
     </>
   );
