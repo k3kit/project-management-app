@@ -53,15 +53,27 @@ export const updateBoard = createAsyncThunk(
     }
   }
 );
+interface IBoards {
+  id: string;
+  title: string;
+}
+interface IBoard {
+  id: string;
+  title: string;
+}
+interface BoardsState {
+  boards: IBoards[];
+  board: IBoard[];
+}
 
-const initialState = { boards: {}, board: [] };
+const initialState: BoardsState = { boards: [], board: [] };
 export const boardsSlice = createSlice({
   name: 'boards',
   initialState,
   reducers: {},
   extraReducers: {
     [getBoards.fulfilled.type]: (state, action) => {
-      state.boards = action.payload.data;
+      state.boards = action.payload;
     },
     [addBoard.fulfilled.type]: (state, action) => {
       state.board = action.payload.data;
