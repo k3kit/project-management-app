@@ -62,10 +62,7 @@ const EditProfile = () => {
   const handleDelete = () => {
     const tokenA = JSON.parse(localStorage.getItem('token') || 'null');
     const tok = tokenA.token;
-    console.log(tok);
-
     const decoded = jwtDecode<Jwt>(tok);
-    console.log(decoded.userId);
     dispath(deleteUsers(decoded.userId));
     dispath(logout());
   };
