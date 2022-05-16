@@ -10,11 +10,12 @@ import { ModalProfileSlice } from '../store/slices/header';
 import authHeader from '../services/auth-header';
 import editProfile from './editProfile';
 import { Link } from 'react-router-dom';
+import { addBoard, boardId, boardsSlice } from '../store/slices/boards';
 export const Header = () => {
   const [fix, setFix] = useState(false);
+  const [title, setTitle] = useState('');
   const dispath = useAppDispatch();
-  const { setOpenEditProfile } = ModalProfileSlice.actions;
-  const { onedEditProfile } = useAppSelector((state) => state.modalReducer);
+  const { setOpen } = boardsSlice.actions;
   const setFixed = () => {
     if (window.scrollY >= 100) {
       setFix(true);
@@ -26,22 +27,21 @@ export const Header = () => {
   const handleLogout = () => {
     dispath(logout());
   };
-  const handeleUSers = () => {
-    dispath(getUsers());
-    dispath(deleteUsers());
-    authHeader();
+  const openModal = () => {
+    dispath(setOpen(true));
   };
+
   return (
     <AppBar className={fix ? 'appBar fixed' : 'appBar'} position="sticky">
       <Toolbar>
         <Button sx={{ mr: 2 }} color="inherit">
-          <Link to="/edit"> Edit </Link>
+          <Link to="/edit"> Edit profile </Link>
         </Button>
         <Button color="inherit" onClick={handleLogout}>
-          logout
+          Logout
         </Button>
-        <Button onClick={handeleUSers} color="inherit">
-          create new board
+        <Button onClick={openModal} color="inherit">
+          Create new board
         </Button>
         <Stack direction="row" spacing={1} alignItems="center">
           <Typography>EN</Typography>
