@@ -3,11 +3,13 @@ import authReducer from './slices/Auth';
 import messageReducer from './slices/Message';
 import modalReducer from './slices/header';
 import userReducer from './slices/user';
+import boardReducer from './slices/boards';
 const rootReducer = combineReducers({
   authReducer,
   messageReducer,
   modalReducer,
   userReducer,
+  boardReducer,
 });
 
 export const setupStore = () => {
