@@ -11,13 +11,13 @@ const createBoard = (title: string) => {
 };
 
 const boardById = (id: string) => {
-  return axios.get(`https://still-dusk-31338.herokuapp.com/boards/${id}`, {
+  return axios.get(API_URL + 'boards/' + id, {
     headers: authHeader(),
   });
 };
 
 const deleteBoard = (id: string) => {
-  return axios.delete(API_URL + 'boards/' + id), { headers: authHeader() };
+  return axios.delete(API_URL + 'boards/' + id, { headers: authHeader() });
 };
 
 const updateBoard = (id: string, title: string) => {
