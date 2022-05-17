@@ -5,15 +5,16 @@ import {
   CardActionArea,
   CardActions,
   CardContent,
-  CardHeader,
   Grid,
   Typography,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState, useCallback } from 'react';
 import ConfirmDialog from './ConfirmationModal';
 import { boardDelete } from '../store/slices/boards';
 import { useAppDispatch } from '../hooks/redux';
+import { NavLink } from 'react-router-dom';
+
 type MyProps = {
   title: string;
   id: string;
@@ -23,9 +24,9 @@ export const Board: FC<MyProps> = ({ title, id }) => {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const dispath = useAppDispatch();
 
-  const handleDelete = () => {
+  const handleDelete = useCallback(() => {
     dispath(boardDelete(id));
-  };
+  }, [dispath, id]);
   return (
     <>
       <ConfirmDialog
@@ -36,13 +37,16 @@ export const Board: FC<MyProps> = ({ title, id }) => {
       >
         <Typography> Are you sure you want to delete this board?</Typography>
       </ConfirmDialog>
+
       <Grid item xs={2} sm={4} md={4}>
         <Card sx={{ width: 250, рeight: 150 }}>
-          <CardActionArea>
-            <CardContent>
-              <Typography variant="h5">{title}</Typography>
-            </CardContent>
-          </CardActionArea>
+          <NavLink to={`/board/${id}`}>
+            <CardActionArea>
+              <CardContent>
+                <Typography variant="h5">{title}</Typography>
+              </CardContent>
+            </CardActionArea>
+          </NavLink>
           <CardActions>
             <Button
               variant="outlined"
