@@ -70,13 +70,13 @@ export const BoardItem: FC<IColumn> = ({ id, title, order }) => {
         }}
       >
         <ClickAwayListener onClickAway={handleClickAway}>
-          <Typography color="#FFFFFF" padding={0.8}>
+          <Typography color="#FFFFFF" component="div" padding={0.8}>
             {!titleEdit ? (
               <Box onClick={toggleTitle} sx={{ cursor: 'pointer' }} color="#FFFFFF">
                 {title}
               </Box>
             ) : (
-              <Paper variant="elevation" component="form" sx={{ display: 'flex', height: 30 }}>
+              <Paper variant="elevation" sx={{ display: 'flex', height: 30 }}>
                 <IconButton color="primary" size="small" onClick={handeleClickSub}>
                   <CheckIcon />
                 </IconButton>

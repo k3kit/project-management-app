@@ -40,9 +40,7 @@ const EditProfile = () => {
           alignItems: 'center',
         }}
       >
-        <Typography component="h1" variant="h5">
-          Edit Profile
-        </Typography>
+        <Typography variant="h5">Edit Profile</Typography>
         <form>
           <Controller
             name="name"
