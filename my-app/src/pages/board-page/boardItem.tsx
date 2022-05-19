@@ -51,6 +51,12 @@ export const BoardItem: FC<Col> = ({ id, title, order }) => {
 
   const handeleClickSub = () => {
     handleSubmit(titleInput);
+    setTitleEdit(false);
+  };
+
+  const handleClickCancel = () => {
+    setTitleEdit(false);
+    setTitleInput(title);
   };
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitleInput(e.target.value);
@@ -66,27 +72,29 @@ export const BoardItem: FC<Col> = ({ id, title, order }) => {
           backgroundColor: '#1A2027',
         }}
       >
-        <Box>
-          <ClickAwayListener onClickAway={handleClickAway}>
-            <Typography variant="h6" color="#FFFFFF">
-              {!titleEdit ? (
-                <Box onClick={toggleTitle} sx={{ cursor: 'pointer' }} color="#FFFFFF">
-                  {title}
-                </Box>
-              ) : (
-                <Paper component="form" sx={{ display: 'flex', height: 30, margin: 0.5 }}>
-                  <InputBase color="secondary" placeholder={title} onChange={handleOnChange} />
-                  <IconButton color="primary" size="small">
-                    <CancelOutlinedIcon />
-                  </IconButton>
-                  <IconButton color="primary" size="small" onClick={handeleClickSub}>
-                    <CheckIcon />
-                  </IconButton>
-                </Paper>
-              )}
-            </Typography>
-          </ClickAwayListener>
-        </Box>
+        <ClickAwayListener onClickAway={handleClickAway}>
+          <Typography variant="h6" color="#FFFFFF" sx={{ padding: 0.5 }}>
+            {!titleEdit ? (
+              <Box onClick={toggleTitle} sx={{ cursor: 'pointer' }} color="#FFFFFF">
+                {title}
+              </Box>
+            ) : (
+              <Paper
+                variant="elevation"
+                component="form"
+                sx={{ display: 'flex', height: 30, padding: 0.5 }}
+              >
+                <IconButton color="primary" size="small" onClick={handeleClickSub}>
+                  <CheckIcon />
+                </IconButton>
+                <IconButton color="primary" size="small" onClick={handleClickCancel}>
+                  <CancelOutlinedIcon />
+                </IconButton>
+                <InputBase color="secondary" placeholder={title} onChange={handleOnChange} />
+              </Paper>
+            )}
+          </Typography>
+        </ClickAwayListener>
       </Paper>
     </Grid>
   );
