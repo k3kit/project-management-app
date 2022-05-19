@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import React from 'react';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 
 const ConfirmDialog = (props: {
   title: any;
@@ -10,6 +10,7 @@ const ConfirmDialog = (props: {
   onConfirm: any;
 }) => {
   const { title, children, open, setOpen, onConfirm } = props;
+
   return (
     <Dialog open={open} onClose={() => setOpen(false)}>
       <DialogTitle id="confirm-dialog">{title}</DialogTitle>

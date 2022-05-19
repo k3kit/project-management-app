@@ -8,20 +8,3 @@ export default function authHeader(): AxiosRequestHeaders {
     return {};
   }
 }
-
-// export default function authHeader(): AxiosRequestHeaders {
-//   const minTokenLength = 1;
-//   try {
-//     const token = localStorage.getItem('token');
-//     if (typeof token !== 'string') throw new Error('User info not found');
-
-//     const tokenUsers = JSON.parse(token);
-//     if (!(typeof tokenUsers === 'string' && tokenUsers.length >= minTokenLength)) {
-//       throw new Error('Invalid user access token');
-//     }
-//     console.log({ Authorization: 'Bearer ' + tokenUsers });
-//     return { Authorization: 'Bearer ' + tokenUsers };
-//   } catch {
-//     return { er: 'sa' };
-//   }
-// }

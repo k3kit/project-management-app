@@ -1,10 +1,6 @@
 import axios from 'axios';
-const API_URL = 'https://still-dusk-31338.herokuapp.com/';
-type registerType = {
-  name: string;
-  login: string;
-  password: string;
-};
+import { API_URL } from '../appConstants/api';
+
 const register = (name: string, login: string, password: string) => {
   return axios
     .post(API_URL + 'signup', {
@@ -28,11 +24,8 @@ const login = (login: string, password: string) => {
     })
     .then((response) => {
       if (response.data) {
-        console.log(response.data);
-
         localStorage.setItem('token', JSON.stringify(response.data));
       }
-
       return response.data;
     });
 };
@@ -41,6 +34,7 @@ const logout = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('user');
 };
+
 const authService = {
   register,
   login,

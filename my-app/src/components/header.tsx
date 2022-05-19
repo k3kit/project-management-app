@@ -1,21 +1,15 @@
 import React, { useState } from 'react';
 import { AppBar, Button, Stack, Toolbar, Typography, Switch } from '@mui/material';
-import useScrollTrigger from '@mui/material/useScrollTrigger';
-import Slide from '@mui/material/Slide';
-import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import { authSlice } from '../store/slices/Auth';
+import { useAppDispatch } from '../hooks/redux';
 import { logout } from '../store/slices/Auth';
-import { deleteUsers, getUsers } from '../store/slices/user';
-import { ModalProfileSlice } from '../store/slices/header';
-import authHeader from '../services/auth-header';
-import editProfile from './editProfile';
 import { Link } from 'react-router-dom';
-import { addBoard, boardId, boardsSlice } from '../store/slices/boards';
+import { boardsSlice } from '../store/slices/boards';
+
 export const Header = () => {
   const [fix, setFix] = useState(false);
-  const [title, setTitle] = useState('');
   const dispath = useAppDispatch();
   const { setOpen } = boardsSlice.actions;
+
   const setFixed = () => {
     if (window.scrollY >= 100) {
       setFix(true);
@@ -23,10 +17,12 @@ export const Header = () => {
       setFix(false);
     }
   };
+
   window.addEventListener('scroll', setFixed);
   const handleLogout = () => {
     dispath(logout());
   };
+
   const openModal = () => {
     dispath(setOpen(true));
   };
@@ -52,4 +48,3 @@ export const Header = () => {
     </AppBar>
   );
 };
-// onClick={() => dispath(setOpenEditProfile(true))}

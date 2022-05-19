@@ -1,8 +1,6 @@
-import { useLocation, Navigate } from 'react-router-dom';
 import React from 'react';
-import WelcomePage from '../pages/welcome-page/welcomePage';
-import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import { ModalProfileSlice } from '../store/slices/header';
+import { useLocation, Navigate } from 'react-router-dom';
+import { useAppSelector } from '../hooks/redux';
 
 export const RequireAuth = ({ children }: { children: JSX.Element }) => {
   const { isLoggedIn } = useAppSelector((state) => state.authReducer);

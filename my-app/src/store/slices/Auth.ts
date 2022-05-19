@@ -22,7 +22,7 @@ export const register = createAsyncThunk(
   async ({ name, login, password }: userDataRegister, thunkAPI) => {
     try {
       const data = await authService.register(name, login, password);
-      // thunkAPI.dispatch(addStatusText(data.statusText));
+      thunkAPI.dispatch(addStatusText('registered'));
       console.log({ data });
       return data;
     } catch (error) {

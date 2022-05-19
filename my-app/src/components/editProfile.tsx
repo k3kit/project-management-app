@@ -1,62 +1,24 @@
-import {
-  Container,
-  CssBaseline,
-  Box,
-  Typography,
-  TextField,
-  Button,
-  Alert,
-  Grid,
-} from '@mui/material';
 import React, { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Container, CssBaseline, Box, Typography, TextField, Button, Grid } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import { ModalProfileSlice } from '../store/slices/header';
+import { Controller, useForm } from 'react-hook-form';
+import { useAppDispatch } from '../hooks/redux';
 import { deleteUsers } from '../store/slices/user';
-import jwtDecode, { JwtPayload } from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
 import ConfirmDialog from './ConfirmationModal';
 import { logout } from '../store/slices/Auth';
-const validationShema = yup.object().shape({
-  name: yup
-    .string()
-    .required('Username is required')
-    .min(4, 'Username must be at least 4 characters')
-    .max(20, 'Username must not exceed 20 characters'),
-  login: yup
-    .string()
-    .required('Username is required')
-    .min(4, 'Username must be at least 4 characters')
-    .max(20, 'Username must not exceed 20 characters'),
-  password: yup
-    .string()
-    .required('Password is required')
-    .min(6, 'Password must be at least 6 characters')
-    .max(40, 'Password must not exceed 40 characters'),
-});
-interface IFormEdit {
-  name: string;
-  login: string;
-  password: string;
-}
-export interface Jwt {
-  iat?: number;
-  login?: string;
-  userId: string;
-}
+import { IFormEdit, Jwt } from '../types';
+import { yupResolver } from '@hookform/resolvers/yup';
+import validationShema from '../yup';
+
 const EditProfile = () => {
   const dispath = useAppDispatch();
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const { setOpenEditProfile } = ModalProfileSlice.actions;
-  const { onedEditProfile } = useAppSelector((state) => state.modalReducer);
   const {
     control,
-    handleSubmit,
     formState: { errors },
   } = useForm<IFormEdit>({
-    resolver: yupResolver(validationShema),
+    resolver: yupResolver(validationShema.validationEdit),
   });
 
   const handleDelete = () => {
@@ -66,6 +28,7 @@ const EditProfile = () => {
     dispath(deleteUsers(decoded.userId));
     dispath(logout());
   };
+
   return (
     <Container maxWidth="xs">
       <CssBaseline />

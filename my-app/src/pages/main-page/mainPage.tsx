@@ -1,8 +1,8 @@
+import React, { useEffect } from 'react';
 import { Container, Dialog, Grid } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { useEffect } from 'react';
 import { BoardModal } from '../../components/BoardModal';
-import { Board } from '../../components/boards';
+import { Board } from '../../components/Boards';
 import { Header } from '../../components/header';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { boardsSlice, getBoards } from '../../store/slices/boards';

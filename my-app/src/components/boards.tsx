@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { FC, useState, useCallback } from 'react';
 import {
   Button,
   Card,
@@ -9,7 +10,6 @@ import {
   Typography,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import React, { FC, useState, useCallback } from 'react';
 import ConfirmDialog from './ConfirmationModal';
 import { boardDelete } from '../store/slices/boards';
 import { useAppDispatch } from '../hooks/redux';
@@ -20,13 +20,15 @@ type MyProps = {
   id: string;
   setConfirmOpen: any;
 };
+
 export const Board: FC<MyProps> = ({ title, id }) => {
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const dispath = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const handleDelete = useCallback(() => {
-    dispath(boardDelete(id));
-  }, [dispath, id]);
+    dispatch(boardDelete(id));
+  }, [dispatch, id]);
+
   return (
     <>
       <ConfirmDialog
@@ -38,7 +40,7 @@ export const Board: FC<MyProps> = ({ title, id }) => {
         <Typography> Are you sure you want to delete this board?</Typography>
       </ConfirmDialog>
 
-      <Grid item xs={2} sm={4} md={4}>
+      <Grid item xs={12} sm={6} md={4}>
         <Card sx={{ width: 250, рeight: 150 }}>
           <NavLink to={`/board/${id}`}>
             <CardActionArea>

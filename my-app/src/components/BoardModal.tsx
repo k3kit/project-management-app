@@ -1,33 +1,19 @@
-import {
-  Container,
-  CssBaseline,
-  Box,
-  Typography,
-  TextField,
-  Button,
-  Snackbar,
-  Alert,
-  Grid,
-} from '@mui/material';
-import { error } from 'console';
 import React from 'react';
+import { Container, CssBaseline, Box, TextField, Button, Grid } from '@mui/material';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch } from '../hooks/redux';
 import { addBoard, boardsSlice } from '../store/slices/boards';
+
 interface ITitle {
   title: string;
 }
+
 export const BoardModal = () => {
   const dispath = useAppDispatch();
   const { setOpen } = boardsSlice.actions;
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ITitle>();
+  const { control, handleSubmit } = useForm<ITitle>();
 
   const onSubmit: SubmitHandler<ITitle> = (data) => {
-    console.log(data);
     dispath(setOpen(false));
     dispath(addBoard(data.title));
   };

@@ -1,34 +1,29 @@
+import React, { ChangeEvent, FC, useState } from 'react';
 import {
   Box,
-  Button,
   ClickAwayListener,
-  Divider,
   Grid,
   IconButton,
   InputBase,
   Paper,
-  TextField,
   Typography,
 } from '@mui/material';
-import React, { ChangeEvent, FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { columnsSlice, updateTitleColumns } from '../../store/slices/columns';
-import { Col } from './boardPage';
+import { useAppDispatch } from '../../hooks/redux';
+import { updateTitleColumns } from '../../store/slices/columns';
 import CheckIcon from '@mui/icons-material/Check';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import { IColumn } from '../../types';
 
-export const BoardItem: FC<Col> = ({ id, title, order }) => {
+export const BoardItem: FC<IColumn> = ({ id, title, order }) => {
   const [titleInput, setTitleInput] = useState(title);
   const [titleEdit, setTitleEdit] = useState(false);
-  const dispath = useAppDispatch();
-  const {} = columnsSlice.actions;
-  const { columns } = useAppSelector((state) => state.columnsReducer);
+  const dispatch = useAppDispatch();
   const { boardId } = useParams();
 
   const handleSubmit = (titleInput: string) => {
     if (boardId && id && titleInput) {
-      dispath(
+      dispatch(
         updateTitleColumns({
           boardId,
           columnsId: id,
@@ -37,6 +32,7 @@ export const BoardItem: FC<Col> = ({ id, title, order }) => {
       );
     }
   };
+
   const toggleTitle = () => {
     if (!titleEdit) {
       setTitleEdit(true);
@@ -58,9 +54,11 @@ export const BoardItem: FC<Col> = ({ id, title, order }) => {
     setTitleEdit(false);
     setTitleInput(title);
   };
+
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitleInput(e.target.value);
   };
+
   return (
     <Grid item xs={2}>
       <Paper
@@ -72,7 +70,7 @@ export const BoardItem: FC<Col> = ({ id, title, order }) => {
         }}
       >
         <ClickAwayListener onClickAway={handleClickAway}>
-          <Typography color="#FFFFFF">
+          <Typography color="#FFFFFF" padding={0.8}>
             {!titleEdit ? (
               <Box onClick={toggleTitle} sx={{ cursor: 'pointer' }} color="#FFFFFF">
                 {title}

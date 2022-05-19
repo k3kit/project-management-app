@@ -1,3 +1,4 @@
+import { FC, useEffect } from 'react';
 import {
   Container,
   CssBaseline,
@@ -9,15 +10,14 @@ import {
   Snackbar,
   Alert,
 } from '@mui/material';
-import { FC, useEffect } from 'react';
 import { SubmitHandler, useForm, Controller } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import authHeader from '../../services/auth-header';
 import { login } from '../../store/slices/Auth';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { CharacterSlice } from '../../store/slices/Message';
 import { useNavigate } from 'react-router-dom';
+import validationShema from '../../yup';
+
 interface IFormLogin {
   login: string;
   password: string;
@@ -25,18 +25,7 @@ interface IFormLogin {
 interface MyProps {
   setOpenSignIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const validationShema = yup.object().shape({
-  login: yup
-    .string()
-    .required('Login is required')
-    .min(4, 'Login must be at least 4 characters')
-    .max(20, 'Login must not exceed 20 characters'),
-  password: yup
-    .string()
-    .required('Password is required')
-    .min(6, 'Password must be at least 6 characters')
-    .max(40, 'Password must not exceed 40 characters'),
-});
+
 const LoginPage: FC<MyProps> = ({ setOpenSignIn }) => {
   const navigate = useNavigate();
   const {
@@ -44,12 +33,13 @@ const LoginPage: FC<MyProps> = ({ setOpenSignIn }) => {
     handleSubmit,
     formState: { errors },
   } = useForm<IFormLogin>({
-    resolver: yupResolver(validationShema),
+    resolver: yupResolver(validationShema.validationLogin),
   });
   const { addMessageError } = CharacterSlice.actions;
   const dispatch = useAppDispatch();
   const { error } = useAppSelector((state) => state.messageReducer);
   const { isLoggedIn } = useAppSelector((state) => state.authReducer);
+
   useEffect(() => {
     if (isLoggedIn) {
       navigate('/main');
@@ -65,8 +55,8 @@ const LoginPage: FC<MyProps> = ({ setOpenSignIn }) => {
 
   const onSubmit: SubmitHandler<IFormLogin> = (data) => {
     dispatch(login(data));
-    console.log(data);
   };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

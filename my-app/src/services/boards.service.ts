@@ -1,6 +1,6 @@
 import axios from 'axios';
+import { API_URL } from '../appConstants/api';
 import authHeader from './auth-header';
-const API_URL = 'https://still-dusk-31338.herokuapp.com/';
 
 const getAllBoards = () => {
   return axios.get(API_URL + 'boards', { headers: authHeader() });
