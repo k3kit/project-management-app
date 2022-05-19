@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import boardsService from '../../services/boards.service';
 interface boardType {
   id: string;
@@ -35,8 +35,7 @@ export const boardId = createAsyncThunk('/board/id', async (id: string, ThunkAPI
 export const boardDelete = createAsyncThunk('/board/delete', async (id: string, ThunkAPI) => {
   try {
     const response = await boardsService.deleteBoard(id);
-    console.log(response);
-    return response;
+    return response.data;
   } catch (error) {
     ThunkAPI.rejectWithValue(error);
   }
@@ -64,19 +63,21 @@ interface IBoard {
 interface BoardsState {
   boards: IBoards[];
   board: IBoard[];
+  Modal: boolean;
 }
 
-const initialState: BoardsState = { boards: [], board: [] };
+const initialState: BoardsState = { boards: [], board: [], Modal: false };
 export const boardsSlice = createSlice({
   name: 'boards',
   initialState,
-  reducers: {},
-  extraReducers: {
-    [getBoards.fulfilled.type]: (state, action) => {
-      state.boards = action.payload;
+  reducers: {
+    setOpen(state: { Modal: boolean }, action: PayloadAction<boolean>) {
+      state.Modal = action.payload;
     },
-    [addBoard.fulfilled.type]: (state, action) => {
-      state.board = action.payload.data;
+  },
+  extraReducers: {
+    [getBoards.fulfilled.type]: (state, action: PayloadAction<IBoards[]>) => {
+      state.boards = action.payload;
     },
   },
 });
