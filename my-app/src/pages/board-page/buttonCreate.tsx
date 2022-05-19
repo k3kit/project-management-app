@@ -1,3 +1,4 @@
+import React, { ChangeEvent, useState } from 'react';
 import {
   Button,
   Dialog,
@@ -6,7 +7,6 @@ import {
   TextField,
   DialogActions,
 } from '@mui/material';
-import React, { ChangeEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { createColumns } from '../../store/slices/columns';
@@ -15,8 +15,9 @@ export const ButtonCreate = () => {
   const [open, setOpen] = React.useState(false);
   const [titleInput, setTitleInput] = useState('');
   const { boardId } = useParams();
-  const dispath = useAppDispatch();
+  const dispatch = useAppDispatch();
   const { columns } = useAppSelector((state) => state.columnsReducer);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -24,13 +25,16 @@ export const ButtonCreate = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitleInput(e.target.value);
     console.log(titleInput);
   };
+
   const handleSubmit = () => {
     if (boardId) {
-      dispath(
+      setOpen(false);
+      dispatch(
         createColumns({
           boardId,
           column: { title: titleInput, order: columns.length + 1 },
@@ -38,6 +42,7 @@ export const ButtonCreate = () => {
       );
     }
   };
+
   return (
     <>
       <Button
