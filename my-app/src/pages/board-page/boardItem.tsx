@@ -66,24 +66,19 @@ export const BoardItem: FC<Col> = ({ id, title, order }) => {
       <Paper
         sx={{
           minHeight: 300,
-          width: 200,
           minWidth: 200,
           maxWidth: 200,
           backgroundColor: '#1A2027',
         }}
       >
         <ClickAwayListener onClickAway={handleClickAway}>
-          <Typography variant="h6" color="#FFFFFF" sx={{ padding: 0.5 }}>
+          <Typography color="#FFFFFF">
             {!titleEdit ? (
               <Box onClick={toggleTitle} sx={{ cursor: 'pointer' }} color="#FFFFFF">
                 {title}
               </Box>
             ) : (
-              <Paper
-                variant="elevation"
-                component="form"
-                sx={{ display: 'flex', height: 30, padding: 0.5 }}
-              >
+              <Paper variant="elevation" component="form" sx={{ display: 'flex', height: 30 }}>
                 <IconButton color="primary" size="small" onClick={handeleClickSub}>
                   <CheckIcon />
                 </IconButton>

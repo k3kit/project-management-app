@@ -23,20 +23,15 @@ const BoardPage = () => {
   return (
     <>
       <Header />
-      <Box width={2200} padding={2}>
-        <Grid
-          container
-          spacing={{ xs: 2 }}
-          sx={{
-            gridAutoFlow: 'column',
-            gridTemplateColumns: 'repeat(auto-fill,minmax(160px,1fr)) !important',
-            gridAutoColumns: 'minmax(160px, 1fr)',
-          }}
-        >
+      <Box padding={2}>
+        <Grid container spacing={{ xs: 2 }}>
           {columns &&
             columns.map((column: Col) => (
               <BoardItem key={column.id} id={column.id} title={column.title} order={column.order} />
             ))}
+          <Button variant="contained" sx={{ height: 50, width: 200, marginTop: 16 }}>
+            add a column
+          </Button>
         </Grid>
       </Box>
     </>
