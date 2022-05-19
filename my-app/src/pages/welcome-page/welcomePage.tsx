@@ -1,6 +1,5 @@
-import { Login } from '@mui/icons-material';
-import { AppBar, Box, Button, Container, Dialog, Toolbar, Typography } from '@mui/material';
 import React, { useState } from 'react';
+import { AppBar, Box, Button, Container, Dialog, Toolbar, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/redux';
 import LoginPage from '../login-page/loginPage';
@@ -8,7 +7,9 @@ import Register from '../login-page/Register';
 const WelcomePage = () => {
   const [openSignIn, setOpenSignIn] = useState(false);
   const [openSignUp, setOpenSignUp] = useState(false);
+
   const { isLoggedIn } = useAppSelector((state) => state.authReducer);
+
   return (
     <>
       <Box>
@@ -42,8 +43,9 @@ const WelcomePage = () => {
           <Dialog open={openSignUp} onClose={() => setOpenSignUp(false)}>
             <Register setOpenSignUp={setOpenSignUp} />
           </Dialog>
-          <Typography>Welcome</Typography>
-          <Link to="main">main</Link>
+          <Typography align={'center'} variant="h1" component="div" gutterBottom>
+            Welcome
+          </Typography>
         </Container>
       </Box>
     </>
