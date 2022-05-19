@@ -26,7 +26,7 @@ function App() {
             }
           />
           <Route
-            path="board"
+            path="board/:boardId"
             element={
               <RequireAuth>
                 <BoardPage />
