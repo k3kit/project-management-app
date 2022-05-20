@@ -23,7 +23,7 @@ export const register = createAsyncThunk(
     try {
       const data = await authService.register(name, login, password);
       thunkAPI.dispatch(addStatusText('registered'));
-      console.log({ data });
+      console.log(data);
       return data;
     } catch (error) {
       const message =
@@ -41,13 +41,14 @@ export const login = createAsyncThunk(
     const { addMessageError } = CharacterSlice.actions;
     try {
       const data = await authService.login(login, password);
-      console.log({ user: data });
       return { user: data };
     } catch (error) {
       const message =
         (error.response && error.response.data && error.response.data.message) ||
         error.message ||
         error.toString();
+      console.log(message);
+
       thunkAPI.dispatch(addMessageError(message));
       return thunkAPI.rejectWithValue(error);
     }
