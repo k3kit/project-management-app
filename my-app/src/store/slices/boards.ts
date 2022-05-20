@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { useAppDispatch } from '../../hooks/redux';
 import boardsService from '../../services/boards.service';
 interface boardType {
   id: string;
@@ -7,17 +8,15 @@ interface boardType {
 export const getBoards = createAsyncThunk('/boards', async (_, ThunkAPI) => {
   try {
     const response = await boardsService.getAllBoards();
-    console.log(response.data);
     return response.data;
   } catch (error) {
-    return ThunkAPI.rejectWithValue(error);
+    return ThunkAPI.rejectWithValue('error');
   }
 });
 
 export const addBoard = createAsyncThunk('/board/add', async (title: string, ThunkAPI) => {
   try {
     const response = await boardsService.createBoard(title);
-    console.log(response);
     return response.data;
   } catch (error) {
     ThunkAPI.rejectWithValue(error);
@@ -26,7 +25,6 @@ export const addBoard = createAsyncThunk('/board/add', async (title: string, Thu
 export const boardId = createAsyncThunk('/board/id', async (id: string, ThunkAPI) => {
   try {
     const response = await boardsService.boardById(id);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     ThunkAPI.rejectWithValue(error);
@@ -56,17 +54,15 @@ interface IBoards {
   id: string;
   title: string;
 }
-interface IBoard {
-  id: string;
-  title: string;
-}
+
 interface BoardsState {
   boards: IBoards[];
-  board: IBoard[];
   Modal: boolean;
+  error: string;
+  isLoading: boolean;
 }
 
-const initialState: BoardsState = { boards: [], board: [], Modal: false };
+const initialState: BoardsState = { boards: [], Modal: false, error: '', isLoading: false };
 export const boardsSlice = createSlice({
   name: 'boards',
   initialState,
@@ -78,6 +74,22 @@ export const boardsSlice = createSlice({
   extraReducers: {
     [getBoards.fulfilled.type]: (state, action: PayloadAction<IBoards[]>) => {
       state.boards = action.payload;
+      state.isLoading = false;
+      state.error = '';
+    },
+    [getBoards.pending.type]: (state) => {
+      state.isLoading = true;
+    },
+    [getBoards.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    [addBoard.fulfilled.type]: (state, action: PayloadAction<IBoards>) => {
+      state.boards.push(action.payload);
+    },
+    [boardDelete.fulfilled.type]: (state, action: PayloadAction<IBoards>) => {
+      const index = state.boards.findIndex(({ id }) => id === action.payload.id);
+      state.boards.splice(index, 1);
     },
   },
 });

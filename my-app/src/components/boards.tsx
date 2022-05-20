@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ConfirmDialog from './ConfirmationModal';
-import { boardDelete } from '../store/slices/boards';
+import { boardDelete, getBoards } from '../store/slices/boards';
 import { useAppDispatch } from '../hooks/redux';
 import { NavLink } from 'react-router-dom';
 
@@ -25,9 +25,9 @@ export const Board: FC<MyProps> = ({ title, id }) => {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const dispatch = useAppDispatch();
 
-  const handleDelete = useCallback(() => {
+  const handleDelete = () => {
     dispatch(boardDelete(id));
-  }, [dispatch, id]);
+  };
 
   return (
     <>
