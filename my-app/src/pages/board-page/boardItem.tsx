@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FC, useState } from 'react';
 import {
   Box,
+  Button,
   ClickAwayListener,
   Grid,
   IconButton,
@@ -10,9 +11,10 @@ import {
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/redux';
-import { updateTitleColumns } from '../../store/slices/columns';
+import { deleteColums, updateTitleColumns } from '../../store/slices/columns';
 import CheckIcon from '@mui/icons-material/Check';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import ClearIcon from '@mui/icons-material/Clear';
 import { IColumn } from '../../types';
 
 export const BoardItem: FC<IColumn> = ({ id, title, order }) => {
@@ -58,19 +60,25 @@ export const BoardItem: FC<IColumn> = ({ id, title, order }) => {
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitleInput(e.target.value);
   };
+  const handleDelete = () => {
+    if (boardId) {
+      dispatch(deleteColums({ boardId: boardId, columnId: id }));
+    }
+  };
 
   return (
-    <Grid item xs={2}>
+    <Grid item xs={4}>
       <Paper
         sx={{
           minHeight: 300,
           minWidth: 200,
-          maxWidth: 200,
+          maxWidth: 220,
           backgroundColor: '#1A2027',
+          display: 'flex',
         }}
       >
         <ClickAwayListener onClickAway={handleClickAway}>
-          <Typography color="#FFFFFF" component="div" padding={0.8}>
+          <Typography color="#FFFFFF" component="div" sx={{ padding: 0.8, width: 151, height: 40 }}>
             {!titleEdit ? (
               <Box onClick={toggleTitle} sx={{ cursor: 'pointer' }} color="#FFFFFF">
                 {title}
@@ -88,6 +96,9 @@ export const BoardItem: FC<IColumn> = ({ id, title, order }) => {
             )}
           </Typography>
         </ClickAwayListener>
+        <IconButton sx={{ height: 40 }} onClick={handleDelete}>
+          <ClearIcon color="primary" height={25} />
+        </IconButton>
       </Paper>
     </Grid>
   );

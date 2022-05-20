@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, Grid } from '@mui/material';
+import { Box, Container, Grid } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { Header } from '../../components/header';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
@@ -23,13 +23,20 @@ const BoardPage = () => {
     <>
       <Header />
       <Box padding={2}>
-        <Grid container spacing={{ xs: 2 }}>
-          {columns &&
-            columns.map((column: IColumn) => (
-              <BoardItem key={column.id} id={column.id} title={column.title} order={column.order} />
-            ))}
-          <ButtonCreate />
-        </Grid>
+        <Container>
+          <Grid container spacing={{ xs: 2 }}>
+            {columns &&
+              columns.map((column: IColumn) => (
+                <BoardItem
+                  key={column.id}
+                  id={column.id}
+                  title={column.title}
+                  order={column.order}
+                />
+              ))}
+            <ButtonCreate />
+          </Grid>
+        </Container>
       </Box>
     </>
   );
