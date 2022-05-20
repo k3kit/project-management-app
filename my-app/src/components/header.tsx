@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { AppBar, Button, Stack, Toolbar, Typography, Switch } from '@mui/material';
+import {
+  AppBar,
+  Button,
+  Stack,
+  Toolbar,
+  Typography,
+  Switch,
+  Container,
+  Hidden,
+} from '@mui/material';
 import { useAppDispatch } from '../hooks/redux';
 import { logout } from '../store/slices/Auth';
 import { Link } from 'react-router-dom';
@@ -29,22 +38,24 @@ export const Header = () => {
 
   return (
     <AppBar className={fix ? 'appBar fixed' : 'appBar'} position="sticky">
-      <Toolbar>
-        <Button sx={{ mr: 2 }} color="inherit">
-          <Link to="/edit"> Edit profile </Link>
-        </Button>
-        <Button color="inherit" onClick={handleLogout}>
-          Logout
-        </Button>
-        <Button onClick={openModal} color="inherit">
-          Create new board
-        </Button>
-        <Stack direction="row" spacing={1} alignItems="center">
-          <Typography>EN</Typography>
-          <Switch defaultChecked color="secondary" />
-          <Typography>RU</Typography>
-        </Stack>
-      </Toolbar>
+      <Container>
+        <Toolbar>
+          <Button sx={{ mr: 2 }} color="inherit">
+            <Link to="/edit"> Edit profile </Link>
+          </Button>
+          <Button color="inherit" onClick={handleLogout}>
+            Logout
+          </Button>
+          <Button onClick={openModal} color="inherit">
+            Create new board
+          </Button>
+          <Stack direction="row" spacing={1} alignItems="center">
+            <Typography>EN</Typography>
+            <Switch defaultChecked color="secondary" />
+            <Typography>RU</Typography>
+          </Stack>
+        </Toolbar>
+      </Container>
     </AppBar>
   );
 };
