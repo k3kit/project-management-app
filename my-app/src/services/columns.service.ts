@@ -13,11 +13,11 @@ const getAllColumns = (boardId: string) => {
   return axios.get(`${API_URL}boards/${boardId}/columns`, { headers: authHeader() });
 };
 
-const deleteColumns = (boardId: string) => {
-  return axios.get(`${API_URL}boards/${boardId}/columns`, { headers: authHeader() });
+const deleteColumns = (boardId: string, columnId: string) => {
+  return axios.delete(`${API_URL}boards/${boardId}/columns/${columnId}`, { headers: authHeader() });
 };
 
-const updateColimns = (boardId: string, columnsId: string, column: Icolumn) => {
+const updateColums = (boardId: string, columnsId: string, column: Icolumn) => {
   return axios.put(`${API_URL}boards/${boardId}/columns/${columnsId}`, column, {
     headers: authHeader(),
   });
@@ -26,7 +26,7 @@ const columnsService = {
   createColumns,
   getAllColumns,
   deleteColumns,
-  updateColimns,
+  updateColums,
 };
 
 export default columnsService;
