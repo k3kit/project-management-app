@@ -41,7 +41,7 @@ export const Board: FC<MyProps> = ({ title, id }) => {
       </ConfirmDialog>
 
       <Grid item xs={12} sm={6} md={4}>
-        <Card sx={{ width: 250, рeight: 150 }}>
+        <Card sx={{ width: 250, рeight: 150, display: 'flex', justifyContent: 'space-evenly' }}>
           <NavLink to={`/board/${id}`}>
             <CardActionArea>
               <CardContent>
