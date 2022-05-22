@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import boardsService from '../../services/boards.service';
+import { IBoard } from '../../types';
 
 interface boardType {
   id: string;
@@ -15,14 +16,17 @@ export const getBoards = createAsyncThunk('/boards', async (_, ThunkAPI) => {
   }
 });
 
-export const addBoard = createAsyncThunk('/board/add', async (title: string, ThunkAPI) => {
-  try {
-    const response = await boardsService.createBoard(title);
-    return response.data;
-  } catch (error) {
-    ThunkAPI.rejectWithValue(error);
+export const addBoard = createAsyncThunk(
+  '/board/add',
+  async ({ title, description }: IBoard, ThunkAPI) => {
+    try {
+      const response = await boardsService.createBoard({ title, description });
+      return response.data;
+    } catch (error) {
+      ThunkAPI.rejectWithValue(error);
+    }
   }
-});
+);
 
 export const boardId = createAsyncThunk('/board/id', async (id: string, ThunkAPI) => {
   try {
@@ -58,6 +62,7 @@ export const updateBoard = createAsyncThunk(
 interface IBoards {
   id: string;
   title: string;
+  description: string;
 }
 
 interface BoardsState {

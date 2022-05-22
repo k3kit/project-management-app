@@ -1,16 +1,7 @@
-import { GitHub } from '@mui/icons-material';
-import {
-  AppBar,
-  Container,
-  Grid,
-  IconButton,
-  Link,
-  TableFooter,
-  Toolbar,
-  Typography,
-} from '@mui/material';
-import { Box } from '@mui/system';
 import React from 'react';
+import { GitHub } from '@mui/icons-material';
+import { Container, IconButton, Link, Typography } from '@mui/material';
+import { Box } from '@mui/system';
 
 export const Footer = () => {
   return (
@@ -23,6 +14,7 @@ export const Footer = () => {
             </IconButton>
             <Link href="https://github.com/k3kit"> GitHub: k3kit</Link>
           </Typography>
+
           <Typography variant="subtitle1" align="center" color="text.secondary" component="p">
             RS School
           </Typography>

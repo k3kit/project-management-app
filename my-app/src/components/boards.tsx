@@ -19,9 +19,10 @@ type MyProps = {
   title: string;
   id: string;
   setConfirmOpen: any;
+  description: string;
 };
 
-export const Board: FC<MyProps> = ({ title, id }) => {
+export const Board: FC<MyProps> = ({ title, id, description }) => {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const dispatch = useAppDispatch();
 
@@ -46,6 +47,9 @@ export const Board: FC<MyProps> = ({ title, id }) => {
             <CardActionArea>
               <CardContent>
                 <Typography variant="h5">{title}</Typography>
+              </CardContent>
+              <CardContent>
+                <Typography variant="h5">{description}</Typography>
               </CardContent>
             </CardActionArea>
           </NavLink>

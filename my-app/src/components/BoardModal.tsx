@@ -4,18 +4,19 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch } from '../hooks/redux';
 import { addBoard, boardsSlice } from '../store/slices/boards';
 
-interface ITitle {
+interface boardForm {
   title: string;
+  description: string;
 }
 
 export const BoardModal = () => {
   const dispath = useAppDispatch();
   const { setOpen } = boardsSlice.actions;
-  const { control, handleSubmit } = useForm<ITitle>();
+  const { control, handleSubmit } = useForm<boardForm>();
 
-  const onSubmit: SubmitHandler<ITitle> = (data) => {
+  const onSubmit: SubmitHandler<boardForm> = (data) => {
     dispath(setOpen(false));
-    dispath(addBoard(data.title));
+    dispath(addBoard({ title: data.title, description: data.description }));
   };
 
   return (
@@ -42,6 +43,22 @@ export const BoardModal = () => {
               id="title"
               name="title"
               autoComplete="title"
+              autoFocus
+              onChange={(e) => field.onChange(e)}
+            />
+          )}
+        />
+        <Controller
+          name="description"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              margin="normal"
+              fullWidth
+              label="description"
+              id="description"
+              name="description"
+              autoComplete="description"
               autoFocus
               onChange={(e) => field.onChange(e)}
             />

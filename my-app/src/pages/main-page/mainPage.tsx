@@ -26,8 +26,14 @@ const MainPage = () => {
           {isLoading && <Loading />}
           {error && <Error message={error} />}
           <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 12 }}>
-            {boards.map(({ id, title }) => (
-              <Board key={id} id={id} title={title} setConfirmOpen={Modal} />
+            {boards.map(({ id, title, description }) => (
+              <Board
+                key={id}
+                id={id}
+                title={title}
+                description={description}
+                setConfirmOpen={Modal}
+              />
             ))}
           </Grid>
           <Dialog open={Modal} onClose={() => dispath(setOpen(false))}>

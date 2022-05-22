@@ -1,13 +1,14 @@
 import axios from 'axios';
 import { API_URL } from '../appConstants/api';
+import { IBoard } from '../types';
 import authHeader from './auth-header';
 
 const getAllBoards = () => {
   return axios.get(API_URL + 'boards', { headers: authHeader() });
 };
 
-const createBoard = (title: string) => {
-  return axios.post(API_URL + 'boards', { title }, { headers: authHeader() });
+const createBoard = (board: IBoard) => {
+  return axios.post(API_URL + 'boards', board, { headers: authHeader() });
 };
 
 const boardById = (id: string) => {
