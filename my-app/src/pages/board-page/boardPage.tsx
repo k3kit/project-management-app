@@ -24,7 +24,7 @@ const BoardPage = () => {
       <Header />
       <Box padding={2}>
         <Container>
-          <Grid container spacing={{ xs: 2 }}>
+          <Grid container spacing={{ xs: 2, height: '85vh' }}>
             {columns &&
               columns.map((column: IColumn) => (
                 <BoardItem
