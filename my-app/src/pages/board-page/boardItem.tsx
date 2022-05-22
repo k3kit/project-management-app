@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useState } from 'react';
+import React, { ChangeEvent, FC, useState, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -12,56 +12,23 @@ import {
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/redux';
 import { deleteColums, updateTitleColumns } from '../../store/slices/columns';
-import CheckIcon from '@mui/icons-material/Check';
-import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+
 import ClearIcon from '@mui/icons-material/Clear';
 import { IColumn } from '../../types';
 import ConfirmDialog from '../../components/ConfirmationModal';
+import { getTasks } from '../../store/slices/task';
+import { ColumnTitle } from './columnTitle';
 
 export const BoardItem: FC<IColumn> = ({ id, title, order }) => {
-  const [titleInput, setTitleInput] = useState(title);
-  const [titleEdit, setTitleEdit] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const dispatch = useAppDispatch();
   const { boardId } = useParams();
-
-  const handleSubmit = (titleInput: string) => {
-    if (boardId && id && titleInput) {
-      dispatch(
-        updateTitleColumns({
-          boardId,
-          columnsId: id,
-          column: { title: titleInput, order: order },
-        })
-      );
+  useEffect(() => {
+    if (boardId) {
+      dispatch(getTasks({ IdBoard: boardId, IdColumn: id }));
     }
-  };
+  }, [boardId, dispatch, id]);
 
-  const toggleTitle = () => {
-    if (!titleEdit) {
-      setTitleEdit(true);
-    }
-  };
-
-  const handleClickAway = () => {
-    if (titleEdit) {
-      setTitleEdit(false);
-    }
-  };
-
-  const handeleClickSub = () => {
-    handleSubmit(titleInput);
-    setTitleEdit(false);
-  };
-
-  const handleClickCancel = () => {
-    setTitleEdit(false);
-    setTitleInput(title);
-  };
-
-  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitleInput(e.target.value);
-  };
   const handleDelete = () => {
     if (boardId) {
       dispatch(deleteColums({ boardId: boardId, columnId: id }));
@@ -88,29 +55,7 @@ export const BoardItem: FC<IColumn> = ({ id, title, order }) => {
             display: 'flex',
           }}
         >
-          <ClickAwayListener onClickAway={handleClickAway}>
-            <Typography
-              color="#FFFFFF"
-              component="div"
-              sx={{ padding: 0.8, width: 151, height: 40 }}
-            >
-              {!titleEdit ? (
-                <Box onClick={toggleTitle} sx={{ cursor: 'pointer' }} color="#FFFFFF">
-                  {title}
-                </Box>
-              ) : (
-                <Paper variant="elevation" sx={{ display: 'flex', height: 30 }}>
-                  <IconButton color="primary" size="small" onClick={handeleClickSub}>
-                    <CheckIcon />
-                  </IconButton>
-                  <IconButton color="primary" size="small" onClick={handleClickCancel}>
-                    <CancelOutlinedIcon />
-                  </IconButton>
-                  <InputBase color="secondary" placeholder={title} onChange={handleOnChange} />
-                </Paper>
-              )}
-            </Typography>
-          </ClickAwayListener>
+          <ColumnTitle id={id} title={title} order={order}></ColumnTitle>
           <IconButton sx={{ height: 40 }} onClick={() => setConfirmOpen(true)}>
             <ClearIcon color="primary" height={25} />
           </IconButton>
