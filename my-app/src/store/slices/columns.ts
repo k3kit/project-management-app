@@ -1,7 +1,7 @@
 import { responsiveFontSizes } from '@mui/material';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { create } from 'domain';
-import columnsService from '../../services/columns.service';
+import columnsService, { Icolumn } from '../../services/columns.service';
 import { IColumn, ICreateColumn, IUpdateColumns } from '../../types';
 
 export const createColumns = createAsyncThunk(

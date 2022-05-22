@@ -37,7 +37,7 @@ export const ButtonCreate = () => {
       dispatch(
         createColumns({
           boardId,
-          column: { title: titleInput, order: columns.length + 1 },
+          column: { title: titleInput },
         })
       );
     }
