@@ -50,7 +50,7 @@ export const ColumnTitle: FC<IColumn> = ({ id, title, order }) => {
   return (
     <>
       <ClickAwayListener onClickAway={handleClickAway}>
-        <Typography color="#FFFFFF" component="div" sx={{ padding: 0.8, width: 151, height: 40 }}>
+        <Typography color="#FFFFFF" component="div" sx={{ padding: 0.8, width: '75%' }}>
           {!titleEdit ? (
             <Box onClick={toggleTitle} sx={{ cursor: 'pointer' }} color="#FFFFFF">
               {title}
