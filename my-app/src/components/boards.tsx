@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FC, useState, useCallback } from 'react';
 import {
+  Box,
   Button,
   Card,
   CardActionArea,
@@ -42,17 +43,23 @@ export const Board: FC<MyProps> = ({ title, id, description }) => {
       </ConfirmDialog>
 
       <Grid item xs={12} sm={6} md={4}>
-        <Card sx={{ width: 250, рeight: 150, display: 'flex', justifyContent: 'space-evenly' }}>
-          <NavLink to={`/board/${id}`}>
-            <CardActionArea>
-              <CardContent>
-                <Typography variant="h5">{title}</Typography>
-              </CardContent>
-              <CardContent>
-                <Typography variant="h5">{description}</Typography>
-              </CardContent>
-            </CardActionArea>
-          </NavLink>
+        <Card sx={{ width: 250, height: 150, display: 'flex', justifyContent: 'space-evenly' }}>
+          <Box minHeight="100%" minWidth="50%">
+            <NavLink to={`/board/${id}`}>
+              <CardActionArea>
+                <CardContent>
+                  <Typography variant="h5">{title}</Typography>
+                </CardContent>
+                <CardContent>
+                  {/* <Typography variant="h5"></Typography> */}
+                  <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                    {description}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </NavLink>
+          </Box>
+
           <CardActions>
             <Button
               variant="outlined"
