@@ -7,7 +7,6 @@ interface userData {
 export const getUsers = createAsyncThunk('/users', async (_, thunkAPI) => {
   try {
     const response = await userService.getAllUsers();
-    console.log(response);
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -16,7 +15,6 @@ export const getUsers = createAsyncThunk('/users', async (_, thunkAPI) => {
 export const deleteUsers = createAsyncThunk('/users', async (id: string, thunkAPI) => {
   try {
     const response = await userService.deleteUser(id);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
