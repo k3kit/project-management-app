@@ -32,6 +32,7 @@ const BoardPage = () => {
                   id={column.id}
                   title={column.title}
                   order={column.order}
+                  tasks={[]}
                 />
               ))}
             <ButtonCreate />
