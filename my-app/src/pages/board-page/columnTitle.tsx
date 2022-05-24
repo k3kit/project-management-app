@@ -1,5 +1,4 @@
 import { ClickAwayListener, Typography, Box, Paper, IconButton, InputBase } from '@mui/material';
-import { title } from 'process';
 import React, { ChangeEvent, FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/redux';
@@ -7,15 +6,18 @@ import { updateTitleColumns } from '../../store/slices/columns';
 import { IColumn } from '../../types';
 import CheckIcon from '@mui/icons-material/Check';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+
 export const ColumnTitle: FC<IColumn> = ({ id, title, order }) => {
   const [titleInput, setTitleInput] = useState(title);
   const [titleEdit, setTitleEdit] = useState(false);
+  const { boardId } = useParams();
+
   const toggleTitle = () => {
     if (!titleEdit) {
       setTitleEdit(true);
     }
   };
-  const { boardId } = useParams();
+
   const dispatch = useAppDispatch();
   const handleSubmit = (titleInput: string) => {
     if (boardId && id && titleInput) {
@@ -28,6 +30,7 @@ export const ColumnTitle: FC<IColumn> = ({ id, title, order }) => {
       );
     }
   };
+
   const handleClickAway = () => {
     if (titleEdit) {
       setTitleEdit(false);
@@ -47,6 +50,7 @@ export const ColumnTitle: FC<IColumn> = ({ id, title, order }) => {
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitleInput(e.target.value);
   };
+
   return (
     <>
       <ClickAwayListener onClickAway={handleClickAway}>
