@@ -51,7 +51,6 @@ export const Board: FC<MyProps> = ({ title, id, description }) => {
                   <Typography variant="h5">{title}</Typography>
                 </CardContent>
                 <CardContent>
-                  {/* <Typography variant="h5"></Typography> */}
                   <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                     {description}
                   </Typography>
