@@ -4,7 +4,6 @@ import { create } from 'domain';
 import { title } from 'process';
 import columnsService, { Icolumn, Task } from '../../services/columns.service';
 import { IColumn, ICreateColumn, IUpdateColumns } from '../../types';
-import { ITask } from './task';
 
 export const createColumns = createAsyncThunk(
   'columns/add',
@@ -32,7 +31,6 @@ export const updateTitleColumns = createAsyncThunk(
   async ({ boardId, columnsId, column }: IUpdateColumns, ThunkAPI) => {
     try {
       const response = await columnsService.updateColums(boardId, columnsId, column);
-      console.log(response.data);
       return response.data;
     } catch (error) {
       ThunkAPI.rejectWithValue(error);
@@ -63,7 +61,6 @@ export const getColumnById = createAsyncThunk(
   async ({ boardId, columnId }: IcolumnDeletee, ThunkAPI) => {
     try {
       const respons = await columnsService.getColumnId(boardId, columnId);
-      console.log(respons.data);
       return respons.data;
     } catch (error) {
       ThunkAPI.rejectWithValue(error);
@@ -73,14 +70,14 @@ export const getColumnById = createAsyncThunk(
 
 interface TaskType {
   boardId: string;
-  columnId: string;
+  columnsId: string;
   task: Task;
 }
 export const addTask = createAsyncThunk(
   'task/add',
-  async ({ boardId, columnId, task }: TaskType, ThunkAPI) => {
+  async ({ boardId, columnsId, task }: TaskType, ThunkAPI) => {
     try {
-      const respons = await columnsService.createTask(boardId, columnId, task);
+      const respons = await columnsService.createTask(boardId, columnsId, task);
       console.log(respons.data);
       return respons.data;
     } catch (error) {
@@ -89,12 +86,6 @@ export const addTask = createAsyncThunk(
   }
 );
 
-// export interface IIIII {
-//   id: string;
-//   title: string;
-//   order: number;
-//   tasks: ITask[];
-// }
 interface ColumnState {
   columns: IColumn[];
   isLoading: boolean;
@@ -134,9 +125,9 @@ export const columnsSlice = createSlice({
       state.isLoading = true;
     },
     [addTask.fulfilled.type]: (state, action) => {
-      const it = state.columns.find(({ id }) => id === action.payload.columnId);
-      it?.tasks.push({
-        id: action.payload.userId,
+      const column = state.columns.find(({ id }) => id === action.payload.columnId);
+      column?.tasks.push({
+        id: action.payload.id,
         title: action.payload.title,
         order: action.payload.order,
         description: action.payload.description,
@@ -145,5 +136,4 @@ export const columnsSlice = createSlice({
     },
   },
 });
-
 export default columnsSlice.reducer;
