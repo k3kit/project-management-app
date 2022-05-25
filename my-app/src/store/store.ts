@@ -5,7 +5,6 @@ import modalReducer from './slices/header';
 import userReducer from './slices/user';
 import boardReducer from './slices/boards';
 import columnsReducer from './slices/columns';
-import taskReducer from './slices/task';
 const rootReducer = combineReducers({
   authReducer,
   messageReducer,
@@ -13,7 +12,6 @@ const rootReducer = combineReducers({
   userReducer,
   boardReducer,
   columnsReducer,
-  taskReducer,
 });
 
 export const setupStore = () => {
