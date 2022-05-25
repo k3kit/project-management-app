@@ -1,6 +1,4 @@
 import { Icolumn, IcolumnTitle } from './services/columns.service';
-import { ITask } from './store/slices/task';
-
 export interface IUpdateColumns {
   boardId: string;
   columnsId: string;
@@ -16,6 +14,7 @@ export interface IColumn {
   title: string;
   order: number;
   tasks: ITask[];
+  index: number;
 }
 
 export interface IFormEdit {
@@ -32,4 +31,11 @@ export interface Jwt {
 export interface IBoard {
   title: string;
   description: string;
+}
+export interface ITask {
+  id: string;
+  title: string;
+  order: number;
+  description: string;
+  userId: string;
 }
