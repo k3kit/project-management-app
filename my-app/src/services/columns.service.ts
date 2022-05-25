@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '../appConstants/api';
-import { ITask } from '../store/slices/task';
+import { ITask } from '../types';
 import authHeader from './auth-header';
 export interface Icolumn {
   title: string;
@@ -12,7 +12,7 @@ export interface IcolumnTitle {
 export interface IcolumnTask {
   id: string;
   title: string;
-  order: 1;
+  order: number;
   tasks: ITask[];
 }
 const createColumns = (boardId: string, column: Icolumn) => {
