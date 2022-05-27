@@ -1,9 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import authService from '../../services/auth.service';
 import userService from '../../services/user.service';
-interface userData {
-  id: string;
-}
+
 export const getUsers = createAsyncThunk('/users', async (_, thunkAPI) => {
   try {
     const response = await userService.getAllUsers();
@@ -20,8 +18,16 @@ export const deleteUsers = createAsyncThunk('/users', async (id: string, thunkAP
     return thunkAPI.rejectWithValue(error);
   }
 });
-
-const initialState = { users: {}, error: '', user: {}, deleteUser: {} };
+export const getUserById = createAsyncThunk('/users', async (id: string, thunkAPI) => {
+  try {
+    const response = await userService.getUser(id);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+const initialState = { users: {}, error: '', user: '', deleteUser: {} };
 
 export const usersSlice = createSlice({
   name: 'user',
@@ -33,6 +39,9 @@ export const usersSlice = createSlice({
     },
     [getUsers.rejected.type]: (state, action) => {
       state.error = action.payload;
+    },
+    [getUserById.fulfilled.type]: (state, action) => {
+      state.user = action.payload.name;
     },
   },
 });
