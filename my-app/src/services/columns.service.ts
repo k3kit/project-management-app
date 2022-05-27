@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '../appConstants/api';
-import { ITask } from '../types';
+import { ITask, Task } from '../types';
 import authHeader from './auth-header';
 export interface Icolumn {
   title: string;
@@ -38,11 +38,6 @@ const updateColums = (boardId: string, columnsId: string, column: IcolumnTitle) 
   });
 };
 
-export interface Task {
-  title: string;
-  description: string;
-  userId: string;
-}
 const createTask = (boardId: string, columnId: string, task: Task) => {
   return axios.post(`${API_URL}boards/${boardId}/columns/${columnId}/tasks`, task, {
     headers: authHeader(),
@@ -59,5 +54,3 @@ const columnsService = {
 };
 
 export default columnsService;
-// https://calm-savannah-72235.herokuapp.com/boards/eead8be7-cbf6-43d2-9b4e-90572185e3d1/columns/35474d6b-0305-4764-93ae-a8598f24ab98/tasks
-// https://calm-savannah-72235.herokuapp.com/boards/eead8be7-cbf6-43d2-9b4e-90572185e3d1/columns/35474d6b-0305-4764-93ae-a8598f24ab98/tasks
