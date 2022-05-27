@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Dialog,
@@ -8,28 +8,14 @@ import {
   DialogActions,
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { useAppDispatch } from '../../hooks/redux';
 import { createColumns } from '../../store/slices/columns';
 
 export const ButtonCreate = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [titleInput, setTitleInput] = useState('');
   const { boardId } = useParams();
   const dispatch = useAppDispatch();
-  const { columns } = useAppSelector((state) => state.columnsReducer);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitleInput(e.target.value);
-    console.log(titleInput);
-  };
 
   const handleSubmit = () => {
     if (boardId) {
@@ -46,13 +32,13 @@ export const ButtonCreate = () => {
   return (
     <>
       <Button
-        onClick={handleClickOpen}
+        onClick={() => setOpen(true)}
         variant="contained"
         sx={{ height: 50, width: 200, marginTop: 16 }}
       >
         add a column
       </Button>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Enter column name</DialogTitle>
         <DialogContent>
           <TextField
@@ -63,7 +49,7 @@ export const ButtonCreate = () => {
             type="text"
             fullWidth
             variant="standard"
-            onChange={handleOnChange}
+            onChange={(e) => setTitleInput(e.target.value)}
           />
         </DialogContent>
         <DialogActions>
