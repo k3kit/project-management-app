@@ -11,6 +11,7 @@ export const ColumnTitle: FC<IColumn> = ({ id, title, order }) => {
   const [titleInput, setTitleInput] = useState(title);
   const [titleEdit, setTitleEdit] = useState(false);
   const { boardId } = useParams();
+  const dispatch = useAppDispatch();
 
   const toggleTitle = () => {
     if (!titleEdit) {
@@ -18,7 +19,6 @@ export const ColumnTitle: FC<IColumn> = ({ id, title, order }) => {
     }
   };
 
-  const dispatch = useAppDispatch();
   const handleSubmit = (titleInput: string) => {
     if (boardId && id && titleInput) {
       dispatch(
@@ -47,10 +47,6 @@ export const ColumnTitle: FC<IColumn> = ({ id, title, order }) => {
     setTitleInput(title);
   };
 
-  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitleInput(e.target.value);
-  };
-
   return (
     <>
       <ClickAwayListener onClickAway={handleClickAway}>
@@ -67,7 +63,11 @@ export const ColumnTitle: FC<IColumn> = ({ id, title, order }) => {
               <IconButton color="primary" size="small" onClick={handleClickCancel}>
                 <CancelOutlinedIcon />
               </IconButton>
-              <InputBase color="secondary" placeholder={title} onChange={handleOnChange} />
+              <InputBase
+                color="secondary"
+                placeholder={title}
+                onChange={(e) => setTitleInput(e.target.value)}
+              />
             </Paper>
           )}
         </Typography>
