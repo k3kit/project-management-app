@@ -1,11 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import boardsService from '../../services/boards.service';
-import { IBoard } from '../../types';
-
-interface boardType {
-  id: string;
-  title: string;
-}
+import { boardType, IBoard } from '../../types';
 
 export const getBoards = createAsyncThunk('/boards', async (_, ThunkAPI) => {
   try {
