@@ -39,3 +39,23 @@ export interface ITask {
   description: string;
   userId: string;
 }
+
+export interface IcolumnDelete {
+  boardId: string;
+  columnId: string;
+}
+export interface Task {
+  title: string;
+  description: string;
+  userId: string;
+}
+export interface ITaskType {
+  boardId: string;
+  columnsId: string;
+  task: Task;
+}
+
+export interface boardType {
+  id: string;
+  title: string;
+}
