@@ -9,13 +9,15 @@ import {
   Grid,
   Snackbar,
   Alert,
+  AppBar,
+  Toolbar,
 } from '@mui/material';
 import { SubmitHandler, useForm, Controller } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { login } from '../../store/slices/Auth';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { CharacterSlice } from '../../store/slices/Message';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import validationShema from '../../yup';
 
 interface IFormLogin {
@@ -26,7 +28,7 @@ interface MyProps {
   setOpenSignIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const LoginPage: FC<MyProps> = ({ setOpenSignIn }) => {
+const LoginPage = () => {
   const navigate = useNavigate();
   const {
     control,
@@ -58,72 +60,86 @@ const LoginPage: FC<MyProps> = ({ setOpenSignIn }) => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Box
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleSubmit(onSubmit)}>
-          <Controller
-            name="login"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="login"
-                label={errors.login ? errors.login.message : 'Login'}
+    <>
+      <Box sx={{ bgcolor: '#cfe8fc', height: '100vh' }}>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography sx={{ flexGrow: 1 }} variant="h6">
+              Project management app
+            </Typography>
+            <Button sx={{ mr: 2 }} variant="contained">
+              <Link to="/"> Go to Welcome Page</Link>
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 8,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleSubmit(onSubmit)}>
+              <Controller
                 name="login"
-                autoComplete="login"
-                autoFocus
-                onChange={(e) => field.onChange(e)}
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="login"
+                    label={errors.login ? errors.login.message : 'Login'}
+                    name="login"
+                    autoComplete="login"
+                    autoFocus
+                    onChange={(e) => field.onChange(e)}
+                  />
+                )}
               />
-            )}
-          />
-          <Controller
-            name="password"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                margin="normal"
-                fullWidth
-                label={errors.password ? errors.password.message : 'Password'}
-                type="password"
-                autoComplete="current-password"
-                onChange={(e) => field.onChange(e)}
+              <Controller
+                name="password"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    margin="normal"
+                    fullWidth
+                    label={errors.password ? errors.password.message : 'Password'}
+                    type="password"
+                    autoComplete="current-password"
+                    onChange={(e) => field.onChange(e)}
+                  />
+                )}
               />
-            )}
-          />
-          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-            Sign In
-          </Button>
-          <Snackbar open={error ? true : false} autoHideDuration={3000}>
-            <Alert
-              onClose={handleClose}
-              sx={{
-                marginTop: 1,
-                marginBottom: 1,
-              }}
-              severity="warning"
-            >
-              {error}
-            </Alert>
-          </Snackbar>
-          <Grid container>
-            <Grid item xs></Grid>
-          </Grid>
-        </Box>
+              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                Sign In
+              </Button>
+              <Snackbar open={error ? true : false} autoHideDuration={3000}>
+                <Alert
+                  onClose={handleClose}
+                  sx={{
+                    marginTop: 1,
+                    marginBottom: 1,
+                  }}
+                  severity="warning"
+                >
+                  {error}
+                </Alert>
+              </Snackbar>
+              <Grid container>
+                <Grid item xs></Grid>
+              </Grid>
+            </Box>
+          </Box>
+        </Container>
       </Box>
-    </Container>
+    </>
   );
 };
 export default LoginPage;

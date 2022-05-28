@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import {
   Container,
   CssBaseline,
@@ -9,15 +9,18 @@ import {
   Grid,
   Alert,
   Snackbar,
+  AppBar,
+  Toolbar,
 } from '@mui/material';
-
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { register } from '../../store/slices/Auth';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import LoadingButton from '@mui/lab/LoadingButton';
 import { CharacterSlice } from '../../store/slices/Message';
 import validationShema from '../../yup';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface IFormRegister {
   name: string;
@@ -25,22 +28,25 @@ interface IFormRegister {
   password: string;
 }
 
-interface MyProps {
-  setOpenSignUp: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const Register: FC<MyProps> = ({ setOpenSignUp }) => {
+const Register = () => {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<IFormRegister>({
+    defaultValues: {
+      name: '',
+      login: '',
+      password: '',
+    },
     resolver: yupResolver(validationShema.validationRegister),
   });
 
   const dispatch = useAppDispatch();
   const { addMessageError, addStatusText } = CharacterSlice.actions;
   const { error, statusText } = useAppSelector((state) => state.messageReducer);
+  const { isLoading, isRegister } = useAppSelector((state) => state.authReducer);
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
@@ -51,116 +57,147 @@ const Register: FC<MyProps> = ({ setOpenSignUp }) => {
 
   const onSubmit: SubmitHandler<IFormRegister> = (data) => {
     dispatch(register(data));
-    if (error) {
-      setOpenSignUp(false);
-    }
+    reset({ name: '', login: '', password: '' });
   };
+
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Box
-        sx={{
-          marginTop: 6,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Controller
-            name="name"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                margin="normal"
-                fullWidth={true}
-                label={errors.name ? errors.name.message : 'Username'}
-                autoComplete="name"
-                autoFocus
-                onChange={(e) => field.onChange(e)}
-              />
-            )}
-          />
-          <Controller
-            name="login"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                margin="normal"
-                fullWidth
-                label={errors.login ? errors.login.message : 'Login'}
-                autoComplete="Login"
-                autoFocus
-                onChange={(e) => field.onChange(e)}
-              />
-            )}
-          />
-          <Controller
-            name="password"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                margin="normal"
-                fullWidth
-                label={errors.password ? errors.password.message : 'Password'}
-                type="password"
-                autoComplete="current-password"
-                onChange={(e) => field.onChange(e)}
-              />
-            )}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            fullWidth={true}
-            disableElevation={true}
-            sx={{
-              marginTop: 1,
-              marginBottom: 1,
-            }}
-          >
-            Sign Up
+    <Box sx={{ bgcolor: '#cfe8fc', height: '100vh' }}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography sx={{ flexGrow: 1 }} variant="h6">
+            Project management app
+          </Typography>
+          <Button sx={{ mr: 2 }} variant="contained">
+            <Link to="/"> Go to Welcome Page</Link>
           </Button>
-          <Snackbar open={error ? true : false} autoHideDuration={3000}>
-            <Alert
-              onClose={handleClose}
+        </Toolbar>
+      </AppBar>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 6,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Typography component="h1" variant="h5">
+            Sign up
+          </Typography>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Controller
+              name="name"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  margin="normal"
+                  fullWidth={true}
+                  label={errors.name ? errors.name.message : 'Username'}
+                  autoComplete="name"
+                  autoFocus
+                  value={field.value}
+                  onChange={(e) => field.onChange(e)}
+                />
+              )}
+            />
+            <Controller
+              name="login"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  label={errors.login ? errors.login.message : 'Login'}
+                  autoComplete="login"
+                  autoFocus
+                  value={field.value}
+                  onChange={(e) => field.onChange(e)}
+                />
+              )}
+            />
+            <Controller
+              name="password"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  label={errors.password ? errors.password.message : 'Password'}
+                  type="password"
+                  autoComplete="current-password"
+                  value={field.value}
+                  onChange={(e) => field.onChange(e)}
+                />
+              )}
+            />
+            {isLoading ? (
+              <LoadingButton size="large" variant="contained" loading={isLoading} fullWidth={true}>
+                Sign Up
+              </LoadingButton>
+            ) : (
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth={true}
+                disableElevation={true}
+                sx={{
+                  marginTop: 1,
+                  marginBottom: 1,
+                }}
+              >
+                Sign Up
+              </Button>
+            )}
+            <Button
+              variant="outlined"
+              fullWidth={true}
+              disableElevation={true}
+              color="inherit"
               sx={{
                 marginTop: 1,
                 marginBottom: 1,
               }}
-              severity="warning"
             >
-              {error}
-            </Alert>
-          </Snackbar>
-          <Snackbar
-            open={statusText ? true : false}
-            autoHideDuration={3000}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
-            }}
-          >
-            <Alert
+              <Link to="/login"> If you already have an account, just login.</Link>
+            </Button>
+            <Snackbar open={error ? true : false} autoHideDuration={3000} onClose={handleClose}>
+              <Alert
+                sx={{
+                  marginTop: 1,
+                  marginBottom: 1,
+                }}
+                severity="warning"
+              >
+                {error}
+              </Alert>
+            </Snackbar>
+            <Snackbar
               onClose={() => dispatch(addStatusText(''))}
-              sx={{
-                marginTop: 1,
-                marginBottom: 1,
+              open={statusText ? true : false}
+              autoHideDuration={3000}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
               }}
-              severity="success"
             >
-              {statusText}
-            </Alert>
-          </Snackbar>
-          <Grid container>
-            <Grid item xs></Grid>
-          </Grid>
-        </form>
-      </Box>
-    </Container>
+              <Alert
+                sx={{
+                  marginTop: 1,
+                  marginBottom: 1,
+                }}
+                severity="success"
+              >
+                {statusText}
+              </Alert>
+            </Snackbar>
+            <Grid container>
+              <Grid item xs></Grid>
+            </Grid>
+          </form>
+        </Box>
+      </Container>
+    </Box>
   );
 };
 

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { Container, Dialog, Grid, Typography } from '@mui/material';
-import { Box } from '@mui/system';
+import { Box, Container, Dialog, Grid, Typography } from '@mui/material';
 import { BoardModal } from '../../components/BoardModal';
 import { Board } from '../../components/Boards';
 import { Header } from '../../components/header';

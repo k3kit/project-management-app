@@ -25,10 +25,10 @@ const WelcomePage = () => {
             ) : (
               <>
                 <Button sx={{ mr: 2 }} variant="contained" onClick={() => setOpenSignIn(true)}>
-                  Sign In
+                  <Link to="login"> Sign In</Link>
                 </Button>
                 <Button sx={{ mr: 2 }} variant="contained" onClick={() => setOpenSignUp(true)}>
-                  Sign Up
+                  <Link to="register"> Sign Up </Link>
                 </Button>
               </>
             )}
@@ -37,12 +37,12 @@ const WelcomePage = () => {
       </Box>
       <Box sx={{ bgcolor: '#cfe8fc', height: '100vh' }}>
         <Container>
-          <Dialog open={openSignIn} onClose={() => setOpenSignIn(false)}>
+          {/* <Dialog open={openSignIn} onClose={() => setOpenSignIn(false)}>
             <LoginPage setOpenSignIn={setOpenSignIn} />
           </Dialog>
           <Dialog open={openSignUp} onClose={() => setOpenSignUp(false)}>
             <Register setOpenSignUp={setOpenSignUp} />
-          </Dialog>
+          </Dialog> */}
           <Typography align={'center'} variant="h1" component="div" gutterBottom>
             Welcome
           </Typography>

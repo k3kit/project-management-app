@@ -23,7 +23,6 @@ export const register = createAsyncThunk(
     try {
       const data = await authService.register(name, login, password);
       thunkAPI.dispatch(addStatusText('registered'));
-      console.log(data);
       return data;
     } catch (error) {
       const message =
@@ -67,10 +66,12 @@ interface IAuth {
   isLoggedIn: boolean;
   user: IUser;
   token: string;
+  isRegister: boolean;
+  isLoading: boolean;
 }
 const initialState: IAuth = token
-  ? { isLoggedIn: true, user: {} as IUser, token: '' }
-  : { isLoggedIn: false, user: {} as IUser, token: 'null' };
+  ? { isLoggedIn: true, user: {} as IUser, token: '', isRegister: false, isLoading: false }
+  : { isLoggedIn: false, user: {} as IUser, token: 'null', isRegister: false, isLoading: false };
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -80,9 +81,16 @@ export const authSlice = createSlice({
     [register.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
       state.isLoggedIn = false;
       state.user = action.payload;
+      state.isRegister = true;
+      state.isLoading = false;
     },
     [register.rejected.type]: (state, action) => {
       state.isLoggedIn = false;
+      state.isLoading = false;
+      state.isRegister = false;
+    },
+    [register.pending.type]: (state, action) => {
+      state.isLoading = true;
     },
     [login.fulfilled.type]: (state, action) => {
       state.isLoggedIn = true;
