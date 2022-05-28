@@ -1,23 +1,42 @@
 import React from 'react';
 import { GitHub } from '@mui/icons-material';
-import { Container, IconButton, Link, Typography } from '@mui/material';
-import { Box } from '@mui/system';
+import {
+  BottomNavigationAction,
+  Box,
+  Container,
+  Grid,
+  IconButton,
+  Link,
+  Stack,
+  Typography,
+} from '@mui/material';
 
+import rs_svg from '../icon/rs_school.svg';
 export const Footer = () => {
   return (
     <footer>
-      <Box component="footer" sx={{ bgcolor: 'background.paper', py: 2 }}>
+      <Box component="footer" sx={{ bgcolor: '#187bca', py: 2 }}>
         <Container maxWidth="lg">
-          <Typography variant="h6" align="center" gutterBottom>
-            <IconButton>
-              <GitHub></GitHub>
-            </IconButton>
-            <Link href="https://github.com/k3kit"> GitHub: k3kit</Link>
-          </Typography>
-
-          <Typography variant="subtitle1" align="center" color="text.secondary" component="p">
-            RS School
-          </Typography>
+          <Grid container direction="row" justifyContent="space-between" alignItems="center">
+            <Grid item>
+              <Typography variant="h6" align="center" gutterBottom>
+                <IconButton>
+                  <GitHub></GitHub>
+                </IconButton>
+                <Link href="https://github.com/k3kit" underline="none" color="text.secondary">
+                  GitHub: k3kit
+                </Link>
+              </Typography>
+            </Grid>
+            <Grid item sx={{ width: 70, height: 50 }}>
+              <Link href="https://rs.school/">
+                <img src={rs_svg} alt="" />
+              </Link>
+            </Grid>
+            <Grid item>
+              <Typography>&copy;2022</Typography>
+            </Grid>
+          </Grid>
         </Container>
       </Box>
     </footer>
