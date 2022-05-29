@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { useEffect } from 'react';
 import {
   Container,
   CssBaseline,
@@ -11,6 +11,7 @@ import {
   Alert,
   AppBar,
   Toolbar,
+  Avatar,
 } from '@mui/material';
 import { SubmitHandler, useForm, Controller } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
@@ -19,13 +20,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { CharacterSlice } from '../../store/slices/Message';
 import { Link, useNavigate } from 'react-router-dom';
 import validationShema from '../../yup';
-
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 interface IFormLogin {
   login: string;
   password: string;
-}
-interface MyProps {
-  setOpenSignIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const LoginPage = () => {
@@ -82,9 +80,13 @@ const LoginPage = () => {
               alignItems: 'center',
             }}
           >
+            <Avatar sx={{ bgcolor: '#cfe8fc' }}>
+              <AccountCircleIcon color="primary" fontSize="large"></AccountCircleIcon>
+            </Avatar>
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
+
             <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleSubmit(onSubmit)}>
               <Controller
                 name="login"
@@ -120,9 +122,8 @@ const LoginPage = () => {
               <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                 Sign In
               </Button>
-              <Snackbar open={error ? true : false} autoHideDuration={3000}>
+              <Snackbar open={error ? true : false} autoHideDuration={6000} onClose={handleClose}>
                 <Alert
-                  onClose={handleClose}
                   sx={{
                     marginTop: 1,
                     marginBottom: 1,
