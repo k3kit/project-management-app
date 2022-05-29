@@ -30,7 +30,7 @@ export const register = createAsyncThunk(
         error.message ||
         error.toString();
       thunkAPI.dispatch(addMessageError(message));
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue('error');
     }
   }
 );
@@ -46,10 +46,8 @@ export const login = createAsyncThunk(
         (error.response && error.response.data && error.response.data.message) ||
         error.message ||
         error.toString();
-      console.log(message);
-
       thunkAPI.dispatch(addMessageError(message));
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue('error');
     }
   }
 );
@@ -68,10 +66,25 @@ interface IAuth {
   token: string;
   isRegister: boolean;
   isLoading: boolean;
+  error: string;
 }
 const initialState: IAuth = token
-  ? { isLoggedIn: true, user: {} as IUser, token: '', isRegister: false, isLoading: false }
-  : { isLoggedIn: false, user: {} as IUser, token: 'null', isRegister: false, isLoading: false };
+  ? {
+      isLoggedIn: true,
+      user: {} as IUser,
+      token: '',
+      isRegister: false,
+      isLoading: false,
+      error: '',
+    }
+  : {
+      isLoggedIn: false,
+      user: {} as IUser,
+      token: 'null',
+      isRegister: false,
+      isLoading: false,
+      error: '',
+    };
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -88,6 +101,7 @@ export const authSlice = createSlice({
       state.isLoggedIn = false;
       state.isLoading = false;
       state.isRegister = false;
+      state.error = action.payload;
     },
     [register.pending.type]: (state, action) => {
       state.isLoading = true;
@@ -98,9 +112,15 @@ export const authSlice = createSlice({
     },
     [login.rejected.type]: (state, action) => {
       state.isLoggedIn = false;
+      state.error = action.payload;
+      state.isLoading = false;
+    },
+    [login.pending.type]: (state, action) => {
+      state.isLoading = true;
     },
     [logout.fulfilled.type]: (state, action) => {
       state.isLoggedIn = false;
+      state.isLoading = false;
     },
   },
 });

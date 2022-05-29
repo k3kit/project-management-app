@@ -21,6 +21,7 @@ import { CharacterSlice } from '../../store/slices/Message';
 import { Link, useNavigate } from 'react-router-dom';
 import validationShema from '../../yup';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { LoadingButton } from '@mui/lab';
 interface IFormLogin {
   login: string;
   password: string;
@@ -38,7 +39,7 @@ const LoginPage = () => {
   const { addMessageError } = CharacterSlice.actions;
   const dispatch = useAppDispatch();
   const { error } = useAppSelector((state) => state.messageReducer);
-  const { isLoggedIn } = useAppSelector((state) => state.authReducer);
+  const { isLoggedIn, isLoading } = useAppSelector((state) => state.authReducer);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -119,9 +120,20 @@ const LoginPage = () => {
                   />
                 )}
               />
-              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                Sign In
-              </Button>
+              {isLoading ? (
+                <LoadingButton
+                  size="large"
+                  variant="contained"
+                  loading={isLoading}
+                  fullWidth={true}
+                >
+                  Sign In
+                </LoadingButton>
+              ) : (
+                <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                  Sign In
+                </Button>
+              )}
               <Snackbar open={error ? true : false} autoHideDuration={6000} onClose={handleClose}>
                 <Alert
                   sx={{
