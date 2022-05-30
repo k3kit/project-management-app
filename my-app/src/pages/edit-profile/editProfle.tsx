@@ -1,13 +1,13 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import EditProfile from '../../components/editProfile';
-import { Header } from '../../components/header';
+import EditProfile from '../../components/profile/editProfile';
+import { Header } from '../../components/header/header';
 
 const EditPage = () => {
   return (
     <>
       <Header />
-      <Box sx={{ height: '100vh' }}>
+      <Box sx={{ height: '73vh' }}>
         <EditProfile />
       </Box>
     </>

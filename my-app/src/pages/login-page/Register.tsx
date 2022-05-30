@@ -30,6 +30,7 @@ interface IFormRegister {
 }
 
 const Register = () => {
+  const navigate = useNavigate();
   const {
     control,
     handleSubmit,
@@ -47,7 +48,13 @@ const Register = () => {
   const dispatch = useAppDispatch();
   const { addMessageError, addStatusText } = CharacterSlice.actions;
   const { error, statusText } = useAppSelector((state) => state.messageReducer);
-  const { isLoading, isRegister } = useAppSelector((state) => state.authReducer);
+  const { isLoading, isRegister, isLoggedIn } = useAppSelector((state) => state.authReducer);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/main');
+    }
+  }, [isLoggedIn, navigate]);
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
@@ -62,8 +69,8 @@ const Register = () => {
   };
 
   return (
-    <Box sx={{ bgcolor: '#cfe8fc', height: '100vh' }}>
-      <AppBar position="static">
+    <Box sx={{ bgcolor: '#cfe8fc' }}>
+      <AppBar position="sticky">
         <Toolbar>
           <Typography sx={{ flexGrow: 1 }} variant="h6">
             Project management app
@@ -77,7 +84,7 @@ const Register = () => {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 6,
+            marginTop: 4,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',

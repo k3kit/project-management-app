@@ -6,11 +6,12 @@ import {
   DialogContent,
   TextField,
   DialogActions,
+  Box,
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/redux';
 import { createColumns } from '../../store/slices/columns';
-
+import AddBoxIcon from '@mui/icons-material/AddBox';
 export const ButtonCreate = () => {
   const [open, setOpen] = useState(false);
   const [titleInput, setTitleInput] = useState('');
@@ -31,13 +32,17 @@ export const ButtonCreate = () => {
 
   return (
     <>
-      <Button
-        onClick={() => setOpen(true)}
-        variant="contained"
-        sx={{ height: 50, width: 200, marginTop: 16 }}
-      >
-        add a column
-      </Button>
+      <Box component="span" padding={5}>
+        <Button
+          startIcon={<AddBoxIcon />}
+          onClick={() => setOpen(true)}
+          variant="contained"
+          sx={{ height: 50, width: 200, marginTop: 16 }}
+        >
+          add a column
+        </Button>
+      </Box>
+
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Enter column name</DialogTitle>
         <DialogContent>

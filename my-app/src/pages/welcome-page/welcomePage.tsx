@@ -13,21 +13,31 @@ const WelcomePage = () => {
   return (
     <>
       <Box>
-        <AppBar position="static">
+        <AppBar position="sticky">
           <Toolbar>
             <Typography sx={{ flexGrow: 1 }} variant="h6">
               Project management app
             </Typography>
             {isLoggedIn ? (
-              <Button sx={{ mr: 2 }} variant="contained">
+              <Button sx={{ mr: 2 }} size="small" variant="contained">
                 <Link to="main"> Go to Main Page</Link>
               </Button>
             ) : (
               <>
-                <Button sx={{ mr: 2 }} variant="contained" onClick={() => setOpenSignIn(true)}>
+                <Button
+                  sx={{ mr: 2 }}
+                  variant="contained"
+                  size="medium"
+                  onClick={() => setOpenSignIn(true)}
+                >
                   <Link to="login"> Sign In</Link>
                 </Button>
-                <Button sx={{ mr: 2 }} variant="contained" onClick={() => setOpenSignUp(true)}>
+                <Button
+                  sx={{ mr: 2 }}
+                  variant="contained"
+                  size="medium"
+                  onClick={() => setOpenSignUp(true)}
+                >
                   <Link to="register"> Sign Up </Link>
                 </Button>
               </>

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Box, Container, Dialog, Grid, Typography } from '@mui/material';
-import { BoardModal } from '../../components/BoardModal';
-import { Board } from '../../components/Boards';
-import { Header } from '../../components/header';
+import { BoardModal } from '../../components/board/BoardModal';
+import { Board } from '../../components/board/Boards';
+import { Header } from '../../components/header/header';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { boardsSlice, getBoards } from '../../store/slices/boards';
 import { Loading } from '../../components/Loading';
@@ -20,8 +20,8 @@ const MainPage = () => {
   return (
     <>
       <Header />
-      <Box sx={{ bgcolor: '#cfe8fc', height: '100vh', marginTop: 2 }}>
-        <Container id="main">
+      <Box sx={{ bgcolor: '#cfe8fc', marginTop: 2 }}>
+        <Container>
           {isLoading && <Loading />}
           {error && <Error message={error} />}
           <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 12 }}>
