@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '../appConstants/api';
-import { ITask, Task } from '../types';
+import { ITask, ITaskTypeUpdate, Task } from '../types';
 import authHeader from './auth-header';
 export interface Icolumn {
   title: string;
@@ -38,12 +38,28 @@ const updateColums = (boardId: string, columnsId: string, column: IcolumnTitle) 
   });
 };
 
+const updateTask = (boardId: string, columnsId: string, taskId: string, task: ITaskTypeUpdate) => {
+  return axios.put(`${API_URL}boards/${boardId}/columns/${columnsId}/tasks/${taskId}`, task, {
+    headers: authHeader(),
+  });
+};
+
 const createTask = (boardId: string, columnId: string, task: Task) => {
   return axios.post(`${API_URL}boards/${boardId}/columns/${columnId}/tasks`, task, {
     headers: authHeader(),
   });
 };
 
+const getTaskId = (boardId: string, columnId: string, taskId: string) => {
+  return axios.get(`${API_URL}boards/${boardId}/columns/${columnId}/tasks/${taskId}`, {
+    headers: authHeader(),
+  });
+};
+const getAllTask = (boardId: string, columnId: string) => {
+  return axios.get(`${API_URL}boards/${boardId}/columns/${columnId}/tasks`, {
+    headers: authHeader(),
+  });
+};
 const columnsService = {
   createColumns,
   getAllColumns,
@@ -51,6 +67,9 @@ const columnsService = {
   updateColums,
   getColumnId,
   createTask,
+  getTaskId,
+  getAllTask,
+  updateTask,
 };
 
 export default columnsService;
