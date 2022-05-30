@@ -17,7 +17,7 @@ export const Footer = () => {
     <footer>
       <Box component="footer" sx={{ bgcolor: '#187bca', py: 2 }}>
         <Container maxWidth="lg">
-          <Grid container direction="row" justifyContent="space-between" alignItems="center">
+          <Grid container justifyContent="space-between" alignItems="center">
             <Grid item>
               <Typography variant="h6" align="center" gutterBottom>
                 <IconButton>
