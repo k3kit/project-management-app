@@ -88,7 +88,13 @@ const LoginPage = () => {
               Sign in
             </Typography>
 
-            <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleSubmit(onSubmit)}>
+            <Box
+              component="form"
+              noValidate
+              sx={{ mt: 1 }}
+              onSubmit={handleSubmit(onSubmit)}
+              height="77vh"
+            >
               <Controller
                 name="login"
                 control={control}

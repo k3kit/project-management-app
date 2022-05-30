@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
-import { AppBar, Box, Button, Container, Dialog, Toolbar, Typography } from '@mui/material';
+import { useState } from 'react';
+import {
+  AppBar,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  Divider,
+  Stack,
+  Toolbar,
+  Typography,
+} from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/redux';
-import LoginPage from '../login-page/loginPage';
-import Register from '../login-page/Register';
 const WelcomePage = () => {
   const [openSignIn, setOpenSignIn] = useState(false);
   const [openSignUp, setOpenSignUp] = useState(false);
@@ -45,17 +54,49 @@ const WelcomePage = () => {
           </Toolbar>
         </AppBar>
       </Box>
-      <Box sx={{ bgcolor: '#cfe8fc', height: '100vh' }}>
+      <Box sx={{ bgcolor: '#cfe8fc' }}>
         <Container>
-          {/* <Dialog open={openSignIn} onClose={() => setOpenSignIn(false)}>
-            <LoginPage setOpenSignIn={setOpenSignIn} />
-          </Dialog>
-          <Dialog open={openSignUp} onClose={() => setOpenSignUp(false)}>
-            <Register setOpenSignUp={setOpenSignUp} />
-          </Dialog> */}
-          <Typography align={'center'} variant="h1" component="div" gutterBottom>
-            Welcome
-          </Typography>
+          <Container maxWidth="sm" sx={{ paddingTop: '20px' }}>
+            <Typography
+              component="h1"
+              variant="h2"
+              align="center"
+              color="text.primary"
+              gutterBottom
+            >
+              Project Management System
+            </Typography>
+            <Typography variant="h5" align="center" color="text.secondary" paragraph>
+              A project management system is an application that helps an individual in a team or
+              group of developers achieve their goals.
+            </Typography>
+            <Divider variant="middle" />
+            <Stack sx={{ pt: 4 }} spacing={2} justifyContent="center">
+              <Typography variant="h5" align="center" color="text.secondary">
+                About the course
+              </Typography>
+              <Typography variant="h6" align="center" color="text.secondary">
+                RS School is free-of-charge and community-based education program conducted by The
+                Rolling Scopes developer community since 2013. Everyone can study at RS School,
+                regardless of age, professional employment, or place of residence. The mentors and
+                trainers of our school are front-end and javascript developers from different
+                companies and countries.
+              </Typography>
+            </Stack>
+            <Divider variant="middle" />
+            <Stack sx={{ pt: 6 }} spacing={4} justifyContent="center">
+              <Card sx={{ minWidth: 275 }}>
+                <CardContent>
+                  <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                    About the team
+                  </Typography>
+                  <Typography variant="h5" component="div">
+                    Nikita Berezkin
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Stack>
+          </Container>
         </Container>
       </Box>
     </>

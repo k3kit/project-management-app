@@ -29,7 +29,7 @@ export const Header = () => {
   const { boardId } = useParams();
 
   const setFixed = () => {
-    if (window.scrollY >= 100) {
+    if (window.scrollY >= 50) {
       setFix(true);
     } else {
       setFix(false);
@@ -40,7 +40,7 @@ export const Header = () => {
   const handleLogout = () => {
     dispath(logout());
   };
-  useEffect(() => {});
+  useEffect(() => { });
 
   const openModal = () => {
     dispath(setOpen(true));
@@ -141,6 +141,9 @@ export const Header = () => {
               <Switch defaultChecked color="secondary" />
               <Typography>RU</Typography>
             </Stack>
+            <Button sx={{ mr: 2 }} variant="contained">
+              <Link to="/"> Go to Welcome Page</Link>
+            </Button>
           </Box>
         </Toolbar>
       </Container>

@@ -1,16 +1,19 @@
 import { Satellite } from '@mui/icons-material';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { string } from 'yup/lib/locale';
 
 import columnsService from '../../services/columns.service';
 import {
   IColumn,
   IcolumnDelete,
+  IColumnType,
   ICreateColumn,
   ITask,
   ITask2,
   ITaskAll,
   ITaskId,
   ITaskType,
+  ITaskTypeDrag,
   ITaskTypeUpdate,
   IUpdateColumns,
 } from '../../types';
@@ -89,7 +92,6 @@ export const addTask = createAsyncThunk(
   async ({ boardId, columnsId, task }: ITaskType, ThunkAPI) => {
     try {
       const respons = await columnsService.createTask(boardId, columnsId, task);
-      console.log(respons.data);
       return respons.data;
     } catch (error) {
       ThunkAPI.rejectWithValue(error);
@@ -102,7 +104,6 @@ export const getTaskById = createAsyncThunk(
   async ({ boardId, columnId, taskId }: ITaskId, ThunkAPI) => {
     try {
       const respons = await columnsService.getTaskId(boardId, columnId, taskId);
-      console.log(respons.data);
       return respons.data;
     } catch (error) {
       ThunkAPI.rejectWithValue(error);
@@ -111,12 +112,10 @@ export const getTaskById = createAsyncThunk(
 );
 
 export const getAllTask = createAsyncThunk(
-  'task/id',
+  'task/all',
   async ({ boardId, columnId }: ITaskAll, ThunkAPI) => {
     try {
       const respons = await columnsService.getAllTask(boardId, columnId);
-      console.log(respons.data);
-
       return respons.data;
     } catch (error) {
       ThunkAPI.rejectWithValue(error);
@@ -130,6 +129,22 @@ export const updateTask = createAsyncThunk(
     try {
       const response = await columnsService.updateTask(boardId, columnsId, taskId, task);
       return response.data;
+    } catch (error) {
+      ThunkAPI.rejectWithValue(error);
+    }
+  }
+);
+interface ITaskDelete {
+  boardId: string;
+  columnId: string;
+  taskId: string;
+}
+export const deleteTask = createAsyncThunk(
+  'taskdel',
+  async ({ boardId, columnId, taskId }: ITaskDelete, ThunkAPI) => {
+    try {
+      await columnsService.deleteTask(boardId, columnId, taskId);
+      return { columnId: columnId, taskId };
     } catch (error) {
       ThunkAPI.rejectWithValue(error);
     }
@@ -150,6 +165,7 @@ interface ColumnState {
   fade: boolean;
   taskInfo: ITask[];
   AllTask: ITask2[];
+  error: string;
 }
 
 const initialState: ColumnState = {
@@ -157,14 +173,22 @@ const initialState: ColumnState = {
   isLoading: false,
   dialog: false,
   fade: false,
+  error: '',
   taskInfo: [],
   AllTask: [],
 };
-export type GetColumnByIdType = {
+
+type setNewOrderTasksType = {
+  columnId: string;
+  tasks: TaskType[];
+};
+
+export type TaskType = {
+  order: number;
   id: string;
   title: string;
-  order: number;
-  tasks: ITask[];
+  description: string;
+  userId: string;
 };
 
 export const columnsSlice = createSlice({
@@ -174,11 +198,12 @@ export const columnsSlice = createSlice({
     setOpen(state: { dialog: boolean }, action: PayloadAction<boolean>) {
       state.dialog = action.payload;
     },
-    setNewOrderColumns: (
-      state: { columns: GetColumnByIdType[] },
-      action: PayloadAction<GetColumnByIdType[]>
-    ) => {
+    orderColumn: (state: { columns: IColumnType[] }, action: PayloadAction<IColumnType[]>) => {
       state.columns = [...action.payload];
+    },
+    orderTask: (state, action: PayloadAction<setNewOrderTasksType>) => {
+      const column = [...state.columns.filter((item) => item.id === action.payload.columnId)];
+      column[0].tasks = action.payload.tasks.sort((a, b) => a.order - b.order);
     },
   },
   extraReducers: {
@@ -205,6 +230,16 @@ export const columnsSlice = createSlice({
       state.columns = state.columns.filter((column) => column.id !== action.payload);
       state.fade = true;
     },
+    [deleteTask.fulfilled.type]: (state, action) => {
+      // state.columns = state.columns.filter((column) => {
+      //   if (column.id === action.payload.taskId) {
+      //     return (column.tasks = column.tasks.filter((task) => task.id !== action.payload.id));
+      //   } else return column;
+      // });
+
+      const index = state.columns.findIndex((columns) => columns.id === action.payload.columnId);
+      state.columns[index].tasks.filter((task) => task.id !== action.payload.taskId);
+    },
     [deleteColums.pending.type]: (state, action) => {
       state.fade = false;
     },
@@ -223,7 +258,9 @@ export const columnsSlice = createSlice({
     [getAllTask.fulfilled.type]: (state, action) => {
       state.AllTask = action.payload;
     },
-    [updateTask.fulfilled.type]: (state, action) => {},
+    [updateTask.rejected.type]: (state, action) => {
+      state.error = action.payload;
+    },
     [addTask.fulfilled.type]: (state, action) => {
       const column = state.columns.find(({ id }) => id === action.payload.columnId);
       column?.tasks.push({

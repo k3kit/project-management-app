@@ -45,9 +45,8 @@ export const boardId = createAsyncThunk('/board/id', async (id: string, ThunkAPI
 
 export const boardDelete = createAsyncThunk('/board/delete', async (id: string, ThunkAPI) => {
   try {
-    const response = await boardsService.deleteBoard(id);
-    console.log(response.data);
-    return response.data;
+    await boardsService.deleteBoard(id);
+    return id;
   } catch (error) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||
@@ -124,10 +123,8 @@ export const boardsSlice = createSlice({
       state.boards.push(action.payload);
       state.fade = true;
     },
-    [boardDelete.fulfilled.type]: (state, action: PayloadAction<IBoards>) => {
-      const index = state.boards.findIndex(({ id }) => id === action.payload.id);
-      state.boards.splice(index, 1);
-      state.fade = true;
+    [boardDelete.fulfilled.type]: (state, action) => {
+      state.boards = state.boards.filter((boards) => boards.id !== action.payload);
     },
     [boardDelete.pending.type]: (state, action: PayloadAction<IBoards>) => {
       state.fade = false;

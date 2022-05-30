@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { useAppDispatch } from '../../hooks/redux';
 import authHeader from '../../services/auth-header';

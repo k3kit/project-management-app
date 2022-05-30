@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { FC, useState, useCallback } from 'react';
+import React, { FC, useState, useCallback, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -20,7 +19,7 @@ import { NavLink } from 'react-router-dom';
 type MyProps = {
   title: string;
   id: string;
-  setConfirmOpen: any;
+  setConfirmOpen: boolean;
   description: string;
 };
 
@@ -30,6 +29,7 @@ export const Board: FC<MyProps> = ({ title, id, description }) => {
   const { fade } = useAppSelector((state) => state.boardReducer);
   const handleDelete = () => {
     dispatch(boardDelete(id));
+    dispatch(getBoards());
   };
 
   return (

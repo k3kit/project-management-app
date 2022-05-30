@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, CssBaseline, Box, TextField, Button, Grid } from '@mui/material';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch } from '../../hooks/redux';
-import { addBoard, boardsSlice } from '../../store/slices/boards';
+import { addBoard, boardsSlice, getBoards } from '../../store/slices/boards';
 
 interface boardForm {
   title: string;
@@ -43,6 +43,7 @@ export const BoardModal = () => {
               name="title"
               autoComplete="title"
               autoFocus
+              required
               onChange={(e) => field.onChange(e)}
             />
           )}

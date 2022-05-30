@@ -6,6 +6,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Fade,
   Grid,
   IconButton,
   Modal,
@@ -15,16 +16,22 @@ import {
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { addTask, columnsSlice, deleteColums, getColumnById } from '../../store/slices/columns';
+import {
+  addTask,
+  columnsSlice,
+  deleteColums,
+  getColumnById,
+  getColumns,
+} from '../../store/slices/columns';
 import AddIcon from '@mui/icons-material/Add';
 import Skeleton from '@mui/material/Skeleton';
 import ClearIcon from '@mui/icons-material/Clear';
 import { IColumn, ITask, Jwt } from '../../types';
-import ConfirmDialog from '../../components/ConfirmationModal';
+import ConfirmDialog from '../../components/modal/ConfirmationModal';
 import { ColumnTitle } from './columnTitle';
 import { TaskItem } from './taskItem';
 import { RootState } from '../../store/store';
-import { DragDropContext, Draggable, DraggableProvided } from 'react-beautiful-dnd';
+import { Draggable, DraggableProvided, Droppable, DroppableProvided } from 'react-beautiful-dnd';
 import jwtDecode from 'jwt-decode';
 
 export const BoardItem: FC<IColumn> = ({ id, title, order, index }) => {
@@ -35,8 +42,12 @@ export const BoardItem: FC<IColumn> = ({ id, title, order, index }) => {
 
   const dispatch = useAppDispatch();
   const { boardId } = useParams();
-
-  const { isLoading, dialog, columns } = useAppSelector((state) => state.columnsReducer);
+  useEffect(() => {
+    if (boardId) {
+      dispatch(getColumnById({ boardId: boardId, columnId: id }));
+    }
+  }, [boardId, dispatch, id]);
+  const { isLoading, dialog, columns, fade } = useAppSelector((state) => state.columnsReducer);
 
   const getTasksByColumnId = (state: RootState, columnId: string) => {
     const currentColumn = state.columnsReducer.columns.find(
@@ -60,12 +71,6 @@ export const BoardItem: FC<IColumn> = ({ id, title, order, index }) => {
   const tok = tokenA.token;
   const decoded = jwtDecode<Jwt>(tok);
 
-  useEffect(() => {
-    if (boardId) {
-      dispatch(getColumnById({ boardId: boardId, columnId: id }));
-    }
-  }, [boardId, dispatch, id]);
-
   const addedTask = () => {
     if (boardId) {
       dispatch(
@@ -80,6 +85,8 @@ export const BoardItem: FC<IColumn> = ({ id, title, order, index }) => {
         })
       );
     }
+    setTitleInput('');
+    setDescripInput('');
     setOpen(false);
   };
 
@@ -100,7 +107,7 @@ export const BoardItem: FC<IColumn> = ({ id, title, order, index }) => {
             autoFocus
             margin="dense"
             id="title"
-            label="title column"
+            label="title task"
             type="text"
             fullWidth
             variant="standard"
@@ -112,7 +119,7 @@ export const BoardItem: FC<IColumn> = ({ id, title, order, index }) => {
             autoFocus
             margin="dense"
             id="description"
-            label="description column"
+            label="description task"
             type="text"
             fullWidth
             variant="standard"
@@ -124,73 +131,87 @@ export const BoardItem: FC<IColumn> = ({ id, title, order, index }) => {
           <Button onClick={() => setOpen(false)}>Cancel</Button>
         </DialogActions>
       </Dialog>
-      <Draggable draggableId={id} index={index}>
+      <Draggable draggableId={id} index={index} key={id}>
         {(provided: DraggableProvided) => {
           return (
-            <Grid
-              item
-              xs={4}
-              ref={provided.innerRef}
-              {...provided.draggableProps}
-              {...provided.dragHandleProps}
-              id={id}
-            >
-              <Paper
-                sx={{
-                  minHeight: 200,
-                  minWidth: 200,
-                  maxWidth: 220,
-                  backgroundColor: '#1A2027',
-                }}
+            <Fade in={fade}>
+              <Grid
+                item
+                xs={4}
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                id={id}
               >
-                <Box sx={{ display: 'flex' }}>
-                  <ColumnTitle
-                    id={id}
-                    title={title}
-                    order={order}
-                    tasks={[]}
-                    index={0}
-                  ></ColumnTitle>
-                  <IconButton sx={{ height: 40 }} onClick={() => setConfirmOpen(true)}>
-                    <ClearIcon color="primary" height={25} />
-                  </IconButton>
-                </Box>
-                <Box
-                  className="box"
+                <Paper
                   sx={{
-                    flexDirection: 'column',
-                    overflow: 'auto',
-                    maxHeight: '50vh',
-                    minHeight: '150px',
-                    minWidth: '210px',
+                    width: '300px',
+                    maxWidth: '300px',
+                    minHeight: '250px',
+                    backgroundColor: '#1A2027',
                   }}
                 >
-                  {!isLoading ? (
-                    tasks &&
-                    tasks.map((it: ITask, index: number) => {
-                      const keys = index + it.id;
-                      return (
-                        <TaskItem
-                          key={keys}
-                          id={it.id}
-                          title={it.title}
-                          order={it.order}
-                          description={it.description}
-                          userId={it.userId}
-                        />
-                      );
-                    })
-                  ) : (
-                    <Skeleton variant="rectangular" width={210} height={150} />
-                  )}
-                </Box>
-                <Box>
-                  <Button startIcon={<AddIcon />} onClick={() => setOpen(true)} fullWidth>
-                    add card
-                  </Button>
-                </Box>
-              </Paper>
-            </Grid>
+                  <Box sx={{ display: 'flex' }}>
+                    <ColumnTitle
+                      id={id}
+                      title={title}
+                      order={order}
+                      tasks={[]}
+                      index={0}
+                    ></ColumnTitle>
+                    <IconButton sx={{ height: 40 }} onClick={() => setConfirmOpen(true)}>
+                      <ClearIcon color="primary" height={25} />
+                    </IconButton>
+                  </Box>
+                  <Droppable droppableId={id} type="task">
+                    {(provided: DroppableProvided) => (
+                      <Box
+                        className="box"
+                        sx={{
+                          flexDirection: 'column',
+                          overflow: 'auto',
+                          maxHeight: '50vh',
+                          minHeight: '150px',
+                          minWidth: '210px',
+                        }}
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                      >
+                        {isLoading ? (
+                          tasks &&
+                          [...tasks]
+                            .sort((a, b) => a.order - b.order)
+                            .map((it: ITask, index: number) => {
+                              const keys = index + it.id;
+                              return (
+                                <TaskItem
+                                  key={keys}
+                                  id={it.id}
+                                  columnId={id}
+                                  title={it.title}
+                                  order={it.order}
+                                  description={it.description}
+                                  userId={it.userId}
+                                  index={index}
+                                />
+                              );
+                            })
+                        ) : (
+                          <Skeleton variant="rectangular" width="100%" height="100%" />
+                        )}
+                        {provided.placeholder}
+                      </Box>
+                    )}
+                  </Droppable>
+
+                  <Box>
+                    <Button startIcon={<AddIcon />} onClick={() => setOpen(true)} fullWidth>
+                      add card
+                    </Button>
+                  </Box>
+                </Paper>
+              </Grid>
+            </Fade>
           );
         }}
       </Draggable>

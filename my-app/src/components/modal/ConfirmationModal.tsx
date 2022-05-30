@@ -1,13 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 
 const ConfirmDialog = (props: {
-  title: any;
-  children: any;
-  open: any;
-  setOpen: any;
-  onConfirm: any;
+  title: string;
+  children: React.ReactNode;
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  onConfirm: () => void;
 }) => {
   const { title, children, open, setOpen, onConfirm } = props;
 

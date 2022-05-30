@@ -69,7 +69,7 @@ const Register = () => {
   };
 
   return (
-    <Box sx={{ bgcolor: '#cfe8fc' }}>
+    <Box sx={{ bgcolor: '#cfe8fc' }} height="100vh">
       <AppBar position="sticky">
         <Toolbar>
           <Typography sx={{ flexGrow: 1 }} variant="h6">
