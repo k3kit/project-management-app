@@ -122,6 +122,7 @@ const LoginPage = () => {
               />
               {isLoading ? (
                 <LoadingButton
+                  sx={{ mt: 3, mb: 2 }}
                   size="large"
                   variant="contained"
                   loading={isLoading}
