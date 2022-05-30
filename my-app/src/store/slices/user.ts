@@ -1,8 +1,8 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import authService from '../../services/auth.service';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import userService from '../../services/user.service';
+import { IFormEdit } from '../../types';
 
-export const getUsers = createAsyncThunk('/users', async (_, thunkAPI) => {
+export const getUsers = createAsyncThunk('/usersAll', async (_, thunkAPI) => {
   try {
     const response = await userService.getAllUsers();
     return response.data;
@@ -10,7 +10,7 @@ export const getUsers = createAsyncThunk('/users', async (_, thunkAPI) => {
     return thunkAPI.rejectWithValue(error);
   }
 });
-export const deleteUsers = createAsyncThunk('/users', async (id: string, thunkAPI) => {
+export const deleteUsers = createAsyncThunk('/users/delete', async (id: string, thunkAPI) => {
   try {
     const response = await userService.deleteUser(id);
     return response.data;
@@ -18,16 +18,42 @@ export const deleteUsers = createAsyncThunk('/users', async (id: string, thunkAP
     return thunkAPI.rejectWithValue(error);
   }
 });
-export const getUserById = createAsyncThunk('/users', async (id: string, thunkAPI) => {
+interface IUpdateUser {
+  id: string;
+  user: IFormEdit;
+}
+export const updateUser = createAsyncThunk(
+  '/users/update',
+  async ({ id, user }: IUpdateUser, thunkAPI) => {
+    try {
+      const response = await userService.updateUser(id, user);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue('error');
+    }
+  }
+);
+export const getUserById = createAsyncThunk('/users/name', async (id: string, thunkAPI) => {
   try {
     const response = await userService.getUser(id);
-    console.log(response.data);
-    return response.data;
+    console.log(response.data.name);
+
+    return response.data.name;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error);
+    return thunkAPI.rejectWithValue('error');
   }
 });
-const initialState = { users: {}, error: '', user: '', deleteUser: {} };
+interface IUserData {
+  id: string;
+  name: string;
+  login: string;
+}
+interface userState {
+  users: IUserData[];
+  error: string;
+  userName: string;
+}
+const initialState: userState = { users: [], error: '', userName: '' };
 
 export const usersSlice = createSlice({
   name: 'user',
@@ -40,8 +66,15 @@ export const usersSlice = createSlice({
     [getUsers.rejected.type]: (state, action) => {
       state.error = action.payload;
     },
-    [getUserById.fulfilled.type]: (state, action) => {
-      state.user = action.payload.name;
+    [getUserById.fulfilled.type]: (state, action: PayloadAction<string>) => {
+      state.userName = action.payload;
+    },
+    [getUserById.rejected.type]: (state, action) => {
+      state.error = action.payload;
+    },
+    [updateUser.fulfilled.type]: (state, action) => {},
+    [updateUser.rejected.type]: (state, action) => {
+      state.error = action.payload;
     },
   },
 });
