@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '../appConstants/api';
+import { IFormEdit } from '../types';
 import authHeader from './auth-header';
 
 const getAllUsers = () => {
@@ -13,11 +14,10 @@ const getUser = (id: string) => {
 const deleteUser = (id: string) => {
   return axios.delete(API_URL + `users/${id}`, { headers: authHeader() });
 };
-const updateUser = (id: string) => {
-  return axios.delete(API_URL + `users/${id}`, { headers: authHeader() }).then((response) => {
-    return response.data;
-  });
+const updateUser = (id: string, user: IFormEdit) => {
+  return axios.put(API_URL + `users/${id}`, user, { headers: authHeader() });
 };
+
 const userService = {
   getAllUsers,
   getUser,
