@@ -22,6 +22,7 @@ export interface IFormEdit {
   login: string;
   password: string;
 }
+
 export interface Jwt {
   iat?: number;
   login?: string;
@@ -39,8 +40,34 @@ export interface ITask {
   description: string;
   userId: string;
 }
-
+export interface ITaskTypeUpdate {
+  // id: string;
+  title?: string;
+  order: number;
+  description?: string;
+  userId: string;
+  boardId: string;
+  columnId: string;
+}
+export interface ITask2 {
+  id: string;
+  title: string;
+  order: number;
+  description: string;
+  userIds: string;
+  boardId: string;
+  columnId: string;
+}
 export interface IcolumnDelete {
+  boardId: string;
+  columnId: string;
+}
+export interface ITaskId {
+  boardId: string;
+  columnId: string;
+  taskId: string;
+}
+export interface ITaskAll {
   boardId: string;
   columnId: string;
 }
