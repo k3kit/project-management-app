@@ -55,6 +55,12 @@ const getTaskId = (boardId: string, columnId: string, taskId: string) => {
     headers: authHeader(),
   });
 };
+
+const deleteTask = (boardId: string, columnId: string, taskId: string) => {
+  return axios.delete(`${API_URL}boards/${boardId}/columns/${columnId}/tasks/${taskId}`, {
+    headers: authHeader(),
+  });
+};
 const getAllTask = (boardId: string, columnId: string) => {
   return axios.get(`${API_URL}boards/${boardId}/columns/${columnId}/tasks`, {
     headers: authHeader(),
@@ -70,6 +76,7 @@ const columnsService = {
   getTaskId,
   getAllTask,
   updateTask,
+  deleteTask,
 };
 
 export default columnsService;
