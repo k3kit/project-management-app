@@ -49,6 +49,22 @@ export interface ITaskTypeUpdate {
   boardId: string;
   columnId: string;
 }
+export interface ITaskTypeDrag {
+  id: string;
+  title: string;
+  order: number;
+  description: string;
+  userId: string;
+  columnId: string;
+  boardId: string;
+}
+export type IColumnType = {
+  id: string;
+  title: string;
+  order: number;
+  tasks: ITask[];
+};
+
 export interface ITask2 {
   id: string;
   title: string;
