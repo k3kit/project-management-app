@@ -1,9 +1,19 @@
-import { responsiveFontSizes } from '@mui/material';
+import { Satellite } from '@mui/icons-material';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { create } from 'domain';
-import { title } from 'process';
-import columnsService, { Icolumn, Task } from '../../services/columns.service';
-import { IColumn, ICreateColumn, IUpdateColumns } from '../../types';
+
+import columnsService from '../../services/columns.service';
+import {
+  IColumn,
+  IcolumnDelete,
+  ICreateColumn,
+  ITask,
+  ITask2,
+  ITaskAll,
+  ITaskId,
+  ITaskType,
+  ITaskTypeUpdate,
+  IUpdateColumns,
+} from '../../types';
 
 export const createColumns = createAsyncThunk(
   'columns/add',
@@ -27,6 +37,18 @@ export const getColumns = createAsyncThunk('columns/all', async (boardId: string
 });
 
 export const updateTitleColumns = createAsyncThunk(
+  'columns/updateTitle',
+  async ({ boardId, columnsId, column }: IUpdateColumns, ThunkAPI) => {
+    try {
+      const response = await columnsService.updateColums(boardId, columnsId, column);
+      return response.data;
+    } catch (error) {
+      ThunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const updateColumns = createAsyncThunk(
   'columns/update',
   async ({ boardId, columnsId, column }: IUpdateColumns, ThunkAPI) => {
     try {
@@ -37,14 +59,7 @@ export const updateTitleColumns = createAsyncThunk(
     }
   }
 );
-interface IcolumnDelete {
-  boardId: string;
-  columnId: string;
-}
-interface IcolumnDeletee {
-  boardId: string;
-  columnId: string;
-}
+
 export const deleteColums = createAsyncThunk(
   'columns/delete',
   async ({ boardId, columnId }: IcolumnDelete, ThunkAPI) => {
@@ -56,9 +71,10 @@ export const deleteColums = createAsyncThunk(
     }
   }
 );
+
 export const getColumnById = createAsyncThunk(
   'columns/id',
-  async ({ boardId, columnId }: IcolumnDeletee, ThunkAPI) => {
+  async ({ boardId, columnId }: IcolumnDelete, ThunkAPI) => {
     try {
       const respons = await columnsService.getColumnId(boardId, columnId);
       return respons.data;
@@ -68,14 +84,9 @@ export const getColumnById = createAsyncThunk(
   }
 );
 
-interface TaskType {
-  boardId: string;
-  columnsId: string;
-  task: Task;
-}
 export const addTask = createAsyncThunk(
   'task/add',
-  async ({ boardId, columnsId, task }: TaskType, ThunkAPI) => {
+  async ({ boardId, columnsId, task }: ITaskType, ThunkAPI) => {
     try {
       const respons = await columnsService.createTask(boardId, columnsId, task);
       console.log(respons.data);
@@ -86,13 +97,75 @@ export const addTask = createAsyncThunk(
   }
 );
 
+export const getTaskById = createAsyncThunk(
+  'task/id',
+  async ({ boardId, columnId, taskId }: ITaskId, ThunkAPI) => {
+    try {
+      const respons = await columnsService.getTaskId(boardId, columnId, taskId);
+      console.log(respons.data);
+      return respons.data;
+    } catch (error) {
+      ThunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const getAllTask = createAsyncThunk(
+  'task/id',
+  async ({ boardId, columnId }: ITaskAll, ThunkAPI) => {
+    try {
+      const respons = await columnsService.getAllTask(boardId, columnId);
+      console.log(respons.data);
+
+      return respons.data;
+    } catch (error) {
+      ThunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const updateTask = createAsyncThunk(
+  'task/update',
+  async ({ boardId, columnsId, taskId, task }: IUpdateTask, ThunkAPI) => {
+    try {
+      const response = await columnsService.updateTask(boardId, columnsId, taskId, task);
+      return response.data;
+    } catch (error) {
+      ThunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export interface IUpdateTask {
+  boardId: string;
+  columnsId: string;
+  taskId: string;
+  task: ITaskTypeUpdate;
+}
+
 interface ColumnState {
   columns: IColumn[];
   isLoading: boolean;
   dialog: boolean;
+  fade: boolean;
+  taskInfo: ITask[];
+  AllTask: ITask2[];
 }
 
-const initialState: ColumnState = { columns: [], isLoading: false, dialog: false };
+const initialState: ColumnState = {
+  columns: [],
+  isLoading: false,
+  dialog: false,
+  fade: false,
+  taskInfo: [],
+  AllTask: [],
+};
+export type GetColumnByIdType = {
+  id: string;
+  title: string;
+  order: number;
+  tasks: ITask[];
+};
 
 export const columnsSlice = createSlice({
   name: 'columns',
@@ -101,13 +174,28 @@ export const columnsSlice = createSlice({
     setOpen(state: { dialog: boolean }, action: PayloadAction<boolean>) {
       state.dialog = action.payload;
     },
+    setNewOrderColumns: (
+      state: { columns: GetColumnByIdType[] },
+      action: PayloadAction<GetColumnByIdType[]>
+    ) => {
+      state.columns = [...action.payload];
+    },
   },
   extraReducers: {
     [createColumns.fulfilled.type]: (state, action) => {
       state.columns.push(action.payload);
     },
-    [getColumns.fulfilled.type]: (state, action) => {
+    [createColumns.pending.type]: (state, action) => {
+      state.fade = true;
+    },
+    [getColumns.fulfilled.type]: (state, action: PayloadAction<IColumn[]>) => {
       state.columns = action.payload;
+
+      state.fade = true;
+      state.isLoading = false;
+    },
+    [getColumns.pending.type]: (state, action) => {
+      state.isLoading = true;
     },
     [updateTitleColumns.fulfilled.type]: (state, action) => {
       const index = state.columns.findIndex((columns) => columns.id === action.payload.id);
@@ -115,15 +203,27 @@ export const columnsSlice = createSlice({
     },
     [deleteColums.fulfilled.type]: (state, action) => {
       state.columns = state.columns.filter((column) => column.id !== action.payload);
+      state.fade = true;
+    },
+    [deleteColums.pending.type]: (state, action) => {
+      state.fade = false;
     },
     [getColumnById.fulfilled.type]: (state, action) => {
       const index = state.columns.findIndex((columns) => columns.id === action.payload.id);
       state.columns[index].tasks = action.payload.tasks;
-      state.isLoading = false;
+      state.fade = true;
     },
     [getColumnById.pending.type]: (state, action) => {
       state.isLoading = true;
+      state.fade = false;
     },
+    [getTaskById.fulfilled.type]: (state, action) => {
+      state.taskInfo = action.payload;
+    },
+    [getAllTask.fulfilled.type]: (state, action) => {
+      state.AllTask = action.payload;
+    },
+    [updateTask.fulfilled.type]: (state, action) => {},
     [addTask.fulfilled.type]: (state, action) => {
       const column = state.columns.find(({ id }) => id === action.payload.columnId);
       column?.tasks.push({
