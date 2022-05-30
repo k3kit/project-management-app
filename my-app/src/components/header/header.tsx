@@ -40,7 +40,6 @@ export const Header = () => {
   const handleLogout = () => {
     dispath(logout());
   };
-  useEffect(() => { });
 
   const openModal = () => {
     dispath(setOpen(true));
