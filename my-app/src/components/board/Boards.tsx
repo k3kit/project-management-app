@@ -12,9 +12,9 @@ import {
   Typography,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ConfirmDialog from './ConfirmationModal';
-import { boardDelete, getBoards } from '../store/slices/boards';
-import { useAppDispatch, useAppSelector } from '../hooks/redux';
+import ConfirmDialog from '../modal/ConfirmationModal';
+import { boardDelete, getBoards } from '../../store/slices/boards';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { NavLink } from 'react-router-dom';
 
 type MyProps = {

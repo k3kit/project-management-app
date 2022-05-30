@@ -1,8 +1,8 @@
 import React from 'react';
 import { Container, CssBaseline, Box, TextField, Button, Grid } from '@mui/material';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { useAppDispatch } from '../hooks/redux';
-import { addBoard, boardsSlice } from '../store/slices/boards';
+import { useAppDispatch } from '../../hooks/redux';
+import { addBoard, boardsSlice } from '../../store/slices/boards';
 
 interface boardForm {
   title: string;
@@ -20,9 +20,8 @@ export const BoardModal = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Box
+    <Box>
+      <Container
         component="form"
         onSubmit={handleSubmit(onSubmit)}
         sx={{
@@ -70,7 +69,7 @@ export const BoardModal = () => {
         <Grid container>
           <Grid item xs></Grid>
         </Grid>
-      </Box>
-    </Container>
+      </Container>
+    </Box>
   );
 };
