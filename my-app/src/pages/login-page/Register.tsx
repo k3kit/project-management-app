@@ -11,6 +11,7 @@ import {
   Snackbar,
   AppBar,
   Toolbar,
+  Avatar,
 } from '@mui/material';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
@@ -21,7 +22,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { CharacterSlice } from '../../store/slices/Message';
 import validationShema from '../../yup';
 import { Link, useNavigate } from 'react-router-dom';
-
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 interface IFormRegister {
   name: string;
   login: string;
@@ -82,6 +83,9 @@ const Register = () => {
             alignItems: 'center',
           }}
         >
+          <Avatar sx={{ bgcolor: '#cfe8fc' }}>
+            <AppRegistrationIcon color="primary" fontSize="large" />
+          </Avatar>
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
