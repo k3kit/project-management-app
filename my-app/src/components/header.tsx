@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   AppBar,
   Button,
@@ -17,15 +17,17 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useAppDispatch } from '../hooks/redux';
 import { logout } from '../store/slices/Auth';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { boardsSlice } from '../store/slices/boards';
-
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 export const Header = () => {
   const [fix, setFix] = useState(false);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const dispath = useAppDispatch();
   const { setOpen } = boardsSlice.actions;
-  const pages = ['Edit profile', 'Logout', 'Create new board'];
+  const location = useLocation();
+  const { boardId } = useParams();
+
   const setFixed = () => {
     if (window.scrollY >= 100) {
       setFix(true);
@@ -38,6 +40,7 @@ export const Header = () => {
   const handleLogout = () => {
     dispath(logout());
   };
+  useEffect(() => {});
 
   const openModal = () => {
     dispath(setOpen(true));
@@ -81,6 +84,13 @@ export const Header = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
+              {`${location.pathname}` === `/board/${boardId}` ? (
+                <Button color="info" variant="text" startIcon={<ArrowBackIosIcon />} size="small">
+                  <Link to="/main">Go main</Link>
+                </Button>
+              ) : (
+                ''
+              )}
               <MenuItem onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
                   <Button color="inherit">
@@ -103,6 +113,18 @@ export const Header = () => {
             </Menu>
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {`${location.pathname}` === `/board/${boardId}` ? (
+              <Button
+                color="info"
+                variant="contained"
+                startIcon={<ArrowBackIosIcon />}
+                size="small"
+              >
+                <Link to="/main">Go main</Link>
+              </Button>
+            ) : (
+              ''
+            )}
             <Button sx={{ mr: 2 }} color="inherit">
               <Link to="/edit"> Edit profile </Link>
             </Button>
