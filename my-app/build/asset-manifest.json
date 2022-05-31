@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.bdfdc6eb.css",
+    "main.js": "/static/js/main.9e4b5541.js",
+    "static/media/rs_school.svg": "/static/media/rs_school.b974d4061ab84575ca515f21a747cde2.svg",
+    "index.html": "/index.html",
+    "main.bdfdc6eb.css.map": "/static/css/main.bdfdc6eb.css.map",
+    "main.9e4b5541.js.map": "/static/js/main.9e4b5541.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.bdfdc6eb.css",
+    "static/js/main.9e4b5541.js"
+  ]
+}
