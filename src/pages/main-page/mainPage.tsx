@@ -19,7 +19,7 @@ const MainPage = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Box sx={{ bgcolor: '#cfe8fc', marginTop: 2 }}>
         <Container sx={{ height: '100vh' }}>
           {isLoading && <Loading />}

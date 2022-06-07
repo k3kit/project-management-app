@@ -1,3 +1,4 @@
+import { Box, Container } from '@mui/material';
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { Footer } from '../footer/footer';
@@ -6,12 +7,20 @@ import './style.css';
 const Layout = () => {
   return (
     <>
-      <div className="wrapper">
-        <main className="main">
+      <Header></Header>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '100vh',
+        }}
+      >
+        <Container component="main">
           <Outlet />
-        </main>
+        </Container>
+
         <Footer />
-      </div>
+      </Box>
     </>
   );
 };

@@ -28,6 +28,7 @@ export const ButtonCreate = () => {
         })
       );
     }
+    setTitleInput('');
   };
 
   return (
@@ -53,6 +54,7 @@ export const ButtonCreate = () => {
             label="title column"
             type="text"
             fullWidth
+            required
             variant="standard"
             onChange={(e) => setTitleInput(e.target.value)}
           />

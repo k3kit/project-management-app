@@ -59,7 +59,7 @@ export const BoardModal = () => {
               id="description"
               name="description"
               autoComplete="description"
-              autoFocus
+              required
               onChange={(e) => field.onChange(e)}
             />
           )}

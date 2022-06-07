@@ -21,39 +21,37 @@ const WelcomePage = () => {
 
   return (
     <>
-      <Box>
-        <AppBar position="sticky">
-          <Toolbar>
-            <Typography sx={{ flexGrow: 1 }} variant="h6">
-              Project management app
-            </Typography>
-            {isLoggedIn ? (
-              <Button sx={{ mr: 2 }} size="small" variant="contained">
-                <Link to="main"> Go to Main Page</Link>
+      {/* <AppBar position="sticky">
+        <Toolbar>
+          <Typography sx={{ flexGrow: 1 }} variant="h6">
+            Project management app
+          </Typography>
+          {isLoggedIn ? (
+            <Button sx={{ mr: 2 }} size="small" variant="contained">
+              <Link to="main"> Go to Main Page</Link>
+            </Button>
+          ) : (
+            <>
+              <Button
+                sx={{ mr: 2 }}
+                variant="contained"
+                size="medium"
+                onClick={() => setOpenSignIn(true)}
+              >
+                <Link to="login"> Sign In</Link>
               </Button>
-            ) : (
-              <>
-                <Button
-                  sx={{ mr: 2 }}
-                  variant="contained"
-                  size="medium"
-                  onClick={() => setOpenSignIn(true)}
-                >
-                  <Link to="login"> Sign In</Link>
-                </Button>
-                <Button
-                  sx={{ mr: 2 }}
-                  variant="contained"
-                  size="medium"
-                  onClick={() => setOpenSignUp(true)}
-                >
-                  <Link to="register"> Sign Up </Link>
-                </Button>
-              </>
-            )}
-          </Toolbar>
-        </AppBar>
-      </Box>
+              <Button
+                sx={{ mr: 2 }}
+                variant="contained"
+                size="medium"
+                onClick={() => setOpenSignUp(true)}
+              >
+                <Link to="register"> Sign Up </Link>
+              </Button>
+            </>
+          )}
+        </Toolbar>
+      </AppBar> */}
       <Box sx={{ bgcolor: '#cfe8fc' }}>
         <Container>
           <Container maxWidth="sm" sx={{ paddingTop: '20px' }}>
