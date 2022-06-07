@@ -69,7 +69,11 @@ export const Header = () => {
     setAnchorElNav(event.currentTarget);
   };
   return (
-    <AppBar className={fix ? 'appBar fixed' : 'appBar'} position="sticky">
+    <AppBar
+      className={fix ? 'appBar fixed' : 'appBar'}
+      sx={{ bgcolor: 'rgb(76 118 189 / 33%)' }}
+      position="sticky"
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -102,8 +106,10 @@ export const Header = () => {
               }}
             >
               {`${location.pathname}` === `/board/${boardId}` ? (
-                <Button color="info" variant="text" startIcon={<ArrowBackIosIcon />} size="small">
-                  <Link to="/main">Go main</Link>
+                <Button variant="text" startIcon={<ArrowBackIosIcon />} size="small">
+                  <Link to="/main">
+                    <Typography>Go main</Typography>
+                  </Link>
                 </Button>
               ) : (
                 ''
@@ -133,16 +139,22 @@ export const Header = () => {
           <Box
             sx={{
               flexGrow: 1,
-              display: { xs: 'none', md: 'flex', justifyContent: 'space-between' },
+              display: {
+                xs: 'none',
+                md: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              },
             }}
           >
             <Box component={Link} to="/">
-              <LogoApp sx={{ fontSize: 30 }} />
+              <LogoApp sx={{ fontSize: 45, paddingTop: '15px', color: 'rgba(0, 0, 0, 0.87)' }} />
             </Box>
             {`${location.pathname}` === `/board/${boardId}` ? (
               <Button
-                color="info"
-                variant="contained"
+                color="primary"
+                variant="text"
+                sx={{ color: 'rgba(0, 0, 0, 0.87)' }}
                 startIcon={<ArrowBackIosIcon />}
                 size="small"
               >
@@ -157,9 +169,12 @@ export const Header = () => {
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
               onClick={handleClick}
-              startIcon={<AccountCircleIcon />}
-              color="inherit"
-            ></Button>
+              // startIcon={<AccountCircleIcon />}
+              sx={{ color: 'rgba(0, 0, 0, 0.87)' }}
+              size="large"
+            >
+              <AccountCircleIcon />
+            </Button>
             <Menu
               id="demo-positioned-menu"
               aria-labelledby="demo-positioned-button"
