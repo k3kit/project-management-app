@@ -6,7 +6,6 @@ import { Header } from '../../components/header/header';
 const EditPage = () => {
   return (
     <>
-      <Header />
       <Box sx={{ height: '73vh' }}>
         <EditProfile />
       </Box>

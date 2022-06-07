@@ -70,7 +70,7 @@ const Register = () => {
 
   return (
     <Box sx={{ bgcolor: '#cfe8fc' }} height="100vh">
-      <AppBar position="sticky">
+      {/* <AppBar position="sticky">
         <Toolbar>
           <Typography sx={{ flexGrow: 1 }} variant="h6">
             Project management app
@@ -79,7 +79,7 @@ const Register = () => {
             <Link to="/"> Go to Welcome Page</Link>
           </Button>
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

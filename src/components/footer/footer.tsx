@@ -17,7 +17,7 @@ import rs_svg from '../../icon/rs_school.svg';
 export const Footer = () => {
   const matches = useMediaQuery('(max-width:600px)');
   return (
-    <Box component="footer" sx={{ bgcolor: '#187bca', py: 3, px: 2, mt: 'auto' }}>
+    <Box component="footer" sx={{ bgcolor: 'rgb(76 118 189 / 33%)', py: 3, px: 2, mt: 'auto' }}>
       <Container maxWidth="lg">
         <Grid container justifyContent="space-between" alignItems="center">
           <Button variant="text" color="inherit" startIcon={<GitHub />}>

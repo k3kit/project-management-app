@@ -157,7 +157,6 @@ const BoardPage = () => {
 
   return (
     <>
-      {/* <Header /> */}
       <Box padding={2} sx={{ height: '72.5vh', overflow: 'auto ' }}>
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Droppable droppableId="all-columns" direction="horizontal" type="column">

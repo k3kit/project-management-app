@@ -1,17 +1,16 @@
-import { useState } from 'react';
 import {
-  AppBar,
   Box,
-  Button,
-  Card,
-  CardContent,
   Container,
+  Typography,
   Divider,
   Stack,
-  Toolbar,
-  Typography,
+  Card,
+  CardContent,
+  Button,
 } from '@mui/material';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import hero from '../../icon/hero.png';
 import { useAppSelector } from '../../hooks/redux';
 const WelcomePage = () => {
   const [openSignIn, setOpenSignIn] = useState(false);
@@ -52,49 +51,50 @@ const WelcomePage = () => {
           )}
         </Toolbar>
       </AppBar> */}
-      <Box sx={{ bgcolor: '#cfe8fc' }}>
+      <Box>
         <Container>
-          <Container maxWidth="sm" sx={{ paddingTop: '20px' }}>
-            <Typography
-              component="h1"
-              variant="h2"
-              align="center"
-              color="text.primary"
-              gutterBottom
+          <Box component="section" sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Container
+              component="div"
+              maxWidth="sm"
+              sx={{
+                paddingTop: '20px',
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: 'column',
+              }}
             >
-              Project Management System
-            </Typography>
-            <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              A project management system is an application that helps an individual in a team or
-              group of developers achieve their goals.
-            </Typography>
-            <Divider variant="middle" />
-            <Stack sx={{ pt: 4 }} spacing={2} justifyContent="center">
-              <Typography variant="h5" align="center" color="text.secondary">
-                About the course
+              <Typography
+                component="div"
+                variant="h1"
+                fontSize="2.75rem"
+                color="text.primary"
+                fontWeight="normal"
+              >
+                Project Management App helps teams move work forward.
               </Typography>
-              <Typography variant="h6" align="center" color="text.secondary">
-                RS School is free-of-charge and community-based education program conducted by The
-                Rolling Scopes developer community since 2013. Everyone can study at RS School,
-                regardless of age, professional employment, or place of residence. The mentors and
-                trainers of our school are front-end and javascript developers from different
-                companies and countries.
+              <Typography
+                variant="h5"
+                component="div"
+                align="center"
+                color="text.secondary"
+                paragraph
+              >
+                Collaborate, manage projects, and reach new productivity peaks. From high rises to
+                the home office, the way your team works is unique—accomplish it all with PMApp.
               </Typography>
-            </Stack>
-            <Divider variant="middle" />
-            <Stack sx={{ pt: 6 }} spacing={4} justifyContent="center">
-              <Card sx={{ minWidth: 275 }}>
-                <CardContent>
-                  <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                    About the team
-                  </Typography>
-                  <Typography variant="h5" component="div">
-                    Nikita Berezkin
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Stack>
-          </Container>
+              <div>
+                {isLoggedIn && (
+                  <Button sx={{ mr: 2 }} size="small" variant="contained">
+                    <Link to="main"> Start doing</Link>
+                  </Button>
+                )}
+              </div>
+            </Container>
+            <Box component="div">
+              <Box component="img" sx={{ width: '350px' }} src={hero}></Box>
+            </Box>
+          </Box>
         </Container>
       </Box>
     </>

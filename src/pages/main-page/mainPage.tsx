@@ -20,7 +20,7 @@ const MainPage = () => {
   return (
     <>
       {/* <Header /> */}
-      <Box sx={{ bgcolor: '#cfe8fc', marginTop: 2 }}>
+      <Box sx={{ marginTop: 2 }}>
         <Container sx={{ height: '100vh' }}>
           {isLoading && <Loading />}
           {error && <Error message={error} />}

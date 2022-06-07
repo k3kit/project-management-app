@@ -12,14 +12,21 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  createSvgIcon,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AdbIcon from '@mui/icons-material/Adb';
-import { useAppDispatch } from '../../hooks/redux';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { logout } from '../../store/slices/Auth';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { boardsSlice } from '../../store/slices/boards';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+
+const LogoApp = createSvgIcon(
+  <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM7 12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v9zm7-4a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5z" />,
+  'Logo'
+);
 export const Header = () => {
   const [fix, setFix] = useState(false);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -27,6 +34,17 @@ export const Header = () => {
   const { setOpen } = boardsSlice.actions;
   const location = useLocation();
   const { boardId } = useParams();
+  const [openSignIn, setOpenSignIn] = useState(false);
+  const [openSignUp, setOpenSignUp] = useState(false);
+  const { isLoggedIn } = useAppSelector((state) => state.authReducer);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const setFixed = () => {
     if (window.scrollY >= 50) {
@@ -90,6 +108,7 @@ export const Header = () => {
               ) : (
                 ''
               )}
+
               <MenuItem onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
                   <Button color="inherit">
@@ -111,7 +130,15 @@ export const Header = () => {
               </MenuItem>
             </Menu>
           </Box>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: 'none', md: 'flex', justifyContent: 'space-between' },
+            }}
+          >
+            <Box component={Link} to="/">
+              <LogoApp sx={{ fontSize: 30 }} />
+            </Box>
             {`${location.pathname}` === `/board/${boardId}` ? (
               <Button
                 color="info"
@@ -124,25 +151,49 @@ export const Header = () => {
             ) : (
               ''
             )}
-            <Button sx={{ mr: 2 }} color="inherit">
-              <Link to="/edit"> Edit profile </Link>
-            </Button>
-            <Button color="inherit" onClick={handleLogout}>
-              Logout
-            </Button>
-            <Button onClick={openModal} color="inherit">
-              Create new board
-            </Button>
-          </Box>
-          <Box>
-            <Stack direction="row" spacing={1} alignItems="center">
-              <Typography>EN</Typography>
-              <Switch defaultChecked color="secondary" />
-              <Typography>RU</Typography>
-            </Stack>
-            <Button sx={{ mr: 2 }} variant="contained">
-              <Link to="/"> Go to Welcome Page</Link>
-            </Button>
+            <Button
+              id="demo-positioned-button"
+              aria-controls={open ? 'demo-positioned-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+              onClick={handleClick}
+              startIcon={<AccountCircleIcon />}
+              color="inherit"
+            ></Button>
+            <Menu
+              id="demo-positioned-menu"
+              aria-labelledby="demo-positioned-button"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+            >
+              {isLoggedIn ? (
+                <>
+                  <MenuItem onClick={handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={handleClose}>
+                    <Link to="/edit"> Edit profile </Link>
+                  </MenuItem>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </>
+              ) : (
+                <>
+                  <MenuItem>
+                    <Link to="register"> Sign Up </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link to="login"> Sign In</Link>
+                  </MenuItem>
+                </>
+              )}
+            </Menu>
           </Box>
         </Toolbar>
       </Container>
