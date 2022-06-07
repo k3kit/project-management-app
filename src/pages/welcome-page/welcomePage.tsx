@@ -84,7 +84,7 @@ const WelcomePage = () => {
                 the home office, the way your team works is unique—accomplish it all with PMApp.
               </Typography>
               <div>
-                {isLoggedIn && (
+                {!isLoggedIn && (
                   <Button sx={{ mr: 2 }} size="small" variant="contained">
                     <Link to="main"> Start doing</Link>
                   </Button>
