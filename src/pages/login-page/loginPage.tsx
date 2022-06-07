@@ -60,7 +60,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <Box sx={{ bgcolor: '#cfe8fc' }}>
+      <Box>
         {/* <AppBar position="sticky">
           <Toolbar>
             <Typography sx={{ flexGrow: 1 }} variant="h6">
