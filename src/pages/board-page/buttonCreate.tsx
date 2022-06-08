@@ -12,23 +12,41 @@ import { useParams } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/redux';
 import { createColumns } from '../../store/slices/columns';
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+
+interface boardForm {
+  title: string;
+}
 export const ButtonCreate = () => {
   const [open, setOpen] = useState(false);
   const [titleInput, setTitleInput] = useState('');
   const { boardId } = useParams();
   const dispatch = useAppDispatch();
+  const { control, handleSubmit } = useForm<boardForm>();
+  // const handleSubmit = () => {
+  //   if (boardId) {
+  //     setOpen(false);
+  //     dispatch(
+  //       createColumns({
+  //         boardId,
+  //         column: { title: titleInput },
+  //       })
+  //     );
+  //   }
+  //   setTitleInput('');
+  // };
+  const onSubmit: SubmitHandler<boardForm> = (data) => {
+    console.log('sub');
 
-  const handleSubmit = () => {
+    setOpen(false);
     if (boardId) {
-      setOpen(false);
       dispatch(
         createColumns({
           boardId,
-          column: { title: titleInput },
+          column: { title: data.title },
         })
       );
     }
-    setTitleInput('');
   };
 
   return (
@@ -45,9 +63,10 @@ export const ButtonCreate = () => {
       </Box>
 
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>Enter column name</DialogTitle>
-        <DialogContent>
-          <TextField
+        <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+          <DialogTitle>Enter column name</DialogTitle>
+          <DialogContent>
+            {/* <TextField
             autoFocus
             margin="dense"
             id="title"
@@ -57,11 +76,30 @@ export const ButtonCreate = () => {
             required
             variant="standard"
             onChange={(e) => setTitleInput(e.target.value)}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleSubmit}>Create</Button>
-        </DialogActions>
+          /> */}
+
+            <Controller
+              name="title"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  label="board name"
+                  id="title"
+                  name="title"
+                  autoComplete="title"
+                  autoFocus
+                  required
+                  onChange={(e) => field.onChange(e)}
+                />
+              )}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button type="submit">Create</Button>
+          </DialogActions>
+        </Box>
       </Dialog>
     </>
   );

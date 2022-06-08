@@ -61,16 +61,6 @@ const LoginPage = () => {
   return (
     <>
       <Box>
-        {/* <AppBar position="sticky">
-          <Toolbar>
-            <Typography sx={{ flexGrow: 1 }} variant="h6">
-              Project management app
-            </Typography>
-            <Button sx={{ mr: 2 }} variant="contained">
-              <Link to="/"> Go to Welcome Page</Link>
-            </Button>
-          </Toolbar>
-        </AppBar> */}
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box
@@ -81,9 +71,7 @@ const LoginPage = () => {
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ bgcolor: '#cfe8fc' }}>
-              <AccountCircleIcon color="primary" fontSize="large"></AccountCircleIcon>
-            </Avatar>
+            <AccountCircleIcon fontSize="large"></AccountCircleIcon>
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
@@ -141,6 +129,18 @@ const LoginPage = () => {
                   Sign In
                 </Button>
               )}
+              <Button
+                variant="outlined"
+                fullWidth={true}
+                disableElevation={true}
+                color="inherit"
+                sx={{
+                  marginTop: 1,
+                  marginBottom: 1,
+                }}
+              >
+                <Link to="/register"> Create an account</Link>
+              </Button>
               <Snackbar open={error ? true : false} autoHideDuration={6000} onClose={handleClose}>
                 <Alert
                   sx={{

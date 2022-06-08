@@ -15,9 +15,9 @@ const Layout = () => {
           minHeight: '100vh',
         }}
       >
-        <Container component="main">
-          <Outlet />
-        </Container>
+        {/* <Container component="main"> */}
+        <Outlet />
+        {/* </Container> */}
 
         <Footer />
       </Box>

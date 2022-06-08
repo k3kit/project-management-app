@@ -70,16 +70,6 @@ const Register = () => {
 
   return (
     <Box height="100vh">
-      {/* <AppBar position="sticky">
-        <Toolbar>
-          <Typography sx={{ flexGrow: 1 }} variant="h6">
-            Project management app
-          </Typography>
-          <Button sx={{ mr: 2 }} variant="contained">
-            <Link to="/"> Go to Welcome Page</Link>
-          </Button>
-        </Toolbar>
-      </AppBar> */}
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -90,9 +80,7 @@ const Register = () => {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ bgcolor: '#cfe8fc' }}>
-            <AppRegistrationIcon color="primary" fontSize="large" />
-          </Avatar>
+          <AppRegistrationIcon fontSize="large" />
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>

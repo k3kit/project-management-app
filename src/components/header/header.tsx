@@ -22,6 +22,7 @@ import { logout } from '../../store/slices/Auth';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { boardsSlice } from '../../store/slices/boards';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 const LogoApp = createSvgIcon(
   <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM7 12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v9zm7-4a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5z" />,
@@ -34,10 +35,8 @@ export const Header = () => {
   const { setOpen } = boardsSlice.actions;
   const location = useLocation();
   const { boardId } = useParams();
-  const [openSignIn, setOpenSignIn] = useState(false);
-  const [openSignUp, setOpenSignUp] = useState(false);
   const { isLoggedIn } = useAppSelector((state) => state.authReducer);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -57,6 +56,7 @@ export const Header = () => {
   window.addEventListener('scroll', setFixed);
   const handleLogout = () => {
     dispath(logout());
+    setAnchorEl(null);
   };
 
   const openModal = () => {
@@ -150,7 +150,7 @@ export const Header = () => {
             <Box component={Link} to="/">
               <LogoApp sx={{ fontSize: 45, paddingTop: '15px', color: 'rgba(0, 0, 0, 0.87)' }} />
             </Box>
-            {`${location.pathname}` === `/board/${boardId}` ? (
+            {`${location.pathname}` === `/board/${boardId}` && (
               <Button
                 color="primary"
                 variant="text"
@@ -160,16 +160,25 @@ export const Header = () => {
               >
                 <Link to="/main">Go main</Link>
               </Button>
-            ) : (
-              ''
+            )}
+            {`${location.pathname}` === `/main` && (
+              <Button
+                color="primary"
+                variant="text"
+                sx={{ color: 'rgba(0, 0, 0, 0.87)' }}
+                startIcon={<AddBoxIcon />}
+                size="small"
+                onClick={openModal}
+              >
+                Create new board
+              </Button>
             )}
             <Button
-              id="demo-positioned-button"
-              aria-controls={open ? 'demo-positioned-menu' : undefined}
+              id="basic-button"
+              aria-controls={open ? 'basic-menu' : undefined}
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
               onClick={handleClick}
-              // startIcon={<AccountCircleIcon />}
               sx={{ color: 'rgba(0, 0, 0, 0.87)' }}
               size="large"
             >
@@ -192,7 +201,6 @@ export const Header = () => {
             >
               {isLoggedIn ? (
                 <>
-                  <MenuItem onClick={handleClose}>Profile</MenuItem>
                   <MenuItem onClick={handleClose}>
                     <Link to="/edit"> Edit profile </Link>
                   </MenuItem>
@@ -201,10 +209,14 @@ export const Header = () => {
               ) : (
                 <>
                   <MenuItem>
-                    <Link to="register"> Sign Up </Link>
+                    <Link to="register" onClick={handleClose}>
+                      Sign Up
+                    </Link>
                   </MenuItem>
                   <MenuItem>
-                    <Link to="login"> Sign In</Link>
+                    <Link to="login" onClick={handleClose}>
+                      Sign In
+                    </Link>
                   </MenuItem>
                 </>
               )}
