@@ -12,7 +12,7 @@ const Layout = () => {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          minHeight: '100vh',
+          minHeight: 'calc(100vh - 65px)',
         }}
       >
         {/* <Container component="main"> */}

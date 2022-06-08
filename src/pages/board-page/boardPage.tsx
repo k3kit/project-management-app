@@ -12,7 +12,7 @@ import {
 } from '../../store/slices/columns';
 import { IColumn, ITask, ITaskType, ITaskTypeDrag, ITaskTypeUpdate, Jwt } from '../../types';
 import { BoardItem } from './boardItem';
-import { ButtonCreate } from './buttonCreate';
+import { ColumnCreate } from './columnCreate';
 import { DragDropContext, Droppable, DroppableProvided, DropResult } from 'react-beautiful-dnd';
 import { getUsers } from '../../store/slices/user';
 import jwtDecode from 'jwt-decode';
@@ -157,7 +157,7 @@ const BoardPage = () => {
 
   return (
     <>
-      <Box padding={2} sx={{ height: '72.5vh', overflow: 'auto ' }}>
+      <Box padding={2} sx={{ height: '70vh', overflow: 'auto' }}>
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Droppable droppableId="all-columns" direction="horizontal" type="column">
             {(provided: DroppableProvided) => (
@@ -180,7 +180,7 @@ const BoardPage = () => {
                     />
                   ))}
                 {provided.placeholder}
-                <ButtonCreate />
+                <ColumnCreate />
               </Stack>
             )}
           </Droppable>

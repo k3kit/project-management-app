@@ -33,6 +33,7 @@ import { TaskItem } from './taskItem';
 import { RootState } from '../../store/store';
 import { Draggable, DraggableProvided, Droppable, DroppableProvided } from 'react-beautiful-dnd';
 import jwtDecode from 'jwt-decode';
+import { TaskCreate } from './taskCreate';
 
 export const BoardItem: FC<IColumn> = ({ id, title, order, index }) => {
   const [open, setOpen] = React.useState(false);
@@ -71,24 +72,24 @@ export const BoardItem: FC<IColumn> = ({ id, title, order, index }) => {
   const tok = tokenA.token;
   const decoded = jwtDecode<Jwt>(tok);
 
-  const addedTask = () => {
-    if (boardId) {
-      dispatch(
-        addTask({
-          boardId: boardId,
-          columnsId: id,
-          task: {
-            title: titleInput,
-            description: descripInput,
-            userId: decoded.userId,
-          },
-        })
-      );
-    }
-    setTitleInput('');
-    setDescripInput('');
-    setOpen(false);
-  };
+  // const addedTask = () => {
+  //   if (boardId) {
+  //     dispatch(
+  //       addTask({
+  //         boardId: boardId,
+  //         columnsId: id,
+  //         task: {
+  //           title: titleInput,
+  //           description: descripInput,
+  //           userId: decoded.userId,
+  //         },
+  //       })
+  //     );
+  //   }
+  //   setTitleInput('');
+  //   setDescripInput('');
+  //   setOpen(false);
+  // };
 
   return (
     <>
@@ -100,7 +101,8 @@ export const BoardItem: FC<IColumn> = ({ id, title, order, index }) => {
       >
         <Typography>Are you sure you want to delete this column?</Typography>
       </ConfirmDialog>
-      <Dialog open={open} onClose={() => setOpen(false)}>
+      <TaskCreate id={id} open={open} setOpen={setOpen} />
+      {/* <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Enter column name</DialogTitle>
         <DialogContent>
           <TextField
@@ -130,7 +132,7 @@ export const BoardItem: FC<IColumn> = ({ id, title, order, index }) => {
           <Button onClick={addedTask}>Create</Button>
           <Button onClick={() => setOpen(false)}>Cancel</Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
       <Draggable draggableId={id} index={index} key={id}>
         {(provided: DraggableProvided) => {
           return (

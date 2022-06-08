@@ -11,6 +11,7 @@ import { RequireAuth } from './hoc/RequireAuth';
 import Register from './pages/login-page/Register';
 import EditProfle from './pages/edit-profile/editProfle';
 import EditPage from './pages/edit-profile/editProfle';
+import { PageNotFound } from './pages/page-not-found/PageNotFound';
 function App() {
   return (
     <div className="App">
@@ -43,6 +44,7 @@ function App() {
               </RequireAuth>
             }
           />
+          <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>
     </div>

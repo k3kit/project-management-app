@@ -21,7 +21,7 @@ const MainPage = () => {
     <>
       {/* <Header /> */}
       <Box sx={{ marginTop: 2 }}>
-        <Container sx={{ height: '100vh' }}>
+        <Container>
           {isLoading && <Loading />}
           {error && <Error message={error} />}
           <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 12 }}>

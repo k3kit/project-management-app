@@ -17,7 +17,7 @@ import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 interface boardForm {
   title: string;
 }
-export const ButtonCreate = () => {
+export const ColumnCreate = () => {
   const [open, setOpen] = useState(false);
   const [titleInput, setTitleInput] = useState('');
   const { boardId } = useParams();
@@ -66,18 +66,6 @@ export const ButtonCreate = () => {
         <Box component="form" onSubmit={handleSubmit(onSubmit)}>
           <DialogTitle>Enter column name</DialogTitle>
           <DialogContent>
-            {/* <TextField
-            autoFocus
-            margin="dense"
-            id="title"
-            label="title column"
-            type="text"
-            fullWidth
-            required
-            variant="standard"
-            onChange={(e) => setTitleInput(e.target.value)}
-          /> */}
-
             <Controller
               name="title"
               control={control}
