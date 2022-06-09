@@ -50,7 +50,7 @@ export const TaskCreate: FC<MyProps> = ({ id, setOpen, open }) => {
   return (
     <Dialog open={open} onClose={() => setOpen(false)}>
       <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-        <DialogTitle>Enter column name</DialogTitle>
+        <DialogTitle>Enter task name</DialogTitle>
         <DialogContent>
           <Controller
             name="title"

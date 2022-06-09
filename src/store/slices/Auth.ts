@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { useAppDispatch } from '../../hooks/redux';
 import authHeader from '../../services/auth-header';
 import authService from '../../services/auth.service';
+import userService from '../../services/user.service';
 import { CharacterSlice } from './Message';
 
 interface userDataRegister {
@@ -53,7 +54,14 @@ export const login = createAsyncThunk(
 export const logout = createAsyncThunk('auth/logout', async () => {
   await authService.logout();
 });
-
+export const deleteUsers = createAsyncThunk('/users/delete', async (id: string, thunkAPI) => {
+  try {
+    const response = await userService.deleteUser(id);
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
 interface IUser {
   id: string;
   login: string;
@@ -79,7 +87,7 @@ const initialState: IAuth = token
   : {
       isLoggedIn: false,
       user: {} as IUser,
-      token: 'null',
+      token: '',
       isRegister: false,
       isLoading: false,
       error: '',
@@ -93,7 +101,7 @@ export const authSlice = createSlice({
     [register.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
       state.isLoggedIn = false;
       state.user = action.payload;
-      state.isRegister = true;
+      state.isRegister = false;
       state.isLoading = false;
     },
     [register.rejected.type]: (state, action) => {
@@ -107,6 +115,7 @@ export const authSlice = createSlice({
     },
     [login.fulfilled.type]: (state, action) => {
       state.isLoggedIn = true;
+      state.isLoading = false;
       state.token = action.payload.token;
     },
     [login.rejected.type]: (state, action) => {
@@ -118,6 +127,10 @@ export const authSlice = createSlice({
       state.isLoading = true;
     },
     [logout.fulfilled.type]: (state, action) => {
+      state.isLoggedIn = false;
+      state.isLoading = false;
+    },
+    [deleteUsers.fulfilled.type]: (state, action) => {
       state.isLoggedIn = false;
       state.isLoading = false;
     },

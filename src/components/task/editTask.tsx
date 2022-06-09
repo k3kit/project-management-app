@@ -8,7 +8,7 @@ import { string } from 'yup/lib/locale';
 import { useAppDispatch } from '../../hooks/redux';
 import { logout } from '../../store/slices/Auth';
 import { updateTask } from '../../store/slices/columns';
-import { deleteUsers, updateUser } from '../../store/slices/user';
+import { updateUser } from '../../store/slices/user';
 import { IFormEdit, Jwt } from '../../types';
 import validationShema from '../../yup';
 import ConfirmDialog from '../modal/ConfirmationModal';

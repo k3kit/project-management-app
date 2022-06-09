@@ -3,17 +3,20 @@ import { Container, CssBaseline, Box, Typography, TextField, Button, Grid } from
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch } from '../../hooks/redux';
-import { deleteUsers, updateUser } from '../../store/slices/user';
 import jwtDecode from 'jwt-decode';
 import ConfirmDialog from '../modal/ConfirmationModal';
-import { logout } from '../../store/slices/Auth';
+import { logout, deleteUsers } from '../../store/slices/Auth';
 import { IFormEdit, Jwt } from '../../types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import validationShema from '../../yup';
+import { updateUser } from '../../store/slices/user';
 
 const EditProfile = () => {
   const dispath = useAppDispatch();
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const tokenA = JSON.parse(localStorage.getItem('token') || '');
+  const tok = tokenA.token;
+  const decoded = jwtDecode<Jwt>(tok);
   const {
     control,
     handleSubmit,
@@ -24,11 +27,8 @@ const EditProfile = () => {
   });
   const handleDelete = () => {
     dispath(deleteUsers(decoded.userId));
-    dispath(logout());
   };
-  const tokenA = JSON.parse(localStorage.getItem('token') || 'null');
-  const tok = tokenA.token;
-  const decoded = jwtDecode<Jwt>(tok);
+
   const onSubmit: SubmitHandler<IFormEdit> = (data) => {
     dispath(
       updateUser({

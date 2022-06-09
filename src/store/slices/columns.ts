@@ -116,6 +116,7 @@ export const getAllTask = createAsyncThunk(
   async ({ boardId, columnId }: ITaskAll, ThunkAPI) => {
     try {
       const respons = await columnsService.getAllTask(boardId, columnId);
+      console.log(respons.data);
       return respons.data;
     } catch (error) {
       ThunkAPI.rejectWithValue(error);
@@ -164,7 +165,6 @@ interface ColumnState {
   dialog: boolean;
   fade: boolean;
   taskInfo: ITask[];
-  AllTask: ITask2[];
   error: string;
 }
 
@@ -175,7 +175,6 @@ const initialState: ColumnState = {
   fade: false,
   error: '',
   taskInfo: [],
-  AllTask: [],
 };
 
 type setNewOrderTasksType = {
@@ -215,7 +214,6 @@ export const columnsSlice = createSlice({
     },
     [getColumns.fulfilled.type]: (state, action: PayloadAction<IColumn[]>) => {
       state.columns = action.payload;
-
       state.fade = true;
       state.isLoading = false;
     },
@@ -231,19 +229,13 @@ export const columnsSlice = createSlice({
       state.fade = true;
     },
     [deleteTask.fulfilled.type]: (state, action) => {
-      // state.columns = state.columns.filter((column) => {
-      //   if (column.id === action.payload.taskId) {
-      //     return (column.tasks = column.tasks.filter((task) => task.id !== action.payload.id));
-      //   } else return column;
-      // });
-
       const index = state.columns.findIndex((columns) => columns.id === action.payload.columnId);
       state.columns[index].tasks.filter((task) => task.id !== action.payload.taskId);
     },
     [deleteColums.pending.type]: (state, action) => {
       state.fade = false;
     },
-    [getColumnById.fulfilled.type]: (state, action) => {
+    [getColumnById.fulfilled.type]: (state, action: PayloadAction<IColumn>) => {
       const index = state.columns.findIndex((columns) => columns.id === action.payload.id);
       state.columns[index].tasks = action.payload.tasks;
       state.fade = true;
@@ -255,9 +247,7 @@ export const columnsSlice = createSlice({
     [getTaskById.fulfilled.type]: (state, action) => {
       state.taskInfo = action.payload;
     },
-    [getAllTask.fulfilled.type]: (state, action) => {
-      state.AllTask = action.payload;
-    },
+    [getAllTask.fulfilled.type]: (state, action: PayloadAction<IColumn>) => {},
     [updateTask.rejected.type]: (state, action) => {
       state.error = action.payload;
     },

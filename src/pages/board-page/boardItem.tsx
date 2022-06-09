@@ -32,23 +32,21 @@ import { ColumnTitle } from './columnTitle';
 import { TaskItem } from './taskItem';
 import { RootState } from '../../store/store';
 import { Draggable, DraggableProvided, Droppable, DroppableProvided } from 'react-beautiful-dnd';
-import jwtDecode from 'jwt-decode';
 import { TaskCreate } from './taskCreate';
 
 export const BoardItem: FC<IColumn> = ({ id, title, order, index }) => {
   const [open, setOpen] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [titleInput, setTitleInput] = useState('');
-  const [descripInput, setDescripInput] = useState('');
-
   const dispatch = useAppDispatch();
   const { boardId } = useParams();
+  const { isLoading, dialog, columns, fade } = useAppSelector((state) => state.columnsReducer);
+
   useEffect(() => {
     if (boardId) {
       dispatch(getColumnById({ boardId: boardId, columnId: id }));
     }
-  }, [boardId, dispatch, id]);
-  const { isLoading, dialog, columns, fade } = useAppSelector((state) => state.columnsReducer);
+  }, [boardId, dispatch, id, isLoading]);
 
   const getTasksByColumnId = (state: RootState, columnId: string) => {
     const currentColumn = state.columnsReducer.columns.find(
@@ -68,29 +66,6 @@ export const BoardItem: FC<IColumn> = ({ id, title, order, index }) => {
     }
   };
 
-  const tokenA = JSON.parse(localStorage.getItem('token') || 'null');
-  const tok = tokenA.token;
-  const decoded = jwtDecode<Jwt>(tok);
-
-  // const addedTask = () => {
-  //   if (boardId) {
-  //     dispatch(
-  //       addTask({
-  //         boardId: boardId,
-  //         columnsId: id,
-  //         task: {
-  //           title: titleInput,
-  //           description: descripInput,
-  //           userId: decoded.userId,
-  //         },
-  //       })
-  //     );
-  //   }
-  //   setTitleInput('');
-  //   setDescripInput('');
-  //   setOpen(false);
-  // };
-
   return (
     <>
       <ConfirmDialog
@@ -102,118 +77,87 @@ export const BoardItem: FC<IColumn> = ({ id, title, order, index }) => {
         <Typography>Are you sure you want to delete this column?</Typography>
       </ConfirmDialog>
       <TaskCreate id={id} open={open} setOpen={setOpen} />
-      {/* <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>Enter column name</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="title"
-            label="title task"
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(e) => setTitleInput(e.target.value)}
-          />
-        </DialogContent>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="description"
-            label="description task"
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(e) => setDescripInput(e.target.value)}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={addedTask}>Create</Button>
-          <Button onClick={() => setOpen(false)}>Cancel</Button>
-        </DialogActions>
-      </Dialog> */}
       <Draggable draggableId={id} index={index} key={id}>
         {(provided: DraggableProvided) => {
           return (
-            <Fade in={fade}>
-              <Grid
-                item
-                xs={4}
-                ref={provided.innerRef}
-                {...provided.draggableProps}
-                {...provided.dragHandleProps}
-                id={id}
+            // <Fade in={fade}>
+            <Grid
+              item
+              xs={4}
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              id={id}
+            >
+              <Paper
+                sx={{
+                  width: '300px',
+                  maxWidth: '300px',
+                  minHeight: '250px',
+                  backgroundColor: '#1A2027',
+                }}
               >
-                <Paper
-                  sx={{
-                    width: '300px',
-                    maxWidth: '300px',
-                    minHeight: '250px',
-                    backgroundColor: '#1A2027',
-                  }}
-                >
-                  <Box sx={{ display: 'flex' }}>
-                    <ColumnTitle
-                      id={id}
-                      title={title}
-                      order={order}
-                      tasks={[]}
-                      index={0}
-                    ></ColumnTitle>
-                    <IconButton sx={{ height: 40 }} onClick={() => setConfirmOpen(true)}>
-                      <ClearIcon color="primary" height={25} />
-                    </IconButton>
-                  </Box>
-                  <Droppable droppableId={id} type="task">
-                    {(provided: DroppableProvided) => (
-                      <Box
-                        className="box"
-                        sx={{
-                          flexDirection: 'column',
-                          overflow: 'auto',
-                          maxHeight: '50vh',
-                          minHeight: '150px',
-                          minWidth: '210px',
-                        }}
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                      >
-                        {isLoading ? (
-                          tasks &&
-                          [...tasks]
-                            .sort((a, b) => a.order - b.order)
-                            .map((it: ITask, index: number) => {
-                              const keys = index + it.id;
-                              return (
-                                <TaskItem
-                                  key={keys}
-                                  id={it.id}
-                                  columnId={id}
-                                  title={it.title}
-                                  order={it.order}
-                                  description={it.description}
-                                  userId={it.userId}
-                                  index={index}
-                                />
-                              );
-                            })
-                        ) : (
-                          <Skeleton variant="rectangular" width="100%" height="100%" />
-                        )}
-                        {provided.placeholder}
-                      </Box>
-                    )}
-                  </Droppable>
+                <Box sx={{ display: 'flex' }}>
+                  <ColumnTitle
+                    id={id}
+                    title={title}
+                    order={order}
+                    tasks={[]}
+                    index={0}
+                  ></ColumnTitle>
+                  <IconButton sx={{ height: 40 }} onClick={() => setConfirmOpen(true)}>
+                    <ClearIcon color="primary" height={25} />
+                  </IconButton>
+                </Box>
+                <Droppable droppableId={id} type="task">
+                  {(provided: DroppableProvided) => (
+                    <Box
+                      className="box"
+                      sx={{
+                        flexDirection: 'column',
+                        overflow: 'auto',
+                        maxHeight: '50vh',
+                        minHeight: '150px',
+                        minWidth: '210px',
+                      }}
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                    >
+                      {isLoading ? (
+                        tasks &&
+                        [...tasks]
+                          .sort((a, b) => a.order - b.order)
+                          .map((it: ITask, index: number) => {
+                            const keys = index + it.id;
+                            return (
+                              <TaskItem
+                                key={keys}
+                                id={it.id}
+                                columnId={id}
+                                title={it.title}
+                                order={it.order}
+                                description={it.description}
+                                userId={it.userId}
+                                index={index}
+                              />
+                            );
+                          })
+                      ) : (
+                        <Skeleton variant="rectangular" width="100%" height="100%" />
+                      )}
+                      {provided.placeholder}
+                    </Box>
+                  )}
+                </Droppable>
 
-                  <Box>
-                    <Button startIcon={<AddIcon />} onClick={() => setOpen(true)} fullWidth>
-                      add card
-                    </Button>
-                  </Box>
-                </Paper>
-              </Grid>
-            </Fade>
+                <Box>
+                  <Button startIcon={<AddIcon />} onClick={() => setOpen(true)} fullWidth>
+                    add card
+                  </Button>
+                </Box>
+              </Paper>
+            </Grid>
+            // </Fade>
           );
         }}
       </Draggable>

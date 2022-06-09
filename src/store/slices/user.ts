@@ -10,14 +10,7 @@ export const getUsers = createAsyncThunk('/usersAll', async (_, thunkAPI) => {
     return thunkAPI.rejectWithValue(error);
   }
 });
-export const deleteUsers = createAsyncThunk('/users/delete', async (id: string, thunkAPI) => {
-  try {
-    const response = await userService.deleteUser(id);
-    return response.data;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error);
-  }
-});
+
 interface IUpdateUser {
   id: string;
   user: IFormEdit;
