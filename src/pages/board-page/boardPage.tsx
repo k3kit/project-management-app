@@ -56,6 +56,7 @@ const BoardPage = () => {
         }
       }
       dispatch(orderColumn(it));
+      return;
     }
     if (type === 'task') {
       const columnStart = columns.filter((item) => item.id == source.droppableId);

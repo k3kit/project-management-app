@@ -19,7 +19,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { logout } from '../../store/slices/Auth';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { boardsSlice } from '../../store/slices/boards';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import AddBoxIcon from '@mui/icons-material/AddBox';
@@ -30,6 +30,7 @@ const LogoApp = createSvgIcon(
 );
 export const Header = () => {
   const [fix, setFix] = useState(false);
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const dispath = useAppDispatch();
   const { setOpen } = boardsSlice.actions;
@@ -171,6 +172,18 @@ export const Header = () => {
                 onClick={openModal}
               >
                 Create new board
+              </Button>
+            )}
+            {`${location.pathname}` === `/edit` && (
+              <Button
+                color="primary"
+                variant="text"
+                sx={{ color: 'rgba(0, 0, 0, 0.87)' }}
+                startIcon={<ArrowBackIosIcon />}
+                size="small"
+                onClick={() => navigate(-1)}
+              >
+                back
               </Button>
             )}
             <Button

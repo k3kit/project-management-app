@@ -1,13 +1,13 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Container, TextField, Button, Grid } from '@mui/material';
 import jwtDecode from 'jwt-decode';
-import { FC, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useParams } from 'react-router';
 import { string } from 'yup/lib/locale';
 import { useAppDispatch } from '../../hooks/redux';
 import { logout } from '../../store/slices/Auth';
-import { updateTask } from '../../store/slices/columns';
+import { getColumnById, updateTask } from '../../store/slices/columns';
 import { updateUser } from '../../store/slices/user';
 import { IFormEdit, Jwt } from '../../types';
 import validationShema from '../../yup';
@@ -25,6 +25,7 @@ interface MyProps {
   title: string;
   order: number;
   description: string;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 }
 const EditTask: FC<MyProps> = ({
   titleIntup,
@@ -34,6 +35,7 @@ const EditTask: FC<MyProps> = ({
   title,
   order,
   description,
+  setOpen,
 }) => {
   const { boardId } = useParams();
   const dispath = useAppDispatch();
@@ -42,24 +44,30 @@ const EditTask: FC<MyProps> = ({
   const tokenA = JSON.parse(localStorage.getItem('token') || 'null');
   const tok = tokenA.token;
   const decoded = jwtDecode<Jwt>(tok);
-  const onSubmit: SubmitHandler<ITaskEdit> = (data) => {
+  const dispatch = useAppDispatch();
+
+  const onSubmit: SubmitHandler<ITaskEdit> = async (data) => {
     if (boardId && title && description) {
-      dispath(
+      await dispath(
         updateTask({
           boardId: boardId,
           columnsId: columnsId,
           taskId: id,
           task: {
-            title: data.title,
+            title: data.title || titleIntup,
             order: order,
-            description: data.description,
+            description: data.description || descriptionInput,
             userId: decoded.userId,
             boardId: boardId,
             columnId: columnsId,
           },
         })
       );
+      if (boardId) {
+        await dispatch(getColumnById({ boardId: boardId, columnId: columnsId }));
+      }
     }
+    setOpen(false);
   };
   return (
     <Container>
@@ -71,6 +79,7 @@ const EditTask: FC<MyProps> = ({
             <TextField
               margin="normal"
               fullWidth
+              required
               label="Title"
               defaultValue={titleIntup}
               autoFocus
@@ -85,9 +94,9 @@ const EditTask: FC<MyProps> = ({
             <TextField
               margin="normal"
               fullWidth
+              required
               label="description"
               defaultValue={descriptionInput}
-              autoFocus
               onChange={(e) => field.onChange(e)}
             />
           )}

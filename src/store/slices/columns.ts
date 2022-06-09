@@ -251,6 +251,10 @@ export const columnsSlice = createSlice({
     [updateTask.rejected.type]: (state, action) => {
       state.error = action.payload;
     },
+    [updateTask.fulfilled.type]: (state, action) => {
+      const index = state.columns.findIndex((columns) => columns.id === action.payload.columnId);
+      state.columns[index].tasks.filter((task) => task.id !== action.payload.taskId);
+    },
     [addTask.fulfilled.type]: (state, action) => {
       const column = state.columns.find(({ id }) => id === action.payload.columnId);
       column?.tasks.push({

@@ -94,6 +94,7 @@ export const TaskItem: FC<MyProps> = ({
           id={id}
           title={title}
           order={order}
+          setOpen={setOpen}
           description={description}
         />
       </Dialog>
