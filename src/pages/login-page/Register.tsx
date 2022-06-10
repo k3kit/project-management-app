@@ -70,8 +70,7 @@ const Register = () => {
 
   return (
     <Box height="100vh">
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+      <Container>
         <Box
           sx={{
             marginTop: 4,
