@@ -11,6 +11,11 @@
       }
     }
   }
+  @media screen and (max-width: 360) {
+    img {
+      width: 300px;
+    }
+  }
 }
 
 .container {

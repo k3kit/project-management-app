@@ -109,7 +109,6 @@ const Register = () => {
                   fullWidth
                   label={errors.login ? errors.login.message : 'Login'}
                   autoComplete="login"
-                  autoFocus
                   value={field.value}
                   onChange={(e) => field.onChange(e)}
                 />

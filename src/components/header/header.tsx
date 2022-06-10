@@ -77,16 +77,20 @@ export const Header = () => {
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: 'flex', md: 'none', justifyContent: 'space-between' },
+            }}
+          >
             <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
             >
-              <MenuIcon />
+              <MenuIcon sx={{ color: 'rgba(0, 0, 0, 0.87)' }} />
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -136,6 +140,9 @@ export const Header = () => {
                 </Button>
               </MenuItem>
             </Menu>
+            <Box component={Link} to="/">
+              <LogoApp sx={{ fontSize: 30, paddingTop: '15px', color: 'rgba(0, 0, 0, 0.87)' }} />
+            </Box>
           </Box>
           <Box
             sx={{
