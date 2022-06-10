@@ -12,6 +12,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import hero from '../../icon/hero.png';
 import { useAppSelector } from '../../hooks/redux';
+import './welcomePage.scss';
+
 const WelcomePage = () => {
   const [openSignIn, setOpenSignIn] = useState(false);
   const [openSignUp, setOpenSignUp] = useState(false);
@@ -20,41 +22,11 @@ const WelcomePage = () => {
 
   return (
     <>
-      {/* <AppBar position="sticky">
-        <Toolbar>
-          <Typography sx={{ flexGrow: 1 }} variant="h6">
-            Project management app
-          </Typography>
-          {isLoggedIn ? (
-            <Button sx={{ mr: 2 }} size="small" variant="contained">
-              <Link to="main"> Go to Main Page</Link>
-            </Button>
-          ) : (
-            <>
-              <Button
-                sx={{ mr: 2 }}
-                variant="contained"
-                size="medium"
-                onClick={() => setOpenSignIn(true)}
-              >
-                <Link to="login"> Sign In</Link>
-              </Button>
-              <Button
-                sx={{ mr: 2 }}
-                variant="contained"
-                size="medium"
-                onClick={() => setOpenSignUp(true)}
-              >
-                <Link to="register"> Sign Up </Link>
-              </Button>
-            </>
-          )}
-        </Toolbar>
-      </AppBar> */}
       <Box>
         <Container>
-          <Box component="section" sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Box component="section" className="welcome">
             <Container
+              className="container"
               component="div"
               maxWidth="sm"
               sx={{
@@ -65,7 +37,7 @@ const WelcomePage = () => {
               }}
             >
               <Typography
-                component="div"
+                component="p"
                 variant="h1"
                 fontSize="2.75rem"
                 color="text.primary"
@@ -75,7 +47,7 @@ const WelcomePage = () => {
               </Typography>
               <Typography
                 variant="h5"
-                component="div"
+                component="p"
                 align="center"
                 color="text.secondary"
                 paragraph
@@ -84,7 +56,7 @@ const WelcomePage = () => {
                 the home office, the way your team works is unique—accomplish it all with PMApp.
               </Typography>
               <div>
-                <Button sx={{ mr: 2 }} size="small" variant="contained">
+                <Button sx={{ mr: 2 }} size="medium" variant="contained">
                   <Link to={isLoggedIn ? 'main' : 'login'}> Start doing</Link>
                 </Button>
               </div>
