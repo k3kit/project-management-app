@@ -120,25 +120,42 @@ export const Header = () => {
                 ''
               )}
 
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">
-                  <Button color="inherit">
-                    <Link to="/edit"> Edit profile </Link>
-                  </Button>
-                </Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">
-                  <Button color="inherit" onClick={handleLogout}>
-                    Logout
-                  </Button>
-                </Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Button onClick={openModal} color="inherit">
-                  Create new board
-                </Button>
-              </MenuItem>
+              {isLoggedIn ? (
+                <>
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">
+                      <Button color="inherit">
+                        <Link to="/edit"> Edit profile </Link>
+                      </Button>
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">
+                      <Button color="inherit" onClick={handleLogout}>
+                        Logout
+                      </Button>
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Button onClick={openModal} color="inherit">
+                      Create new board
+                    </Button>
+                  </MenuItem>
+                </>
+              ) : (
+                <>
+                  <MenuItem>
+                    <Link to="register" onClick={handleCloseNavMenu}>
+                      Sign Up
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link to="login" onClick={handleCloseNavMenu}>
+                      Sign In
+                    </Link>
+                  </MenuItem>
+                </>
+              )}
             </Menu>
             <Box component={Link} to="/">
               <LogoApp sx={{ fontSize: 30, paddingTop: '15px', color: 'rgba(0, 0, 0, 0.87)' }} />
