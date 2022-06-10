@@ -62,7 +62,7 @@ const WelcomePage = () => {
               </div>
             </Container>
             <Box component="div">
-              <Box component="img" sx={{ width: '350px' }} src={hero}></Box>
+              <Box component="img" src={hero}></Box>
             </Box>
           </Box>
         </Container>
