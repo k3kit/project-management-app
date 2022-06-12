@@ -23,6 +23,7 @@ import { CharacterSlice } from '../../store/slices/Message';
 import validationShema from '../../yup';
 import { Link, useNavigate } from 'react-router-dom';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import { useTranslation } from 'react-i18next';
 interface IFormRegister {
   name: string;
   login: string;
@@ -31,6 +32,7 @@ interface IFormRegister {
 
 const Register = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const {
     control,
     handleSubmit,
@@ -70,8 +72,7 @@ const Register = () => {
 
   return (
     <Box height="100vh">
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+      <Container maxWidth="xs">
         <Box
           sx={{
             marginTop: 4,
@@ -82,7 +83,7 @@ const Register = () => {
         >
           <AppRegistrationIcon fontSize="large" />
           <Typography component="h1" variant="h5">
-            Sign up
+            {t('register_page.title')}
           </Typography>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Controller
@@ -92,7 +93,7 @@ const Register = () => {
                 <TextField
                   margin="normal"
                   fullWidth={true}
-                  label={errors.name ? errors.name.message : 'Username'}
+                  label={errors.name ? errors.name.message : t('register_page.user_name')}
                   autoComplete="name"
                   autoFocus
                   value={field.value}
@@ -107,9 +108,8 @@ const Register = () => {
                 <TextField
                   margin="normal"
                   fullWidth
-                  label={errors.login ? errors.login.message : 'Login'}
+                  label={errors.login ? errors.login.message : t('register_page.login')}
                   autoComplete="login"
-                  autoFocus
                   value={field.value}
                   onChange={(e) => field.onChange(e)}
                 />
@@ -122,7 +122,7 @@ const Register = () => {
                 <TextField
                   margin="normal"
                   fullWidth
-                  label={errors.password ? errors.password.message : 'Password'}
+                  label={errors.password ? errors.password.message : t('register_page.password')}
                   type="password"
                   autoComplete="current-password"
                   value={field.value}
@@ -132,7 +132,7 @@ const Register = () => {
             />
             {isLoading ? (
               <LoadingButton size="large" variant="contained" loading={isLoading} fullWidth={true}>
-                Sign Up
+                {t('register_page.title')}
               </LoadingButton>
             ) : (
               <Button
@@ -145,7 +145,7 @@ const Register = () => {
                   marginBottom: 1,
                 }}
               >
-                Sign Up
+                {t('register_page.title')}
               </Button>
             )}
             <Button
@@ -158,7 +158,7 @@ const Register = () => {
                 marginBottom: 1,
               }}
             >
-              <Link to="/login"> If you already have an account, just login.</Link>
+              <Link to="/login"> {t('register_page.login_link')}</Link>
             </Button>
             <Snackbar open={error ? true : false} autoHideDuration={3000} onClose={handleClose}>
               <Alert

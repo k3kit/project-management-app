@@ -1,5 +1,6 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import React, { Dispatch, SetStateAction } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const ConfirmDialog = (props: {
   title: string;
@@ -9,6 +10,7 @@ const ConfirmDialog = (props: {
   onConfirm: () => void;
 }) => {
   const { title, children, open, setOpen, onConfirm } = props;
+  const { t } = useTranslation();
 
   return (
     <Dialog open={open} onClose={() => setOpen(false)}>
@@ -16,7 +18,7 @@ const ConfirmDialog = (props: {
       <DialogContent>{children}</DialogContent>
       <DialogActions>
         <Button variant="outlined" onClick={() => setOpen(false)} size="small">
-          No
+          {t('confirm.no')}
         </Button>
         <Button
           size="small"
@@ -26,7 +28,7 @@ const ConfirmDialog = (props: {
             onConfirm();
           }}
         >
-          Yes
+          {t('confirm.yes')}
         </Button>
       </DialogActions>
     </Dialog>

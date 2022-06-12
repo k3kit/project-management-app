@@ -1,0 +1,31 @@
+.welcome {
+  display: flex;
+  justify-content: space-between;
+
+  img {
+    padding-top: 20px;
+    width: 400px;
+  }
+  @media screen and (max-width: 1200px) {
+    padding-top: 20px;
+    flex-direction: column;
+    img {
+      width: 350px;
+    }
+    p {
+      font-size: 2rem;
+      &:last-of-type {
+        font-size: 1rem;
+      }
+    }
+  }
+  @media screen and (max-width: 395px) {
+    img {
+      width: 300px;
+    }
+  }
+}
+
+.container {
+  margin-bottom: 20px;
+}

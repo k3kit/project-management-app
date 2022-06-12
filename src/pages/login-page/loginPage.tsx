@@ -22,6 +22,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import validationShema from '../../yup';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { LoadingButton } from '@mui/lab';
+import { useTranslation } from 'react-i18next';
 interface IFormLogin {
   login: string;
   password: string;
@@ -29,6 +30,7 @@ interface IFormLogin {
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const {
     control,
     handleSubmit,
@@ -61,8 +63,7 @@ const LoginPage = () => {
   return (
     <>
       <Box>
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
+        <Container maxWidth="xs">
           <Box
             sx={{
               marginTop: 8,
@@ -73,7 +74,7 @@ const LoginPage = () => {
           >
             <AccountCircleIcon fontSize="large"></AccountCircleIcon>
             <Typography component="h1" variant="h5">
-              Sign in
+              {t('login_page.title')}
             </Typography>
 
             <Box
@@ -92,7 +93,7 @@ const LoginPage = () => {
                     required
                     fullWidth
                     id="login"
-                    label={errors.login ? errors.login.message : 'Login'}
+                    label={errors.login ? errors.login.message : t('login_page.login')}
                     name="login"
                     autoComplete="login"
                     autoFocus
@@ -107,7 +108,7 @@ const LoginPage = () => {
                   <TextField
                     margin="normal"
                     fullWidth
-                    label={errors.password ? errors.password.message : 'Password'}
+                    label={errors.password ? errors.password.message : t('login_page.password')}
                     type="password"
                     autoComplete="current-password"
                     onChange={(e) => field.onChange(e)}
@@ -122,11 +123,11 @@ const LoginPage = () => {
                   loading={isLoading}
                   fullWidth={true}
                 >
-                  Sign In
+                  {t('login_page.title')}
                 </LoadingButton>
               ) : (
                 <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                  Sign In
+                  {t('login_page.title')}
                 </Button>
               )}
               <Button
@@ -139,7 +140,7 @@ const LoginPage = () => {
                   marginBottom: 1,
                 }}
               >
-                <Link to="/register"> Create an account</Link>
+                <Link to="/register"> {t('login_page.CreateAcc')}</Link>
               </Button>
               <Snackbar open={error ? true : false} autoHideDuration={6000} onClose={handleClose}>
                 <Alert

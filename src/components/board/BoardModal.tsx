@@ -3,6 +3,7 @@ import { Container, CssBaseline, Box, TextField, Button, Grid } from '@mui/mater
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch } from '../../hooks/redux';
 import { addBoard, boardsSlice, getBoards } from '../../store/slices/boards';
+import { useTranslation } from 'react-i18next';
 
 interface boardForm {
   title: string;
@@ -13,6 +14,7 @@ export const BoardModal = () => {
   const dispath = useAppDispatch();
   const { setOpen } = boardsSlice.actions;
   const { control, handleSubmit } = useForm<boardForm>();
+  const { t } = useTranslation();
 
   const onSubmit: SubmitHandler<boardForm> = (data) => {
     dispath(setOpen(false));
@@ -38,7 +40,7 @@ export const BoardModal = () => {
             <TextField
               margin="normal"
               fullWidth
-              label="board name"
+              label={t('board.board_name')}
               id="title"
               name="title"
               autoComplete="title"
@@ -55,7 +57,7 @@ export const BoardModal = () => {
             <TextField
               margin="normal"
               fullWidth
-              label="description"
+              label={t('board.description')}
               id="description"
               name="description"
               autoComplete="description"
@@ -65,7 +67,7 @@ export const BoardModal = () => {
           )}
         />
         <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-          Create board
+          {t('board.create_board')}
         </Button>
         <Grid container>
           <Grid item xs></Grid>

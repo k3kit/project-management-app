@@ -19,7 +19,6 @@ const MainPage = () => {
 
   return (
     <>
-      {/* <Header /> */}
       <Box sx={{ marginTop: 2 }}>
         <Container>
           {isLoading && <Loading />}
