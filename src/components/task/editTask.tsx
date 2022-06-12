@@ -3,6 +3,7 @@ import { Container, TextField, Button, Grid } from '@mui/material';
 import jwtDecode from 'jwt-decode';
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 import { string } from 'yup/lib/locale';
 import { useAppDispatch } from '../../hooks/redux';
@@ -40,7 +41,7 @@ const EditTask: FC<MyProps> = ({
   const { boardId } = useParams();
   const dispath = useAppDispatch();
   const { control, handleSubmit } = useForm<ITaskEdit>();
-
+  const { t } = useTranslation();
   const tokenA = JSON.parse(localStorage.getItem('token') || 'null');
   const tok = tokenA.token;
   const decoded = jwtDecode<Jwt>(tok);
@@ -80,7 +81,7 @@ const EditTask: FC<MyProps> = ({
               margin="normal"
               fullWidth
               required
-              label="Title"
+              label={t('board_page.title')}
               defaultValue={titleIntup}
               autoFocus
               onChange={(e) => field.onChange(e)}
@@ -95,7 +96,7 @@ const EditTask: FC<MyProps> = ({
               margin="normal"
               fullWidth
               required
-              label="description"
+              label={t('board_page.description')}
               defaultValue={descriptionInput}
               onChange={(e) => field.onChange(e)}
             />
@@ -111,7 +112,7 @@ const EditTask: FC<MyProps> = ({
             marginBottom: 1,
           }}
         >
-          Save
+          {t('edit_profile.save')}
         </Button>
         <Grid container>
           <Grid item xs></Grid>

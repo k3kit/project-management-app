@@ -31,6 +31,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import ConfirmDialog from '../../components/modal/ConfirmationModal';
 import { useParams } from 'react-router-dom';
 import { deleteTask, getColumnById, getColumns } from '../../store/slices/columns';
+import { useTranslation } from 'react-i18next';
 interface MyProps {
   id: string;
   title: string;
@@ -55,6 +56,7 @@ export const TaskItem: FC<MyProps> = ({
   const { users } = useAppSelector((state) => state.userReducer);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const { boardId } = useParams();
+  const { t } = useTranslation();
 
   useEffect(() => {
     dispatch(getUsers());
@@ -79,12 +81,12 @@ export const TaskItem: FC<MyProps> = ({
   return (
     <>
       <ConfirmDialog
-        title="Delete task?"
+        title={t('board_page.confirm_title_delete')}
         open={confirmOpen}
         setOpen={setConfirmOpen}
         onConfirm={handleDelete}
       >
-        <Typography>Are you sure you want to delete this task?</Typography>
+        <Typography>{t('board_page.delete_task')}</Typography>
       </ConfirmDialog>
       <Dialog open={open} onClose={() => setOpen(false)}>
         <EditTask

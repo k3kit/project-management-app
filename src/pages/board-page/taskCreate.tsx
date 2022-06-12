@@ -10,6 +10,7 @@ import {
 import jwtDecode from 'jwt-decode';
 import React, { Dispatch, FC, SetStateAction } from 'react';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/redux';
 import { boardId } from '../../store/slices/boards';
@@ -30,6 +31,7 @@ export const TaskCreate: FC<MyProps> = ({ id, setOpen, open }) => {
   const tokenA = JSON.parse(localStorage.getItem('token') || 'null');
   const { boardId } = useParams();
   const tok = tokenA.token;
+  const { t } = useTranslation();
   const decoded = jwtDecode<Jwt>(tok);
   const onSubmit: SubmitHandler<taskForm> = (data) => {
     if (boardId && id) {
@@ -50,7 +52,7 @@ export const TaskCreate: FC<MyProps> = ({ id, setOpen, open }) => {
   return (
     <Dialog open={open} onClose={() => setOpen(false)}>
       <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-        <DialogTitle>Enter task name</DialogTitle>
+        <DialogTitle>{t('board_page.enter_task_name')}</DialogTitle>
         <DialogContent>
           <Controller
             name="title"
@@ -59,7 +61,7 @@ export const TaskCreate: FC<MyProps> = ({ id, setOpen, open }) => {
               <TextField
                 margin="normal"
                 fullWidth
-                label="title"
+                label={t('board_page.title')}
                 name="title"
                 id="title"
                 autoFocus
@@ -78,7 +80,7 @@ export const TaskCreate: FC<MyProps> = ({ id, setOpen, open }) => {
                 margin="normal"
                 fullWidth
                 id="description"
-                label="description"
+                label={t('board_page.description')}
                 name="description"
                 required
                 onChange={(e) => field.onChange(e)}
@@ -87,8 +89,8 @@ export const TaskCreate: FC<MyProps> = ({ id, setOpen, open }) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button type="submit">Create</Button>
-          <Button onClick={() => setOpen(false)}>Cancel</Button>
+          <Button type="submit">{t('board_page.create')}</Button>
+          <Button onClick={() => setOpen(false)}>{t('board_page.cancel')}</Button>
         </DialogActions>
       </Box>
     </Dialog>

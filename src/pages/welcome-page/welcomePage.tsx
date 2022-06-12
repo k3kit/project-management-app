@@ -13,11 +13,12 @@ import { Link } from 'react-router-dom';
 import hero from '../../icon/hero.png';
 import { useAppSelector } from '../../hooks/redux';
 import './welcomePage.scss';
+import { useTranslation } from 'react-i18next';
 
 const WelcomePage = () => {
   const [openSignIn, setOpenSignIn] = useState(false);
   const [openSignUp, setOpenSignUp] = useState(false);
-
+  const { t } = useTranslation();
   const { isLoggedIn } = useAppSelector((state) => state.authReducer);
 
   return (
@@ -43,7 +44,7 @@ const WelcomePage = () => {
                 color="text.primary"
                 fontWeight="normal"
               >
-                Project Management App helps teams move work forward.
+                {t('welcome_page.part1')}
               </Typography>
               <Typography
                 variant="h5"
@@ -52,12 +53,11 @@ const WelcomePage = () => {
                 color="text.secondary"
                 paragraph
               >
-                Collaborate, manage projects, and reach new productivity peaks. From high rises to
-                the home office, the way your team works is unique—accomplish it all with PMApp.
+                {t('welcome_page.part2')}
               </Typography>
               <div>
                 <Button sx={{ mr: 2 }} size="medium" variant="contained">
-                  <Link to={isLoggedIn ? 'main' : 'login'}> Start doing</Link>
+                  <Link to={isLoggedIn ? 'main' : 'login'}> {t('welcome_page.button')}</Link>
                 </Button>
               </div>
             </Container>

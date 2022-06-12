@@ -10,9 +10,11 @@ import { IFormEdit, Jwt } from '../../types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import validationShema from '../../yup';
 import { updateUser } from '../../store/slices/user';
+import { useTranslation } from 'react-i18next';
 
 const EditProfile = () => {
   const dispath = useAppDispatch();
+  const { t } = useTranslation();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const tokenA = JSON.parse(localStorage.getItem('token') || '');
   const tok = tokenA.token;
@@ -44,7 +46,6 @@ const EditProfile = () => {
   };
   return (
     <Container maxWidth="xs">
-      <CssBaseline />
       <Box
         sx={{
           marginTop: 6,
@@ -53,7 +54,7 @@ const EditProfile = () => {
           alignItems: 'center',
         }}
       >
-        <Typography variant="h5">Edit Profile</Typography>
+        <Typography variant="h5">{t('edit_profile.title')}</Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Controller
             name="name"
@@ -62,7 +63,7 @@ const EditProfile = () => {
               <TextField
                 margin="normal"
                 fullWidth={true}
-                label={errors.name ? errors.name.message : 'Username'}
+                label={errors.name ? errors.name.message : t('edit_profile.user_name')}
                 autoComplete="name"
                 autoFocus
                 onChange={(e) => field.onChange(e)}
@@ -76,7 +77,7 @@ const EditProfile = () => {
               <TextField
                 margin="normal"
                 fullWidth
-                label={errors.login ? errors.login.message : 'Login'}
+                label={errors.login ? errors.login.message : t('edit_profile.login')}
                 autoComplete="Login"
                 autoFocus
                 onChange={(e) => field.onChange(e)}
@@ -90,7 +91,7 @@ const EditProfile = () => {
               <TextField
                 margin="normal"
                 fullWidth
-                label={errors.password ? errors.password.message : 'Password'}
+                label={errors.password ? errors.password.message : t('edit_profile.password')}
                 type="password"
                 autoComplete="current-password"
                 onChange={(e) => field.onChange(e)}
@@ -109,15 +110,15 @@ const EditProfile = () => {
               marginBottom: 1,
             }}
           >
-            Delete profile
+            {t('edit_profile.delete')}
           </Button>
           <ConfirmDialog
-            title="Delete profile?"
+            title={t('edit_profile.title_confirm')}
             open={confirmOpen}
             setOpen={setConfirmOpen}
             onConfirm={handleDelete}
           >
-            Are you sure you want to delete this profile?
+            <Typography>{t('edit_profile.confirm')}</Typography>
           </ConfirmDialog>
           <Button
             type="submit"
@@ -129,7 +130,7 @@ const EditProfile = () => {
               marginBottom: 1,
             }}
           >
-            Save
+            {t('edit_profile.save')}
           </Button>
           <Grid container>
             <Grid item xs></Grid>

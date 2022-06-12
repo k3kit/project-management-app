@@ -13,6 +13,7 @@ import { useAppDispatch } from '../../hooks/redux';
 import { createColumns } from '../../store/slices/columns';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 interface boardForm {
   title: string;
@@ -20,21 +21,11 @@ interface boardForm {
 export const ColumnCreate = () => {
   const [open, setOpen] = useState(false);
   const [titleInput, setTitleInput] = useState('');
+  const { t } = useTranslation();
   const { boardId } = useParams();
   const dispatch = useAppDispatch();
   const { control, handleSubmit } = useForm<boardForm>();
-  // const handleSubmit = () => {
-  //   if (boardId) {
-  //     setOpen(false);
-  //     dispatch(
-  //       createColumns({
-  //         boardId,
-  //         column: { title: titleInput },
-  //       })
-  //     );
-  //   }
-  //   setTitleInput('');
-  // };
+
   const onSubmit: SubmitHandler<boardForm> = (data) => {
     console.log('sub');
 
@@ -58,13 +49,13 @@ export const ColumnCreate = () => {
           variant="contained"
           sx={{ height: 50, width: 200, marginTop: 16 }}
         >
-          add a column
+          {t('board_page.add_column')}
         </Button>
       </Box>
 
       <Dialog open={open} onClose={() => setOpen(false)}>
         <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-          <DialogTitle>Enter column name</DialogTitle>
+          <DialogTitle>{t('board_page.enter_column_name')}</DialogTitle>
           <DialogContent>
             <Controller
               name="title"
@@ -73,10 +64,9 @@ export const ColumnCreate = () => {
                 <TextField
                   margin="normal"
                   fullWidth
-                  label="board name"
+                  label={t('board_page.board_name')}
                   id="title"
                   name="title"
-                  autoComplete="title"
                   autoFocus
                   required
                   onChange={(e) => field.onChange(e)}
@@ -85,7 +75,7 @@ export const ColumnCreate = () => {
             />
           </DialogContent>
           <DialogActions>
-            <Button type="submit">Create</Button>
+            <Button type="submit">{t('board_page.create')}</Button>
           </DialogActions>
         </Box>
       </Dialog>

@@ -2,6 +2,7 @@ import { Alert, Box, Button, Typography } from '@mui/material';
 import { Container } from '@mui/system';
 import React from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { useTranslation } from 'react-i18next';
 export function ErrorFallback({
   error,
   resetErrorBoundary,
@@ -9,6 +10,8 @@ export function ErrorFallback({
   error: Error;
   resetErrorBoundary: () => void;
 }) {
+  const { t } = useTranslation();
+
   return (
     <>
       <Container>
@@ -20,7 +23,7 @@ export function ErrorFallback({
           flexDirection="column"
         >
           <Alert severity="error">
-            <Typography>Something went wrong:</Typography>
+            <Typography>{t('error.error_title')}</Typography>
             <Typography>{error.message}</Typography>
           </Alert>
           <Button

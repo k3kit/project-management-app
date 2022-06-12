@@ -1,7 +1,9 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const PageNotFound = () => {
+  const { t } = useTranslation();
   return (
     <Box
       sx={{
@@ -15,7 +17,7 @@ export const PageNotFound = () => {
         404
       </Typography>
       <Typography variant="h3" component="div">
-        Page Not Found
+        {t('page_not_found.part1')}
       </Typography>
     </Box>
   );

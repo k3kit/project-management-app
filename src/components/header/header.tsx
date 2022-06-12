@@ -23,6 +23,8 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { boardsSlice } from '../../store/slices/boards';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import ControlledSwitches from './switch';
+import { useTranslation } from 'react-i18next';
 
 const LogoApp = createSvgIcon(
   <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM7 12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v9zm7-4a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5z" />,
@@ -34,6 +36,7 @@ export const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const dispath = useAppDispatch();
   const { setOpen } = boardsSlice.actions;
+  const { t } = useTranslation();
   const location = useLocation();
   const { boardId } = useParams();
   const { isLoggedIn } = useAppSelector((state) => state.authReducer);
@@ -113,7 +116,7 @@ export const Header = () => {
               {`${location.pathname}` === `/board/${boardId}` ? (
                 <Button variant="text" startIcon={<ArrowBackIosIcon />} size="small">
                   <Link to="/main">
-                    <Typography>Go main</Typography>
+                    <Typography>{t('header.go_main')}</Typography>
                   </Link>
                 </Button>
               ) : (
@@ -125,33 +128,36 @@ export const Header = () => {
                   <MenuItem onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">
                       <Button color="inherit">
-                        <Link to="/edit"> Edit profile </Link>
+                        <Link to="/edit">{t('header.Edit_profile')} </Link>
                       </Button>
                     </Typography>
                   </MenuItem>
                   <MenuItem onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">
                       <Button color="inherit" onClick={handleLogout}>
-                        Logout
+                        {t('header.Logout')}
                       </Button>
                     </Typography>
                   </MenuItem>
                   <MenuItem onClick={handleCloseNavMenu}>
                     <Button onClick={openModal} color="inherit">
-                      Create new board
+                      {t('board.create_board')}
                     </Button>
+                  </MenuItem>
+                  <MenuItem>
+                    <ControlledSwitches />
                   </MenuItem>
                 </>
               ) : (
                 <>
                   <MenuItem>
                     <Link to="register" onClick={handleCloseNavMenu}>
-                      Sign Up
+                      {t('header.sign_up')}
                     </Link>
                   </MenuItem>
                   <MenuItem>
                     <Link to="login" onClick={handleCloseNavMenu}>
-                      Sign In
+                      {t('header.sign_in')}
                     </Link>
                   </MenuItem>
                 </>
@@ -183,7 +189,7 @@ export const Header = () => {
                 startIcon={<ArrowBackIosIcon />}
                 size="small"
               >
-                <Link to="/main">Go main</Link>
+                <Link to="/main">{t('header.go_main')}</Link>
               </Button>
             )}
             {`${location.pathname}` === `/main` && (
@@ -195,7 +201,7 @@ export const Header = () => {
                 size="small"
                 onClick={openModal}
               >
-                Create new board
+                {t('board.create_board')}
               </Button>
             )}
             {`${location.pathname}` === `/edit` && (
@@ -207,57 +213,61 @@ export const Header = () => {
                 size="small"
                 onClick={() => navigate(-1)}
               >
-                back
+                {t('header.back')}
               </Button>
             )}
-            <Button
-              id="basic-button"
-              aria-controls={open ? 'basic-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
-              onClick={handleClick}
-              sx={{ color: 'rgba(0, 0, 0, 0.87)' }}
-              size="large"
-            >
-              <AccountCircleIcon />
-            </Button>
-            <Menu
-              id="demo-positioned-menu"
-              aria-labelledby="demo-positioned-button"
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-            >
-              {isLoggedIn ? (
-                <>
-                  <MenuItem onClick={handleClose}>
-                    <Link to="/edit"> Edit profile </Link>
-                  </MenuItem>
-                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                </>
-              ) : (
-                <>
-                  <MenuItem>
-                    <Link to="register" onClick={handleClose}>
-                      Sign Up
-                    </Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link to="login" onClick={handleClose}>
-                      Sign In
-                    </Link>
-                  </MenuItem>
-                </>
-              )}
-            </Menu>
+
+            <Stack direction="row" spacing={1} alignItems="center">
+              <ControlledSwitches />
+              <Button
+                id="basic-button"
+                aria-controls={open ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleClick}
+                sx={{ color: 'rgba(0, 0, 0, 0.87)' }}
+                size="large"
+              >
+                <AccountCircleIcon />
+              </Button>
+              <Menu
+                id="demo-positioned-menu"
+                aria-labelledby="demo-positioned-button"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+              >
+                {isLoggedIn ? (
+                  <>
+                    <MenuItem onClick={handleClose}>
+                      <Link to="/edit">{t('header.Edit_profile')}</Link>
+                    </MenuItem>
+                    <MenuItem onClick={handleLogout}>{t('header.Logout')}</MenuItem>
+                  </>
+                ) : (
+                  <>
+                    <MenuItem>
+                      <Link to="register" onClick={handleClose}>
+                        {t('header.sign_up')}
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link to="login" onClick={handleClose}>
+                        {t('header.sign_in')}
+                      </Link>
+                    </MenuItem>
+                  </>
+                )}
+              </Menu>
+            </Stack>
           </Box>
         </Toolbar>
       </Container>

@@ -33,6 +33,7 @@ import { TaskItem } from './taskItem';
 import { RootState } from '../../store/store';
 import { Draggable, DraggableProvided, Droppable, DroppableProvided } from 'react-beautiful-dnd';
 import { TaskCreate } from './taskCreate';
+import { useTranslation } from 'react-i18next';
 
 export const BoardItem: FC<IColumn> = ({ id, title, order, index }) => {
   const [open, setOpen] = React.useState(false);
@@ -41,6 +42,7 @@ export const BoardItem: FC<IColumn> = ({ id, title, order, index }) => {
   const dispatch = useAppDispatch();
   const { boardId } = useParams();
   const { isLoading, dialog, columns, fade } = useAppSelector((state) => state.columnsReducer);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (boardId) {
@@ -69,12 +71,12 @@ export const BoardItem: FC<IColumn> = ({ id, title, order, index }) => {
   return (
     <>
       <ConfirmDialog
-        title="Delete column?"
+        title={t('board_page.confirm_title')}
         open={confirmOpen}
         setOpen={setConfirmOpen}
         onConfirm={handleDelete}
       >
-        <Typography>Are you sure you want to delete this column?</Typography>
+        <Typography>{t('board_page.confirm')}</Typography>
       </ConfirmDialog>
       <TaskCreate id={id} open={open} setOpen={setOpen} />
       <Draggable draggableId={id} index={index} key={id}>
@@ -152,7 +154,7 @@ export const BoardItem: FC<IColumn> = ({ id, title, order, index }) => {
 
                 <Box>
                   <Button startIcon={<AddIcon />} onClick={() => setOpen(true)} fullWidth>
-                    add card
+                    {t('board_page.add_card')}
                   </Button>
                 </Box>
               </Paper>
