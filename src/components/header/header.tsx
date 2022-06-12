@@ -160,6 +160,9 @@ export const Header = () => {
                       {t('header.sign_in')}
                     </Link>
                   </MenuItem>
+                  <MenuItem>
+                    <ControlledSwitches />
+                  </MenuItem>
                 </>
               )}
             </Menu>

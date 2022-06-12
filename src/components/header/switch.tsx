@@ -8,9 +8,11 @@ export default function ControlledSwitches() {
   const [checked, setChecked] = React.useState<boolean>(lang === 'ru');
   const { t, i18n } = useTranslation();
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    i18n.changeLanguage(checked ? 'en' : 'ru');
     setChecked(event.target.checked);
   };
+  React.useEffect(() => {
+    i18n.changeLanguage(checked ? 'ru' : 'en');
+  }, [checked, i18n]);
   return (
     <>
       <Stack direction="row" spacing={1} alignItems="center">
